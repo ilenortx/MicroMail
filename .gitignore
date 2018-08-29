@@ -19,3 +19,4 @@ cache/
 *.txt
 *.zip
 *.tar
+/*.htaccess
