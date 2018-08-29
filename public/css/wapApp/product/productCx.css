@@ -1,0 +1,17 @@
+.mui-content{
+	background: #fff;
+}
+#adimg{
+	display: none;
+	width: 100%;
+}
+
+#proList{
+	padding: 0 10px;}
+.proImg1{
+	width: 100%;
+	margin: 5px 0;
+}
+.proImg2{
+	margin: 5px 0;
+}

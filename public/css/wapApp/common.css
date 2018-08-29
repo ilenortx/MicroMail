@@ -1,0 +1,21 @@
+a{
+	text-decoration: none;
+    color: #252525;
+}
+a:active{
+    color: #252525;
+}
+.mui-popover{
+    width: 100px;
+    font-size: 14px;
+}
+.mui-table-view-cell:after{
+    left: 0;
+}
+.mui-table-view-cell i{
+    font-size: 16px;
+}
+.mui-table-view-cell em{
+    padding-left: 5px;
+    font-style: normal;
+}

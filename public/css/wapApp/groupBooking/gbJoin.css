@@ -1,0 +1,138 @@
+body{
+    min-height: 100vh;
+    background: #fff;
+}
+.activeFail-icon{
+    background: url(/img/wapApp/active_fail.png) no-repeat center 60% / 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 30px;
+    width: 65px;
+}
+.gbJoin-page-bg{
+    padding-top: 10px;
+    background: #efeff4;
+}
+.gbJoin-product{
+    background: #fff;
+    padding-bottom: 20px;
+    position: relative;
+}
+.gbJoin-product-buyCount{
+    padding-left: 0.8em;
+    color: #c0c0c0;
+}
+.gbJoin-product-buyCount em{
+    font-style: normal;
+}
+.gbJoin-member{
+    background: #fff;
+}
+.gbJoin-member-list{
+    margin: 0;
+    padding: 25px 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.gbJoin-member-list li{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    margin: 8px;
+}
+.gbJoin-member-list li.gbJoin-unset{
+    background: url(/img/wapApp/gbBulid_unknow.png) no-repeat center / 100%;
+}
+.gbJoin-member-list li img{
+    border-radius: 50%;
+    display: block;
+    width: 100%;
+}
+.gbJoin-member-list li em{
+    background: #c60000;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    font-style: normal;
+    font-size: 12px;
+    border-radius: 12px;
+    padding: 0 5px;
+    line-height: 1.5;
+    text-align: center;
+}
+.gbJoin-count{
+    text-align: center;
+    font-size: 15px;
+}
+.gbJoin-count em{
+    font-style: normal;
+}
+.gbJoin-count span{
+    color: #f00;
+}
+.gbJoin-invite{
+    width: 80%;
+    margin: 30px auto 0;
+    background: #f8f8f8;
+    border: 1px solid #ececec;
+    color: #c60000;
+    font-size: 15px;
+    line-height: 2.7;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.gbJoin-join-succ{
+    padding: 25px 0;
+    text-align: center;
+    color: #09bb07;
+    font-size: 15px;
+}
+.succ-icon{
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    vertical-align: bottom;
+    background: url(/img/wapApp/prosn-ok.png) no-repeat center / 100%;
+}
+.gbJoin-space{
+    height: 25px;
+}
+.gbJoin-text{
+    padding: 0 10px;
+    background: #fff;
+}
+.gbJoin-text-title{
+    font-size: 15px;
+    line-height: 2.7;
+    border-bottom: 1px solid #eaeaea;
+}
+.gbJoin-play{
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+.gbJoin-play-item{
+    margin-right: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+.gbJoin-play-item:last-child{
+    margin: 0;
+}
+.gbJoin-play-item i{
+    font-style: normal;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.4;
+    color: #c60000;
+    text-align: center;
+    border: 1px solid #c60000;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+}

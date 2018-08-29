@@ -1,0 +1,139 @@
+.top-search-div{
+	width: 100%;
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	z-index: 100;
+	background: #efeff4;
+}
+.search-input-div{
+	width: 80%;
+	height: 35px;
+	background: #fff;
+	margin-right: 10px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+}
+.search-input-div img{
+	width: 20px;
+	height: 20px;
+	margin-left: 10px;
+}
+.search-input-div input[type='search']{
+	border: none;
+	height: 35px;
+	margin: 0;
+	padding: 0 30px 0 5px;
+	font-size: 15px;
+	background: #fff;
+	text-align: left;
+}
+.search-cancel{
+	line-height:28px;
+	color:#09bb07;
+	white-space:nowrap;
+}
+
+/*历史记录*/
+.history-div{
+	width: 100%;
+	margin-top: 60px;
+}
+.hd-top{
+	width: 100%;
+	position: relative;
+	margin: 20px 0;
+}
+.ssls-text{
+	margin-left: 20px;
+}
+.del-ssls{
+	width: 14px;
+	height: 18px;
+	position: absolute;
+	right: 30px;
+}
+.ls-items{
+	list-style: none;
+	margin: 0 20px;
+	padding: 0;
+}
+.ls-items li{
+	width: auto;
+	height: 30px;
+	font-size: 15px;
+	line-height: 30px;
+	padding: 0 8px;
+	background-color: #dedede;
+	border-radius: 5px;
+	margin: 10px 5px 0 5px;
+	display: inline-block;
+}
+
+/*搜索结果*/
+.search-result-div{
+	width: 100%;
+	margin-top: 60px;
+	display: none;
+}
+.search-null-div{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.search-null-div img{
+	width: 50px;
+	height: 50px;
+}
+
+/*产品列表*/
+.pro-list-div{
+	width: 100%;
+	background: #fff;
+	display: none;
+}
+.pro-item{
+	margin-bottom: 10px;
+	background: #fff;
+	display: inline-block;
+	width: 46%;
+	border: 1px solid #EDEDED;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.pro-item img{
+	width: 100%;
+}
+.pro-item .title{
+	font-size: 14px;
+	color: #333;
+	line-height: 20px;
+	margin: 0;
+	height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	padding: 1% 5% 0 5%;
+}
+.pro-item .price-div{
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+}
+.pro-item .price-div .price_yh{
+	margin-left: 5%;
+	font-size: 16px;
+	color: #f00;
+}
+.pro-item .price-div .price{
+	position: absolute;
+	right: 5%;
+	font-size: 14px;
+	color: #999;
+	text-decoration: line-through;
+}

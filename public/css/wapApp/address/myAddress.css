@@ -1,0 +1,75 @@
+.adds-div{
+	width: 100%;
+}
+.add-div{
+	padding: 10px 10px 0 10px;
+	margin-bottom: 10px;
+	background: #fff;
+}
+.uinfo{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.addinfo{
+	width: 100%;
+	line-height: 25px;
+	font-size: 14px;
+	border-bottom: 1px solid #dedede;
+	padding: 10px 0 15px 0;
+}
+
+.addopes{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	line-height: 50px;
+}
+.mrdz-div input[type='checkbox']{
+	top: auto;
+	position: initial;
+}
+.mrdz-div input[type='checkbox']:before{
+	font-size: 25px;
+}
+.mrdz-div.mui-checkbox.mui-left label{
+	padding: 0px 5px;
+	display: initial;
+}
+.ope-right{
+	display: flex;
+}
+.edit-div{
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	display: flex;
+}
+.edit-div img{
+	width: 20px;
+	height: 20px;
+}
+.del-div{
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	margin-left: 20px;
+}
+.del-div img{
+	width: 20px;
+	height: 20px;
+}
+
+.add-new-add{
+	width: 90%;
+	margin: 0 5%;
+	height: 40px;
+	color: #fff;
+	background: #c60000;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 20px;
+	margin-top: 20px;
+	margin-bottom: 50px;
+	display: block;
+}

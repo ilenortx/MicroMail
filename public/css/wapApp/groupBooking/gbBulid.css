@@ -1,0 +1,107 @@
+body{
+    min-height: 100vh;
+    background: #fff;
+}
+.gbBulid-page-bg{
+    padding-top: 10px;
+    background: #efeff4;
+}
+.gbBulid-title{
+    background: #c60000;
+    width: 100%;
+    height: 140px;
+    position: relative;
+}
+.gbBulid-title p{
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+       -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+         -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    text-align: center;
+}
+.gbBulid-title i{
+    display: block;
+    background: url(/img/wapApp/gbBulid_icon.png) no-repeat center / 40%;
+    width: 100px;
+    height: 80px;
+    margin: 0 auto;
+}
+.gbBulid-info{
+    background: #fff;
+    padding: 0 10px;
+}
+.gbBulid-info-item{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    line-height: 2.7;
+    border-bottom: 1px solid #eaeaea;
+}
+.gbBulid-info-item:last-child{
+    border: 0px;
+}
+.gbBulid-member{
+    background: #fff;
+}
+.gbBulid-member-list{
+    margin: 0;
+    padding: 25px 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.gbBulid-member-list li{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    margin: 8px;
+}
+.gbBulid-member-list li.gbBulid-unset{
+    background: url(/img/wapApp/gbBulid_unknow.png) no-repeat center / 100%;
+}
+.gbBulid-member-list li img{
+    border-radius: 50%;
+    display: block;
+    width: 100%;
+}
+.gbBulid-member-list li em{
+    background: #c60000;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    font-style: normal;
+    font-size: 12px;
+    border-radius: 12px;
+    padding: 0 5px;
+    line-height: 1.5;
+    text-align: center;
+}
+.gbBulid-count{
+    text-align: center;
+    font-size: 15px;
+}
+.gbBulid-count em{
+    font-style: normal;
+}
+.gbBulid-count span{
+    color: #f00;
+}
+.gbBulid-invite{
+    width: 80%;
+    margin: 30px auto 0;
+    background: #f8f8f8;
+    border: 1px solid #ececec;
+    color: #c60000;
+    font-size: 15px;
+    line-height: 2.7;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px;
+}

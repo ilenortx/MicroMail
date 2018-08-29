@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+.plaque_content.img_slot {
+    width: 135px;
+    height: 135px;
+    border-radius: 4px;
+    margin-right: 20px;
+    background: url(../../../img/coustom/pt.png) no-repeat;
+}
+
+.gb_table {
+    background-color: #fff;
+    max-width: 1440px;
+    min-height: 61.8vh;
+    border-radius: 4px;
+    padding-bottom: 38px;
+    overflow-y: auto;
+}
+
+.gb_table .tabPanel {
+    height: 60px;
+    line-height: 50px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    min-width: 420px;
+}
+.gb_table .tabPanel ul {
+    position: relative;
+    top: 5px;
+    margin-left: 40px;
+}
+.gb_table .tabPanel .tabLi {
+    display: inline-block;
+    width: 80px;
+    margin-right: 10px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+.gb_table .tabPanel .selectedLine {
+    position: absolute;
+    top: 53px;
+    bottom: 0;
+    left: 0;
+    display: inline;
+    border: 1px solid #5874d8;
+    width: 80px;
+    transition: left .5s cubic-bezier(0.175,0.885,0.320,1.325);
+}
+.gb_table .tabPanel .selectedLi {
+    color: #5874d8;
+}
+
+#allGb{
+	width: 96%;
+	margin: 0 2%;
+}
+

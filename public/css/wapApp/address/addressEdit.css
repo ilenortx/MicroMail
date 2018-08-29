@@ -1,0 +1,34 @@
+html,body,.mui-content{
+	background: #fff;
+}
+.mui-toast-container {bottom: 50% !important;}
+
+.info-div{
+	margin: 0 10px;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+	line-height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info-div .left{
+	display: inline-block;
+	width: 100px;
+	
+}
+.info-div .input{
+	border: 0;
+	margin: 0;
+}
+.add-new-add{
+	width: 90%;
+	margin: 0 5%;
+	height: 40px;
+	color: #fff;
+	background: #c60000;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 20px;
+	margin-top: 20px;
+}

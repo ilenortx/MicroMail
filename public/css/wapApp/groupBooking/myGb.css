@@ -1,0 +1,96 @@
+.myGb-tabs{
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+.myGb-tab{
+    width: 100%;
+    color: #8b8c8b;
+    font-size: 13px;
+    line-height: 3.5;
+    text-align: center;
+    position: relative;
+}
+.myGb-tab.current{
+    color: #c60000;
+}
+.myGb-tab.current:after{
+    content: ' ';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: #c60000;
+}
+.myGb-gbList{
+    background: #fff;
+    padding: 0 10px;
+}
+.myGb-gbList .pro-item{
+    border-bottom: 1px solid #EDEDED;
+    padding: 10px 0;
+    color: #000;
+    position: relative;
+    overflow: hidden;
+}
+.myGb-gbList .pro-item:last-child{
+    border: 0;
+}
+.myGb-gbList .pro-item.gbFail-bg:before{
+    content: " ";
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 50px;
+    height: 50px;
+    background: url(/img/wapApp/gb_fail.png) no-repeat center / 100%;
+}
+.myGb-gbList .pro-item.gbSuccess-bg:before{
+    content: " ";
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 50px;
+    height: 50px;
+    background: url(/img/wapApp/gb_success.png) no-repeat center / 100%;
+}
+.myGb-gbList .cp_photo{
+    width: 80px;
+    height: 80px;
+}
+.myGb-gbList .ovh1{
+    -webkit-line-clamp: 2;
+    margin-top: 0;
+    height: 42px;
+}
+.myGb-gbList .gm_ovh_1h{
+    font-size: 13px;
+}
+.myGb-gbList .myGb-product-buyCount{
+    color: #c0c0c0;
+    font-size: 15px;
+}
+.myGb-gbList .myGb-product-buyCount em{
+    font-style: normal;
+}
+.myGb-gbList .myGb-product-buyPrice{
+    padding-left: 10px;
+}
+.noData-text{
+    text-align: center;
+    padding: 10px 0;
+    font-size: 13px;
+    color: #8b8c8b;
+    line-height: 30px;
+}
+.noSearch-icon{
+    background: url(/img/wapApp/search_no.png) no-repeat center / 100%;
+    width: 85px;
+    height: 75px;
+    display: block;
+    margin: 0 auto;
+}

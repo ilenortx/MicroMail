@@ -1,0 +1,186 @@
+html,body{
+	width: 100%;
+	height: 100%;
+}
+
+/*空购物车*/
+.cart-null-div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30%;
+}
+.cart-null-div img{
+	width: 100px;
+	height: 100px;
+}
+.cart-null-div text{
+	font-family:'微软雅黑';
+	color:#ccc;
+	font-size: 15px;
+}
+
+/*购物车*/
+.cart-items-div{
+	width: 100%;
+	overflow: auto;
+	display: none;
+}
+.cart-items-div .shop-info-div{
+	width: 100%;
+	height: 39px;
+	border-bottom: 1px solid #eee;
+	background: #fff;
+}
+.cart-div{
+	width: 100%;
+}
+.cart-div .shop-info-div input[type='checkbox']{
+	left: 10px;
+}
+.cart-div .cart-item-div{
+	/*width: 100%;*/
+	display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    background: #fff;
+    padding: 15px 10px;
+	border-bottom: 1px solid #eee;
+}
+.cart-item-div input[type='checkbox']{
+	top: auto;
+	position: initial;
+}
+.cart-item-div .pro-info{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin-right: 15px;
+    margin-left: 10px;
+}
+.pro-img{
+	width: 75px;
+	height: 75px;
+}
+.pir-div{
+	width: 100%;
+	height: 75px;
+}
+.pirt-div{
+	width: 100%;
+	display: flex;
+}
+.pirt-div .pro-name{
+	width: 100%;
+	margin: 0px 40px 0px 5px;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.pirt-div .del-cart{
+	color: #939393;
+	font-size: 20px;
+}
+.pirb-div{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
+}
+.pirb-div .attr-view {
+	margin:0 5px;
+	font-size: 13px;
+	display: -webkit-box;
+	width: 102px;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.pirbl-div{
+	display: flex;
+	align-content: center;
+	flex-direction: column;
+}
+.pirbl-div .price{
+	color: #f60;
+	font-size: 13px;
+	margin-left: 5px;
+}
+.pirb-div .mui-numbox{
+	width: 95px;
+	height: 30px;
+	padding: 0 28px;
+	margin-top: 5px;
+}
+.pirb-div .mui-numbox [class*=numbox-btn]{
+	width: 28px;
+}
+
+
+/*购物车操作*/
+.cart-ope-div{
+	width: 100%;
+	height: 40px;
+	background: #fff;
+	display: flex;
+	justify-content: space-between;
+	visibility: hidden;
+}
+.total-price-div{
+
+}
+.total-price-div .total-price{
+	color: red;
+}
+
+.opes-div{
+	width: 150px;
+	font-size: 13px;
+}
+.ope1-div{
+	width: 100%;
+	height: 100%;
+}
+.ope1-div .bjdiv{
+	width: 50%;
+	line-height: 40px;
+	color: #fff;
+	background: #3c8ee5;
+	text-align: center;
+	display: inline-block;
+}
+.ope1-div .jsdiv{
+	width: 50%;
+	line-height: 40px;
+	color: #fff;
+	background: red;
+	text-align: center;
+	display: inline-block;
+}
+
+.ope2-div{
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+.ope2-div .wcdiv{
+	width: 50%;
+	line-height: 40px;
+	color: #fff;
+	background: #3c8ee5;
+	text-align: center;
+	display: inline-block;
+}
+.ope2-div .scdiv{
+	width: 50%;
+	line-height: 40px;
+	color: #fff;
+	background: red;
+	text-align: center;
+	display: inline-block;
+}

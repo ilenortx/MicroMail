@@ -1,0 +1,79 @@
+.px-top-div{
+	width: 100%;
+	height: 40px;
+	position: fixed;
+	border-bottom: 1px #dedede solid;
+	z-index: 100;
+}
+.px-ul{
+	width: 100%;
+	height: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	background: #fff;
+}
+.px-ul li{
+	width: 25%;
+	height: 100%;
+	line-height: 40px;
+	text-align: center;
+}
+#jg-px{
+	width: 10px;
+	height: 12px;
+}
+.on{
+	color: #f00;
+}
+
+
+/*产品列表*/
+.pro-list-div{
+	width: 100%;
+	background: #fff;
+	margin-top: 40px;
+}
+.pro-item{
+	margin-bottom: 10px;
+	background: #fff;
+	display: inline-block;
+	width: 46%;
+	border: 1px solid #EDEDED;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.pro-item img{
+	width: 100%;
+}
+.pro-item .title{
+	font-size: 14px;
+	color: #333;
+	line-height: 20px;
+	margin: 0;
+	height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	padding: 1% 5% 0 5%;
+}
+.pro-item .price-div{
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+}
+.pro-item .price-div .price_yh{
+	margin-left: 5%;
+	font-size: 16px;
+	color: #f00;
+}
+.pro-item .price-div .price{
+	position: absolute;
+	right: 5%;
+	font-size: 14px;
+	color: #999;
+	text-decoration: line-through;
+}

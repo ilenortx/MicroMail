@@ -1,0 +1,132 @@
+.top-items{
+	width: 100%;
+	height: 50px;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	position: fixed;
+	/*top: 0;*/
+}
+.oitem{
+	width: 20%;
+	text-align: center;
+	height: 100%;
+	line-height: 50px;
+	font-size: 14px;
+}
+.active{
+	color: #f00;
+	border-bottom: 2px solid #f00;
+}
+
+/*订单*/
+.order-items-div{
+	margin-top: 50px;
+}
+.order-null{
+	width: 100%;
+	display: none;
+	align-items: center;
+	flex-direction: column;
+}
+.order-null img{
+	width: 100px;
+	height: 100px;
+}
+
+.order-item{
+	margin-bottom: 10px;
+	padding: 0 10px;
+	background: #fff;
+}
+.order-item .pros{
+	border-bottom: 1px solid #dedede;
+}
+.pro-info{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+}
+.pro-info img{
+	width: 100px;
+	height: 100px;
+	border-radius: 5px;
+}
+.pi-right{
+	width: 100%;
+	height: 100%;
+}
+.pi-right .title{
+	width: 100%;
+    color: #000;
+    font-size: 15px;
+    margin: 5px 10px;
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+}
+.pi-right .attrs{
+	width: 100%;
+    color: #999;
+    font-size: 14px;
+    margin: 5px 10px;
+    line-height: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+}
+.pi-right .jgsl{
+	width: 100%;
+    color: #999;
+    font-size: 14px;
+    margin: 5px 10px;
+    line-height: 20px;
+}
+
+.opes-div{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.opes-div .heprice{
+	color: #C60000;
+	font-size: 14px;
+}
+.ope-right{
+	display: flex;
+	align-items: center;
+}
+.ope-right .ope-item{
+	font-size: 14px;
+	padding: 0 10px;
+	line-height: 25px;
+	text-align: center;
+	margin-left: 10px;
+}
+.ope-gray{
+	border: 1px solid gray;
+	color: gray;
+	border-radius: 5px;
+}
+.ope-red{
+	border: 1px solid red;
+	color: red;
+	border-radius: 5px;
+}
+
+
+#orderItem0,#orderItem1,#orderItem2,#orderItem3,#orderItem4 {
+	display: none;
+}

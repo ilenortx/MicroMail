@@ -1,0 +1,82 @@
+html,body{
+	height: 100%;
+}
+::-webkit-scrollbar {
+    width: 0;   /* 滚动条宽度为0 */
+    height: 0; /* 滚动条高度为0 */
+    display: none; /* 滚动条隐藏 */
+}
+.flitems-div{
+	overflow:auto;
+	white-space:nowrap;
+	width: 100%;
+	padding:15px 10px;
+	margin-bottom: 2px;
+	background: #fff;
+	/*position: fixed;
+	top: 0;
+	left: 0;*/
+}
+.fl-item{
+	height:22px;
+	background:#c9caca;
+	border-radius:3px;
+	color:#fff;
+	font-size:12px;
+	line-height:22px;
+	text-align:center;
+	display:inline-block;
+	margin-right:10px;
+	padding: 0 10px;
+}
+.flitems-div .flitem-on{
+	background:#f42a3c;
+}
+#pullRefresh {
+    top: 55px;
+}
+.pro-items-div{
+	width: 100%;
+	/*margin-top: 55px;*/
+	background: #fff;
+	display: inline-block;
+	max-height: calc(100% - 56px);
+	overflow: auto;
+}
+
+
+
+.goods-item{
+	display:block;
+	float:left;
+	width:50%;
+}
+.goods-item img{
+	display: block;
+	margin: 10px auto;
+}
+.goods-item .title{
+	display: block;
+	width: 90%;
+	color: #999;
+	font-size: 11px;
+	margin: 5px 10px;
+	height: 30px;
+	line-height: 15px;
+	overflow: hidden;
+	display: -webkit-box;
+	word-break: break-all;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	text-overflow: ellipsis;
+}
+.goods-item .price{
+	flex-direction:row;
+	justify-content:space-between;
+	color:red;
+	font-size: 14px;
+	margin: 0 5px;
+}
+.goods-item:active{
+	background: #dddddd;
+}

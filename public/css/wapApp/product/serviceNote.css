@@ -1,0 +1,44 @@
+html,body{
+	height: 100%;
+}
+.mui-content{
+	background: #fff;
+	height: 100%;
+}
+.top-note{
+	height:35px;
+	font-size:15px;
+	border-top:1px solid #dcdcdc;
+	border-bottom:1px solid #dcdcdc;
+	padding:0 10px;
+	line-height:35px;
+}
+.sn-items-div{
+	margin:0 10px;
+}
+.sn-item{
+	width:100%;
+	padding:10px 0;
+	border-bottom:1px solid #dcdcdc;
+}
+.sn-info-top{
+	display:flex;
+	align-items:center;
+}
+.sn-info-top img {
+	width:15px;
+	height:15px;
+	margin-right:4px;
+}
+.sn-info-top .title{
+	font-size:14px;
+	color:#666;
+	line-height:17px;
+}
+.descript{
+	margin-left:19px;
+	font-size:12px;
+	color:#aaa;
+	line-height:17rpx;
+}
+
