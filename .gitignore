@@ -7,11 +7,11 @@
 *.swo
 $.swn
 *.tmp
-.bulidpath
-.htrouter.php
-.project
-.settings/
-.phalcon/
+/.bulidpath
+/.htrouter.php
+/.project
+/.settings/
+/.phalcon/
 cache/
 /app/migrations/
 /app/library/payment/
