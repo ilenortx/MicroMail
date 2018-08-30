@@ -120,14 +120,15 @@ class GroupBookingBase extends ControllerBase{
 		if ($gblids){
 			$orders = Order::find("order_type=3 and hd_id in ($gblids)");
 			
-			$myfile = fopen("newsdfasdfasdfa34232file.txt", "w") or die("Unable to open file!");
-			$txt = json_encode($orders);
-			fwrite($myfile, $txt);
-			fclose($myfile);
-			
 			if ($orders){
 				$wr = new WxRefund();
 				foreach ($orders as $k=>$v){
+					
+					$myfile = fopen("newsdfasdfasdfa34232file.txt", "w") or die("Unable to open file!");
+					$txt = json_encode($v);
+					fwrite($myfile, $txt);
+					fclose($myfile);
+					
 					if ($v->status=='20' && $v->back=='0' && $v->type=='weixin'){//已付款
 						$wr->refund(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100), $v->order_sn);
 						
