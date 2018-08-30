@@ -61,6 +61,10 @@ var page = {
         });
     },
 
+    editAvatar: function(){
+        location.href = "../WPages/editAvatarPage";
+    },
+
     bindAction: function(){
     	mui('.user-info-div').on('tap', '.grset', function(e){
 	        $('.uMenu').toggleClass('current');
