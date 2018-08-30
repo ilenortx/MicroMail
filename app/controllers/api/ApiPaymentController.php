@@ -35,10 +35,8 @@ class ApiPaymentController extends ApiBase{
     			echo json_encode(array('status'=>0,'err'=>'数据异常.')); exit();
     		}else $proinfo = $pros->toArray();
     		
-    		//判断库存是否大于等购买量
-    		//----------------------------------
+    		//获取skuid价格
     		if (isset($cartBase->skuidArr[$v['pid'].'-'.trim($v['skuid'], ',')])){
-    			//$sku = self::getSku(trim($cartinfo['skuid'], ','), $cartinfo['pid']);
     			$proinfo['price_yh'] = $cartBase->skuidArr[$v['pid'].'-'.trim($v['skuid'], ',')]['price'];
     		}
     		
@@ -145,7 +143,7 @@ class ApiPaymentController extends ApiBase{
     	foreach ($orderArr as $k=>$v){
     		$order = new Order();
     		$order->order_sn	= $v['order_sn'];
-    		if ($payType=='cash') $order->order	= $v['order_sn'];
+    		//if ($payType=='cash') $order->order	= $v['order_sn'];
     		$order->shop_id 	= $v['shop_id'];
     		$order->uid			= $uid;
     		$order->price		= $v['price'];
@@ -183,10 +181,10 @@ class ApiPaymentController extends ApiBase{
     	
     	if ($result){
     		//删除购物车
-//     		$shopping = new ApiShoppingController();
-//     		for ($i=0; $i<count($cids); ++$i){
-//     			$shopping->delPorCartAction($cids[$i]);
-//     		}
+    		/* $shopping = new ApiShoppingController();
+    		for ($i=0; $i<count($cids); ++$i){
+    			$shopping->delPorCartAction($cids[$i]);
+    		} */
     	}
     	
     	return trim($oidstr, ',');
@@ -224,8 +222,7 @@ class ApiPaymentController extends ApiBase{
     		exit();
     	}
     	
-    	$isNewOrder = false;
-    	$otype = 1;
+    	$isNewOrder = false; $otype = 1;
     	$order_no = $this->build_order_no();//生成订单号
     	if ($type == 'buyNow'){
     		//添加订单信息
@@ -297,7 +294,7 @@ class ApiPaymentController extends ApiBase{
     	
     	if ($isNewOrder){
     		$order->order_sn	= $order_no;
-    		if ($payType=='cash') $order->order	= $order_no;
+    		//if ($payType=='cash') $order->order	= $order_no;
     		$order->shop_id		= $proinfo['shop_id'];
     		$order->uid			= $uid;
     		$order->price		= $proinfo['price']*$num;
@@ -796,10 +793,7 @@ class ApiPaymentController extends ApiBase{
     	$yfarr 		= isset($_POST['yfarr']) ? json_decode($_POST['yfarr'], true) : '';
     	$fxsId 		= isset($_POST['fxs_id']) ? intval($_POST['fxs_id']) : 0;
     	
-    	if (!$uid || !$orderInfo || !$aid || !$payType) {
-    		echo json_encode(array('status'=>0, 'err'=>'数据异常.'));
-    		exit();
-    	}
+    	if (!$uid || !$orderInfo || !$aid || !$payType) { echo json_encode(array('status'=>0, 'err'=>'数据异常.')); exit(); }
     	
     	$hdId = 0;
     	if ($orderInfo['type']=='cutPrice'){
@@ -815,16 +809,12 @@ class ApiPaymentController extends ApiBase{
     	
     	//查询订单
     	$order = Order::find("id in({$order_id})");
-    	if (!$order){
-    		echo json_encode(array('status'=>0,'err'=>'订单不存在.'));
-    		exit();
-    	}
+    	if (!$order){ echo json_encode(array('status'=>0,'err'=>'订单不存在.')); exit(); }
     	
     	//查询地址
     	$address = Address::findFirstById($aid);
     	if (!$address){
-    		echo json_encode(array('status'=>0,'err'=>'地址不存在.'));
-    		exit();
+    		echo json_encode(array('status'=>0,'err'=>'地址不存在.')); exit();
     	}else $address = $address->toArray();
     	
     	$order_sn = '';
@@ -889,58 +879,50 @@ class ApiPaymentController extends ApiBase{
     	$this->view->disable();
 	   	$pay_sn = trim($_REQUEST['order_sn'], ',');
 	   	$platform = (isset($_POST['platform'])&&$_POST['platform']=='zzyh-gzh') ? 'zzyh-gzh': '';
-    	if (!$pay_sn) {
-    		echo json_encode(array('status'=>0,'err'=>'支付信息错误！'));
-    		exit();
-    	}
     	
-    	$order_info = Order::find("order_sn in({$pay_sn})");
-    	if (!$order_info) {
-    		echo json_encode(array('status'=>0,'err'=>'没有找到支付订单！'));
-    		exit();
-    	}
-    	foreach ($order_info as $k=>$v){
-    		if ($v->order_type == 3){//团购时间验证
-    			$ab = new ActivityBase();
-    			$ab->gblIsPd($v->hd_id);
-    		}
+    	//订单号错误
+	   	if (!$pay_sn) { echo json_encode(array('status'=>0,'err'=>'支付信息错误！')); exit(); }
+    	
+    	//$order_info = Order::find("order_sn in({$pay_sn})");
+	   	$order_info = Order::findFirstByOrderSn($pay_sn);
+    	//订单不存在
+    	if (!$order_info) { echo json_encode(array('status'=>0,'err'=>'没有找到支付订单！')); exit(); }
+    	
+    	if ($order_info->order_type == 3){//团购时间验证
+    		$ab = new ActivityBase();
+    		$ab->gblIsPd($v->hd_id);
     	}
     	$orderinfo = $order_info->toArray();
     	
-    	$amount = 0; $uid = -1;
-    	$ordernew = $this->build_order_no(false);
-    	foreach ($order_info as $k=>$v){
-    		if (intval($v->status)!=10) {
-    			echo json_encode(array('status'=>0,'err'=>'订单状态异常！'));
-    			exit();
-    		}
-    		//if (empty($v->order)) $v->order = $ordernew;
-    		$v->order = $ordernew;
-    		$v->paytime = time();
-    		$v->save();
-    		//$amount += $v->amount;
-    		$amount += $v->price_h;
-    		if ($uid == -1) $uid = $v->uid;
-    	}
+    	//订单状态异常
+    	if (intval($order_info->status)!=10) { echo json_encode(array('status'=>0,'err'=>'订单状态异常！')); exit(); }
+    	//if (empty($v->order)) $v->order = $ordernew;
+    	//$v->order = $ordernew;
+    	//$v->paytime = time();
+    	//$v->save();
+    	
+    	//$amount += $v->amount;
+    	$amount = $order_info->price_h;
+    	$uid = $v->uid;
     	
     	//①、获取用户openid
     	if ($platform) WxPayConfig::initPayInfo($platform);
-    	$tools = new WxJsApi();
-    	
     	$user = User::findFirstById($uid);
     	$openId = $user->openid;
-    	if (!$openId) {
-    		echo json_encode(array('status'=>0,'err'=>'用户状态异常！'));
-    		exit();
-    	}
+    	//用户信息错误
+    	if (!$openId) { echo json_encode(array('status'=>0,'err'=>'用户状态异常！')); exit(); }
     	
+    	
+    	$tools = new WxJsApi();
     	//②、统一下单
+    	$orderSn = $order_info->order_sn;
     	$datas = array(
-    			'body'=>"专致贸易_".trim($ordernew), 'attach'=>"专致贸易_".trim($ordernew), 
-    			'order_no'=>$ordernew, 'total_fee'=>floatval($amount)*100,
-    			'indate'=>1, 'goods_tag'=>"专致贸易_".trim($ordernew), 'open_id'=>$openId
+    			'body'=>"专致贸易_".$orderSn, 'attach'=>"专致贸易_".$orderSn, 
+    			'order_no'=>$orderSn, 'total_fee'=>floatval($amount)*100,
+    			'indate'=>1, 'goods_tag'=>"专致贸易_".$orderSn, 'open_id'=>$openId
     	);
     	$order = $tools->jsApi($datas);
+    	
     	$arr = array();
     	$arr['appId'] = $order['appid'];
     	$arr['nonceStr'] = $order['nonce_str'];
