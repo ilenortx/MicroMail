@@ -985,12 +985,22 @@ class ApiPaymentController extends ApiBase{
     		return array('status'=>1,'data'=>$data);
     	}
     	
+    	$myfile = fopen("newfile23123.txt", "w") or die("Unable to open file!");
+    	$txt = json_encode($data);
+    	fwrite($myfile, $txt);
+    	fclose($myfile);
+    	
     	$order->type = $pay_type;
     	$order->total_fee= printf("%.2f",floatval($total_fee/100));
     	$order->status = 20;
     	$order->paytime = time();
     	$order->trade_no = $trade_no;
     	$res = $order->save();
+    	
+    	$myfile = fopen("newfilefasddf.txt", "w") or die("Unable to open file!");
+    	$txt = printf("%.2f",floatval($total_fee/100));
+    	fwrite($myfile, $txt);
+    	fclose($myfile);
     	
     	if ($res) {
     		if ($order->order_type=='3'||$order->order_type=='4'){
