@@ -890,7 +890,7 @@ class ApiPaymentController extends ApiBase{
     	
     	if ($order_info->order_type == 3){//团购时间验证
     		$ab = new ActivityBase();
-    		$ab->gblIsPd($v->hd_id);
+    		$ab->gblIsPd($order_info->hd_id);
     	}
     	$orderinfo = $order_info->toArray();
     	
