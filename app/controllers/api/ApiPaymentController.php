@@ -11,7 +11,7 @@ class ApiPaymentController extends ApiBase{
     //***********************************
     public function buyCartAction($cart_id, $uid, $payType){
     	if (!$uid) { echo json_encode(array('status'=>0,'err'=>'登录状态异常.')); exit(); }
-    	//$cids = explode(',', trim($cart_id, ','));
+    	$cids = explode(',', trim($cart_id, ','));
     	if (!$cart_id) { echo json_encode(array('status'=>0,'err'=>'网络异常.'.__LINE__)); exit(); }
     	
     	//生成订单号
