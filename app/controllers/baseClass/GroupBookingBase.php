@@ -122,8 +122,8 @@ class GroupBookingBase extends ControllerBase{
 			if ($orders){
 				$wr = new WxRefund();
 				foreach ($orders as $k=>$v){
-					if ($v->status=='20' && $v->back!='2' && $v->type='weixin'){//已付款
-						$wr->refund(array('totalFee'=>$v->total_fee*100, 'refundFee'=>$v->total_fee*100), $v->order_sn);
+					if ($v->status=='20' && $v->back!='2' && $v->type=='weixin'){//已付款
+						$wr->refund(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100), $v->order_sn);
 						
 						//添加退款记录
 					}
