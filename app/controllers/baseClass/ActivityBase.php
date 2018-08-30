@@ -305,24 +305,6 @@ class ActivityBase extends ControllerBase{
 		}
 	}
 	
-	/**
-	 * 团购退款
-	 */
-	public function gbRefunc($gblids=''){
-		if ($gblids){
-			$orders = Order::find("order_type=3 and hd_id in ($gblids)");
-			if ($orders){
-				$wr = new WxRefund();
-				foreach ($orders as $k=>$v){
-					if ($v->status=='20' && $v->back!='2' && $v->type='weixin'){//已付款
-						$wr->refund(array('totalFee'=>$v->price_h*100, 'refundFee'=>$v->price_h*100), $v->order);
-					}
-					$v->back = 2; $v->save();
-				}
-			}
-		}
-	}
-	
 	//----------
 	//获取参团人员
 	//----------

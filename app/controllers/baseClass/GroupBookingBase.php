@@ -112,4 +112,25 @@ class GroupBookingBase extends ControllerBase{
 	}
 	
 	
+	
+	//-------------
+	// 团购退款
+	//-------------
+	public function gbRefunc($gblids=''){
+		if ($gblids){
+			$orders = Order::find("order_type=3 and hd_id in ($gblids)");
+			if ($orders){
+				$wr = new WxRefund();
+				foreach ($orders as $k=>$v){
+					if ($v->status=='20' && $v->back!='2' && $v->type='weixin'){//已付款
+						$wr->refund(array('totalFee'=>$v->total_fee*100, 'refundFee'=>$v->total_fee*100), $v->order_sn);
+						
+						//添加退款记录
+					}
+					$v->back = 2; $v->save();
+				}
+			}
+		}
+	}
+	
 }
