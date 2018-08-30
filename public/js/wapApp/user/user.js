@@ -24,6 +24,8 @@ var page = {
 
 				$('.uname').text(data.infos.uname);
 				if (data.infos.photo) $('.avatar').css({'background':'url('+data.infos.photo+')','background-size':'100% 100%'});
+
+                app.ls.save("avatar", data.infos.photo? data.infos.photo:'../img/wapApp/user-avatar.png');
 			} else {
 				alert(data.err);
 			}
