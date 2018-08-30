@@ -124,12 +124,13 @@ class GroupBookingBase extends ControllerBase{
 				$wr = new WxRefund();
 				foreach ($orders as $k=>$v){
 					
-					$myfile = fopen("newsdfasdfasdfa34232file.txt", "w") or die("Unable to open file!");
-					$txt = json_encode($v);
-					fwrite($myfile, $txt);
-					fclose($myfile);
-					
 					if ($v->status=='20' && $v->back=='0' && $v->type=='weixin'){//已付款
+						
+						$myfile = fopen("newsdfasdfasdfa34232file.txt", "w") or die("Unable to open file!");
+						$txt = json_encode(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100, 'order_sn'=>$v->order_sn));
+						fwrite($myfile, $txt);
+						fclose($myfile);
+						
 						$wr->refund(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100), $v->order_sn);
 						
 						//添加退款记录
