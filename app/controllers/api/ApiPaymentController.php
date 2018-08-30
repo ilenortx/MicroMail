@@ -181,10 +181,10 @@ class ApiPaymentController extends ApiBase{
     	
     	if ($result){
     		//删除购物车
-    		/* $shopping = new ApiShoppingController();
+    		$shopping = new ApiShoppingController();
     		for ($i=0; $i<count($cids); ++$i){
     			$shopping->delPorCartAction($cids[$i]);
-    		} */
+    		}
     	}
     	
     	return trim($oidstr, ',');
@@ -912,7 +912,6 @@ class ApiPaymentController extends ApiBase{
     	//用户信息错误
     	if (!$openId) { echo json_encode(array('status'=>0,'err'=>'用户状态异常！')); exit(); }
     	
-    	
     	$tools = new WxJsApi();
     	//②、统一下单
     	$orderSn = $order_info->order_sn;
@@ -987,9 +986,10 @@ class ApiPaymentController extends ApiBase{
     	}
     	
     	$order->type = $pay_type;
-    	//$order->price_h= printf("%.2f",floatval($total_fee/100));
-    	$order->status= 20;
-    	$order->trade_no= $trade_no;
+    	$order->total_fee= printf("%.2f",floatval($total_fee/100));
+    	$order->status = 20;
+    	$order->paytime = time();
+    	$order->trade_no = $trade_no;
     	$res = $order->save();
     	
     	if ($res) {
@@ -1051,11 +1051,8 @@ class ApiPaymentController extends ApiBase{
     //构建字符串
     private function ToUrlParams($urlObj){
     	$buff = "";
-    	foreach ($urlObj as $k => $v)
-    	{
-    		if($k != "sign"){
-    			$buff .= $k . "=" . $v . "&";
-    		}
+    	foreach ($urlObj as $k => $v) {
+    		if($k != "sign"){ $buff .= $k . "=" . $v . "&"; }
     	}
     	
     	$buff = trim($buff, "&");

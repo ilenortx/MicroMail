@@ -78,7 +78,21 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="amount", type="double", length=9, nullable=true)
      */
     public $amount;
-
+    
+    /**
+     *
+     * @var double
+     * @Column(column="price_h", type="double", length=9, nullable=false)
+     */
+    public $price_h;
+    
+    /**
+     *
+     * @var double
+     * @Column(column="total_fee", type="double", length=9, nullable=false)
+     */
+    public $total_fee;
+    
     /**
      *
      * @var string
@@ -120,13 +134,6 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="type", type="string", nullable=true)
      */
     public $type;
-
-    /**
-     *
-     * @var double
-     * @Column(column="price_h", type="double", length=9, nullable=false)
-     */
-    public $price_h;
 
     /**
      *
