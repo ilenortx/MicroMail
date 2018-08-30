@@ -972,7 +972,7 @@ class ApiPaymentController extends ApiBase{
     	$trade_no = trim($data['trade_no']);
     	$total_fee = floatval($data['total_fee']);
     	
-    	$order = Order::findFirstByOrder($order_sn);
+    	$order = Order::findFirstByOrderSn($order_sn);
     	if (!$order) {
     		return "订单信息错误...";
     	}
