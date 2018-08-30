@@ -903,7 +903,7 @@ class ApiPaymentController extends ApiBase{
     	
     	//$amount += $v->amount;
     	$amount = $order_info->price_h;
-    	$uid = $v->uid;
+    	$uid = $order_info->uid;
     	
     	//①、获取用户openid
     	if ($platform) WxPayConfig::initPayInfo($platform);
