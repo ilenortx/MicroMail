@@ -28,3 +28,4 @@ cache/
 /*.buildpath
 /public/temp
 /public/*.log
+/public/files/uploadFiles
