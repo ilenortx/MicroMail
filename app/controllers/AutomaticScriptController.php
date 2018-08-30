@@ -151,7 +151,7 @@ class AutomaticScriptController extends ControllerBase{
     			$v->status = 'S4'; $v->save();
     		}
     		//获取所有订单退款
-    		$gblids= trim($gblids, ',');
+    		$gblids = trim($gblids, ',');
     		$gbb = new GroupBookingBase();
     		$gbb->gbRefunc($gblids);
     	}
