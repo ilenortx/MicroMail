@@ -374,6 +374,7 @@ class WPagesController extends ControllerBase{
 	    	
 	    	if (empty($user->openid)){
 	    		require_once PAYMENT."/wechat/lib/WxPay.Config.php";
+	    		WxPayConfig::initPayInfo('zzyh-gzh');
 	    		$tools = new WxJsApi();
 	    		$openid = $tools->GetOpenid();
 	    		$user->openid = $openid; $user->save();
