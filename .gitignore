@@ -20,3 +20,11 @@ cache/
 *.zip
 *.tar
 /*.htaccess
+/public/*.htaccess
+/cache
+/.settings
+/app/library/payment
+/*.project
+/*.buildpath
+/public/temp
+/public/*.log
