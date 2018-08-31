@@ -324,8 +324,7 @@ class ApiShoppingController extends ApiBase{
     		$cids = isset($_POST['cids']) ? trim($_POST['cids'], ',') : '';
     		
     		if (!strlen($cids)){
-    			echo json_encode(array('status'=>0,'err'=>'数据错误'));
-    			exit();
+    			echo json_encode(array('status'=>0,'err'=>'数据错误')); exit();
     		}
     		
     		$cb = new CartBase();

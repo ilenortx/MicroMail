@@ -1,7 +1,7 @@
 mui.ready(function() {
 	page.initWinWH();
 
-	var share = {title:'专致优货',desc:'sssdfas',link:app.d.hostUrl+'WPages/indexPage',imgUrl:app.d.hostImg+'syhst/20180728//1532741578729078653.jpg',success:function(){alert(123342323)}};
+	var share = {title:'专致优货',desc:'注重品质，追求卓越，专致优货。',link:app.d.hostUrl+'WPages/indexPage',imgUrl:'../../img/common/zzyh-logo.png',success:function(){alert('分享成功!')}};
 
 	app.wxShare(share);
 
@@ -30,7 +30,6 @@ mui.ready(function() {
 	});
 
 	page.loadVoucher();
-
 });
 
 var page = {
@@ -191,6 +190,7 @@ var page = {
 		}
 	},
 	loadVoucher: function(){//加载优惠券
+		$('.voucher-items-div').html('');
 		var _this = this;
 		function cdom(obj){
 			var voucherItem = $('<div class="voucher-item-div"></div>');
@@ -203,6 +203,7 @@ var page = {
 			voucherItem.append(vtop); voucherItem.append(vbottom);
 
 			//return voucherItem;
+			voucherItem.click(function(){ getVou(obj.id); });
 			$('.voucher-items-div').append(voucherItem);
 		}
 		mui.post(app.d.hostUrl + 'ApiVoucher/unGetVoucher', {
@@ -217,8 +218,7 @@ var page = {
 						cdom(data.varr[i]);
 					}
 					$('.voucher-div').show();
-				}
-
+				}else $('.voucher-div').hide();
 			}else alert(data.err);
 		});
 	},
@@ -270,3 +270,20 @@ function cutCg(cgnum){//切换分类
 
 	page.syflList();
 }
+
+function getVou(vid){
+	if (!app.ls.get("uid")) {
+		window.location.replace('../WPages/loginPage'); return;
+	}
+	var _this = this;
+	mui.post(app.d.hostUrl + 'ApiVoucher/getCoupon', {
+		uid: app.ls.get("uid"), vid: vid
+	}, function(data) {
+		var data = app.json.decode(data);
+		if (data.status == 1){
+			page.loadVoucher();
+			mui("#vou-get-success").popover('show');
+		}else alert(data.err);
+	});
+}
+	

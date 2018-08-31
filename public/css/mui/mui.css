@@ -3759,7 +3759,7 @@ select:focus
 
 .mui-backdrop-action.mui-backdrop
 {
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .mui-bar-backdrop.mui-backdrop, .mui-backdrop-action.mui-backdrop

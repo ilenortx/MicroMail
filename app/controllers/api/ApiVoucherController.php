@@ -94,7 +94,7 @@ class ApiVoucherController extends ApiBase{
     		$uid = isset($_POST['uid']) ? intval($_POST['uid']) : '';
     		$vid = isset($_POST['vid']) ? intval($_POST['vid']) : '';
     		
-    		if (!$uid || !$uid){
+    		if (!$uid || !$vid){
     			echo json_encode(array('status'=>0, 'err'=>'数据错误'));
     			exit();
     		}

@@ -10,7 +10,9 @@ class WPagesController extends ControllerBase{
 	public function initialize(){
 		$_url = $_GET['_url'];
 		if (!strpos($_url,'WPages/loginPage') && !strpos($_url,'WPages/registerPage')){
-			$this->cookies->set('_url', $_GET['_url']);
+			$urlArr = explode('?', $this->request->getURI());
+			if (count($urlArr)==2) $_url .= '?'.$urlArr[1];
+			$this->cookies->set('_url', $_url);
 		}
 
 		$this->view->setVar("title", "专致优货");

@@ -158,3 +158,11 @@
 		</div>-->
 	</div>
 </div>
+
+<!-- 优惠券领取成功弹出框 -->
+<div id="vou-get-success" class="box mui-popover mui-popover-action mui-popover-bottom">
+	<div class="vgs-div">
+		<div class="close-vgs-view" onclick="mui('#vou-get-success').popover('hide');">×</div>
+		<img src="../img/wapApp/getCoupon-success.png" />
+	</div>
+</div>

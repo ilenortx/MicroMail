@@ -118,17 +118,29 @@ class GroupBookingBase extends ControllerBase{
 	//-------------
 	public function gbRefunc($gblids=''){
 		if ($gblids){
+			//查询订单
 			$orders = Order::find("order_type=3 and hd_id in ($gblids)");
-			
 			if ($orders){
 				$wr = new WxRefund();
 				foreach ($orders as $k=>$v){
 					if ($v->status=='20' && $v->back=='0' && $v->type=='weixin'){//已付款
-						$wr->refund(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100), $v->order_sn);
-						
 						//添加退款记录
+						$rrResult = RefundRecord::addRefund(array(
+								'order'=>$v->order_sn,'tamount'=>$v->price_h,'ramount'=>$v->price_h,
+								'reason'=>'团购失败退款', 'vipid'=>$v->uid
+						));
+						
+						$result = $wr->refund(array('totalFee'=>($v->total_fee)*100, 'refundFee'=>($v->total_fee)*100), $v->order_sn);
+						if ($result['return_code']=='SUCCESS' && $result['result_code']=='SUCCESS'){
+							//退款成功，修改退款状态
+							$rrResult->status = 'S2';
+							$rrResult->save();
+							
+							$v->back = '2'; $v->save();//修改订单状态
+						}else {
+							$rrResult->delete();
+						}
 					}
-					$v->back = 2; $v->save();
 				}
 			}
 		}
