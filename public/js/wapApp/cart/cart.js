@@ -62,16 +62,10 @@ var page = {
 				prbldiv.append(av);
 				prbldiv.append(price);
 				var mn = $('<div class="mui-numbox" data-numbox-step="1" data-numbox-min="0"></div>');
-<<<<<<< HEAD
 				var skuid = sps[i].skuid ? sps[i].skuid : 0;
 				var pd = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'d\',\'' + skuid + '\',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-minus" type="button">-</button>');
 				var pnum = $('<input class="mui-numbox-input pnum' + obj.shop_id + '-' + i + '" value="' + sps[i].num + '" type="number" readOnly="readOnly" />');
 				var pu = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'u\',\'' + skuid + '\',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-plus" type="button">+</button>');
-=======
-				var pd = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'d\',' + sps[i].skuid + ',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-minus" type="button">-</button>');
-				var pnum = $('<input class="mui-numbox-input pnum' + obj.shop_id + '-' + i + ' store' + obj.shop_id + '-' + sps[i].id + '" value="' + sps[i].num + '" type="number" readOnly="readOnly" />');
-				var pu = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'u\',' + sps[i].skuid + ',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-plus" type="button">+</button>');
->>>>>>> 54b4c0f45911e6ed4720f9a5f58b5176056a1b08
 				mn.append(pd);
 				mn.append(pnum);
 				mn.append(pu);
