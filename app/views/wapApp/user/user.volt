@@ -6,7 +6,7 @@
 			<div class="grset">设置</div>
 			<div class="menu-box">
 				<a>编辑资料</a>
-				<a>更换头像</a>
+				<a onclick="page.editAvatar()" href="javascript:void(0);">更换头像</a>
 				<a id="uLogout" onclick="page.loginOut()" href="javascript:void(0);">退出登陆</a>
 			</div>
 		</div>

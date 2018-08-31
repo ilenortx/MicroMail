@@ -681,7 +681,24 @@ class WPagesController extends ControllerBase{
     	if (WuserController::loginVerify()) $this->view->pick("wapApp/cutPrice/myCP");
     }
 
+    /**
+     * 编辑头像
+     */
+    public function editAvatarPageAction(){
+        $this->view->title = "编辑头像";
+        $this->assets
+             ->addCss("css/mui/mui.css")
+             ->addCss("css/mui/icon.css")
+             ->addCss("css/wapApp/cropper.min.css")
+             ->addCss("css/wapApp/user/editAvatar.css")
+             ->addJs("lib/jquery/1.9.1/jquery.min.js")
+             ->addJs("js/mui/mui.js")
+             ->addJs("js/wapApp/cropper.min.js")
+             ->addJs("js/wapApp/app.js")
+             ->addJs("js/wapApp/user/editAvatar.js");
 
+        if (WuserController::loginVerify()) $this->view->pick("wapApp/user/editAvatar");
+    }
 
 
 }
