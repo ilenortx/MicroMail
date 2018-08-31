@@ -3,7 +3,7 @@
 use Phalcon\Mvc\Controller;
 
 class ControllerBase extends Controller{
-	
+
 	/**
 	 * 获取config
 	 */
@@ -11,7 +11,7 @@ class ControllerBase extends Controller{
 		$config = include APP_PATH . '/config/config.php';
 		return $config;
 	}
-	
+
 	/**
 	 * 二维数组排序
 	 * @param array $arr 需要排序的二维数组
@@ -35,7 +35,7 @@ class ControllerBase extends Controller{
 		}
 		return $new_array;
 	}
-	
+
 	/*
 	 *
 	 * 图片上传的公共方法
@@ -45,10 +45,10 @@ class ControllerBase extends Controller{
 		include_once APP_PATH.'/library/UploadFile.php';
 		$upload = new UploadFile(true, $path, $exts);
 		$upload->upload_file($file);
-		
+
 		return $upload->get_msg();
 	}
-	
+
 	/**
 	 * 文件上传
 	 */
@@ -56,10 +56,10 @@ class ControllerBase extends Controller{
 		include_once APP_PATH.'/library/UploadFile.php';
 		$upload = new UploadFile(true, $path, $exts);
 		$upload->upload_file($file);
-		
+
 		return $upload->get_msg();
 	}
-	
+
 	//**************************
 	//原作者自己封装的分页功能
 	//js写法，直接复制
@@ -70,7 +70,7 @@ class ControllerBase extends Controller{
 	public function pageIndex($count,$row_page,$page){
 		$pare= $page>0 ? '<a onclick="product_option('.($page-1).');">上一页</a>' : '<span>上一页</span>';
 		$next= $row_page-1>$page ?  '<a onclick="product_option('.($page+1).');">下一页</a>' : '<span>下一页</span>';
-		
+
 		$text='<span style="color:#666">
 		        共 '.$count.' 条&nbsp;&nbsp;&nbsp;
 				总页数:'.$row_page.'&nbsp;&nbsp;&nbsp;
@@ -78,12 +78,12 @@ class ControllerBase extends Controller{
 			   </span>
 			   '.$pare.$next.'&nbsp;&nbsp;
 			   <select onchange="product_option(this.value)">';
-		
+
 		for($i=0; $i<$row_page; $i++){
 			$page==$i ? $select='selected="selected"' : $select='' ;
 			$text.='<option value="'.$i.'" '.$select.'>'.($i+1).'</option>';
 		}
-		
+
 		$text.'</select>';
 		return $text;
 	}
@@ -97,14 +97,14 @@ class ControllerBase extends Controller{
 	protected function requestGet($url, $ssl=true) {
 		// curl完成
 		$curl = curl_init();
-		
+
 		//设置curl选项
 		curl_setopt($curl, CURLOPT_URL, $url);//URL
 		$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0 FirePHP/0.7.4';
 		curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);//user_agent，请求代理信息
 		curl_setopt($curl, CURLOPT_AUTOREFERER, true);//referer头，请求来源
 		curl_setopt($curl, CURLOPT_TIMEOUT, 30);//设置超时时间
-		
+
 		//SSL相关
 		if ($ssl) {
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//禁用后cURL将终止从服务端进行验证
@@ -112,7 +112,7 @@ class ControllerBase extends Controller{
 		}
 		curl_setopt($curl, CURLOPT_HEADER, false);//是否处理响应头
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);//curl_exec()是否返回响应结果
-		
+
 		// 发出请求
 		$response = curl_exec($curl);
 		if (false === $response) {
@@ -122,7 +122,7 @@ class ControllerBase extends Controller{
 		curl_close($curl);
 		return $response;
 	}
-	
+
 	/**
 	 * 发送POST请求的方法
 	 * @param string $url URL
@@ -149,7 +149,7 @@ class ControllerBase extends Controller{
 		// 处理响应结果
 		curl_setopt($curl, CURLOPT_HEADER, false);//是否处理响应头
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);//curl_exec()是否返回响应结果
-		
+
 		// 发出请求
 		$response = curl_exec($curl);
 		if (false === $response) {
@@ -159,8 +159,8 @@ class ControllerBase extends Controller{
 		curl_close($curl);
 		return $response;
 	}
-	
-	
+
+
 	/**
 	 * http请求
 	 * @param unknown $url
@@ -181,8 +181,8 @@ class ControllerBase extends Controller{
 		curl_close($curl);
 		return $output;
 	}
-	
-	
+
+
 	/**
 	 * 判断是否单个文件上传
 	 * @param string $fName
@@ -192,14 +192,14 @@ class ControllerBase extends Controller{
 		if (!empty($_FILES[$fName]["tmp_name"])) return true;
 		else return false;
 	}
-	
+
 	/**
 	 * 重定向跳转
 	 */
 	protected function redirect($url){
 		return $this->response->redirect($url);
 	}
-	
+
 	/**
 	 * 结果返回
 	 * @param number $status
@@ -209,15 +209,15 @@ class ControllerBase extends Controller{
 	protected function result($status=0, $msg='', $datas=null){
 		echo json_encode(array('status'=>$status, 'msg'=>$msg, 'datas'=>$datas));
 	}
-	
+
 	/**
 	 * 成功返回
 	 * @param unknown $datas
 	 */
 	protected function success($datas=null){
-		
+
 	}
-	
+
 	/**
 	 * 错误信息
 	 * @param string $err
@@ -225,7 +225,7 @@ class ControllerBase extends Controller{
 	protected function err($err=''){
 		echo json_encode(array('status'=>0, 'err'=>$err));
 	}
-	
+
 	/**
 	 * 消息提示
 	 * @param string $msg
@@ -233,7 +233,7 @@ class ControllerBase extends Controller{
 	protected function msg($msg=''){
 		echo json_encode(array('status'=>1, 'msg'=>$msg));
 	}
-	
+
 	/**
 	 * table数据
 	 * @param number $code
@@ -243,12 +243,38 @@ class ControllerBase extends Controller{
 	 */
 	protected function tableData($datas=array(), $code=0, $msg='seccess', $paging=false){
 		$tableData = $datas;
-		
+
 		if ($paging && is_array($paging) && isset($paging['page']) && isset($paging['limit'])){
 			$tableData = array_slice($datas, ($paging['page']-1)*$paging['limit'], $paging['limit']);
 		}
-		
+
 		echo json_encode(array("code"=>$code,"msg"=>$msg,"count"=>count($datas),"data"=>$tableData));
 	}
-	
+
+	/**
+	 * 上传保存base64图片
+	 * @param  string $base64
+	 * @param  string $path
+	 * @param  string $fileName
+	 * @return bool
+	 */
+	public function uploadBase64($base64, $path, $fileName){
+		$base64_body = substr(strstr($base64,','),1);
+		$img = base64_decode($base64_body);
+		$dir_path = UPLOAD_FILE.$path;
+
+		if(!file_exists($dir_path)){
+			mkdir($dir_path,0777,true);
+		}
+		$file_path = $path.'/'.$fileName.'_'.time().".png";
+		if(file_put_contents($dir_path.'/'.$fileName.'_'.time().".png", $img)){
+			$return_data = array(
+				'path'=>$file_path,
+				'url'=>$_SERVER['HTTP_ORIGIN'].'/files/uploadFiles/'.$file_path,
+			);
+			return $return_data;
+		}else{
+			return false;
+		}
+	}
 }

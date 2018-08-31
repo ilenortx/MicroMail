@@ -53,7 +53,7 @@
 		<div class="opes-div">
 			<div class="ope1-div">
 				<div class="bjdiv" onclick="cartEdit(1)">编辑</div>
-				<div class="jsdiv">结算</div>
+				<div class="jsdiv" onclick="cartPay()">结算</div>
 			</div>
 			<div class="ope2-div" onclick="cartEdit(2)">
 				<div class="wcdiv">完成</div>

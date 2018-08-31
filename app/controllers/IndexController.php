@@ -1,6 +1,6 @@
 <?php
 
-require_once PAYMENT."/wechat/lib/WxPay.Config.php";
+//require_once PAYMENT."/wechat/lib/WxPay.Config.php";
 class IndexController extends ControllerBase
 {
 
@@ -36,10 +36,10 @@ class IndexController extends ControllerBase
     			));  
     	//$x = IniFileOpe::writeIniFile($sampleData, PAYMENT.'/wechat/config.ini', true);
     	
-    	$data = IniFileOpe::getIniFile(PAYMENT.'/wechat/config.ini','zzyh-gzh');
+    	//$data = IniFileOpe::getIniFile(PAYMENT.'/wechat/config.ini','zzyh-gzh');
     	//$data['second-5'] = '55';
     	//IniFileOpe::reinitFile('./test.ini', $data,'second');
-    	var_dump($data);
+    	//var_dump($data);
     	
     }
     
@@ -49,12 +49,22 @@ class IndexController extends ControllerBase
     			'indate'=>1, 'goods_tag'=>'', 'product_id'=>'123456789'
     	);
     	//WxPayConfig::$appid = "wxdf13b6ed712b9248";
-    	WxPayConfig::initPayInfo('zzyh-gzh');
+    	//WxPayConfig::initPayInfo('zzyh-gzh');
     	echo $datas['order_no'];
     	$wn = new WxCode();
     	$code = $wn->getCode($datas);
+    	echo $code;
     	
     	echo "<img alt='模式二扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$code}' style='width:150px;height:150px;'/>";
+    	
+    }
+    
+    public function refundAction(){
+    	$this->view->disable();
+    	$this->view->enable();
+    	$wr = new WxRefund();
+    	$xx = '0.01';
+    	$wr->refund(array('totalFee'=>$xx*100, 'refundFee'=>$xx*100), '2018083051101995381');
     	
     }
     

@@ -158,11 +158,11 @@ class WuserController extends ControllerBase{
 			$user->uname = $res['nickname'];
 
 			$this->assets->addCss('css/mui/mui.css')->addJs("lib/jquery/1.9.1/jquery.min.js")->addJs("js/mui/mui.js")->addJs("js/wapApp/app.js");
-			
+
 			$this->view->setVar("title", "专致优货");
 			$this->view->setVar("isBasePage", false);
 			$this->view->setTemplateAfter('wapApp');
-			
+
 			$uid = $user->save() ? $user->id : 0;
 			$this->session->set('waUid', $uid);
 			$this->view->_url = $this->cookies->get('_url')->getValue();
@@ -193,6 +193,36 @@ class WuserController extends ControllerBase{
 			$this->session->destroy('uid');
 			echo json_encode(array('status'=>1, 'msg'=>'登出成功')); exit();
 		}else echo json_encode(array('status'=>0, 'err'=>'请求方式错误')); exit();
+	}
+
+	/**
+	 * 修改头像
+	 */
+	public function avatarUploadAction(){
+		$uid = $this->session->get('waUid');
+		$user = USER::findFirstById($uid);
+
+		if($user && count($user)){
+			$base64 = urldecode($_POST['imgBase64']);
+			$file_name = $_POST['fileFileName']? $_POST['fileFileName']:'avatar';
+			if($avatar = $this->uploadBase64($base64, 'avatar', $file_name)){
+				$user->photo = $avatar['url'];
+				if($user->save()){
+					echo json_encode(array('status'=>1, 'msg'=>'修改成功'));
+					exit();
+				}else{
+					echo json_encode(array('status'=>0, 'msg'=>'保存失败'));
+					exit();
+				}
+			}else{
+				echo json_encode(array('status'=>0, 'msg'=>'上传失败'));
+				exit();
+			}
+
+		}else{
+			echo json_encode(array('status'=>0, 'msg'=>'用户不存在'));
+			exit();
+		}
 	}
 }
 
