@@ -63,7 +63,7 @@ var page = {
 				prbldiv.append(price);
 				var mn = $('<div class="mui-numbox" data-numbox-step="1" data-numbox-min="0"></div>');
 				var pd = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'d\',' + sps[i].skuid + ',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-minus" type="button">-</button>');
-				var pnum = $('<input class="mui-numbox-input pnum' + obj.shop_id + '-' + i + '" value="' + sps[i].num + '" type="number" readOnly="readOnly" />');
+				var pnum = $('<input class="mui-numbox-input pnum' + obj.shop_id + '-' + i + ' store' + obj.shop_id + '-' + sps[i].id + '" value="' + sps[i].num + '" type="number" readOnly="readOnly" />');
 				var pu = $('<button onclick="proNumOpe(this,' + obj.shop_id + ',' + i + ',\'u\',' + sps[i].skuid + ',' + sps[i].id + ')" class="mui-btn mui-numbox-btn-plus" type="button">+</button>');
 				mn.append(pd);
 				mn.append(pnum);
@@ -103,6 +103,29 @@ var page = {
 				alert(data.err);
 			}
 		});
+	},
+	doPay: function(gids, shop_id){
+		mui.post(app.d.hostUrl + 'ApiShopping/isSingleShop', {
+			cids: gids,
+	    }, function(data) {
+	    	data = app.json.decode(data);
+	    	if(data.status == 1){
+		    	app.ls.save('orderInfo', JSON.stringify(gids));
+		    	location.href = '../WPages/orderPayPage';
+	    	}else{
+	    		if(!data.isSingleShop) mui.toast('多个店铺的商品不能同时结算');
+	    		else if(data.cartStock.length > 0){
+	    			for(var i in data.cartStock){
+	    				var overStore_item = data.cartStock[i];
+	    				var fullStore = overStore_item.rstock;
+
+	    				$('.store' + shop_id + '-'+ i).val(fullStore);
+	    			}
+	    			mui.toast("部分商品已超出库存,现已调整购物车商品数量");
+	    		}
+
+	    	}
+	    });
 	},
 
 	sumTotalPrice: function() { //计算总金额
@@ -229,4 +252,32 @@ function batchDel() { //批量删除
 	} else {
 		alert('请选择删除商品！');
 	}
+}
+
+function cartPay(){
+	var shop_sel = {};
+	var goods_sel = '';
+
+	var cart_data =  page.data.carts;
+	for (var shop in cart_data) {
+		var shop_item = cart_data[shop];
+		for (var good in shop_item.shop_pros ){
+			var good_item = shop_item.shop_pros[good];
+			if(good_item.selected==true){
+				shop_sel[shop] = true;
+				goods_sel += good_item.id + ',';
+			}
+		}
+	};
+
+	if(app.getObjLength(shop_sel) == 0 || goods_sel == ''){ mui.toast("请选择商品结算");return; }
+	if(app.getObjLength(shop_sel) > 1){ mui.toast("多个店铺的商品不能同时结算");return;}
+
+	var shop_id;
+	for(var i in shop_sel){
+		shop_id = i;
+		break;
+	}
+	page.doPay(goods_sel.substring(0,goods_sel.length-1), shop_id);
+	// page.data.carts[indexp].shop_pros[i].selected;
 }
