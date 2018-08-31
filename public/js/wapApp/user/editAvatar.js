@@ -22,18 +22,32 @@ var page = {
         page.img_obj = $('#user-avatar');
     },
     uploadAvatar: function(img, f){
-        mui.post(app.d.hostUrl + 'Wuser/userInfo', {
-            imgUrl: img,
-        }, function(data) {
-            var data = app.json.decode(data);
-            if(data.status == 1) {
-                f();
-            } else {
-                mui.toast("上传失败:"+ data.msg);
-            }
+        var form_data = new FormData();
+        form_data.append("imgBase64",encodeURIComponent(img));
+        form_data.append("fileFileName","avatar");
+
+        mui.ajax(app.d.hostUrl + 'Wuser/avatarUpload', {
+            data: form_data,
+            type: 'post',
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success:function(data){
+                if(data.status==1){
+                    page.img_obj.attr('src', img).cropper('destroy');
+                    app.ls.save('avatar', img);
+                    $('.mui-content').removeClass('ready-crop');
+                }else{
+                    mui.toast(data.msg);
+                }
+            },
         });
     },
     bindAction: function(){
+        $("form").submit(function(e){
+            e.preventDefault();
+        });
+
         mui(".mui-content").on("tap", '#user-avatar', function(){
             page.file_obj = $(this).next();
             page.file_obj.click();
@@ -54,7 +68,7 @@ var page = {
         });
 
         mui(".mui-content").on("tap", ".cancel-crop", function(){
-            page.img_obj.cropper('destroy').attr('src', page.uploadedImageURL);
+            page.img_obj.cropper('destroy').attr('src', page.saveImageURL);
             $('.mui-content').removeClass('ready-crop');
         });
 
