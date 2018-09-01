@@ -9,6 +9,8 @@ var app = {
 		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
 		hostImg: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
 		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
+		
+		imgPath: 'https://wx.yingyuncn.com/public/img/',
 
 		hostVideo: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
 

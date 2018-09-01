@@ -1,8 +1,7 @@
 mui.ready(function() {
 	page.initWinWH();
 
-	var share = {title:'专致优货',desc:'注重品质，追求卓越，专致优货。',link:app.d.hostUrl+'WPages/indexPage',imgUrl:'../../img/common/zzyh-logo.png',success:function(){alert('分享成功!')}};
-
+	var share = {title:'专致优货',desc:'注重品质，追求卓越，专致优货。',link:app.d.hostUrl+'WPages/indexPage',imgUrl:imgPath+'common/zzyh-logo.png',success:function(){alert('分享成功!')}};
 	app.wxShare(share);
 
 	//$('.cgimg').css({'width':(page.data.winWidth-20)/5-12,'height':(page.data.winWidth-20)/5-10})

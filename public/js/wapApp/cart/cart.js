@@ -111,7 +111,8 @@ var page = {
 	    }, function(data) {
 	    	data = app.json.decode(data);
 	    	if(data.status == 1){
-		    	app.ls.save('orderInfo', JSON.stringify(gids));
+	    		var orderInfo = { cart_id: gids, type: 'buyCart' };
+		    	app.ls.save('orderInfo', app.json.encode(orderInfo));
 		    	location.href = '../WPages/orderPayPage';
 	    	}else{
 	    		if(!data.isSingleShop) mui.toast('多个店铺的商品不能同时结算');
