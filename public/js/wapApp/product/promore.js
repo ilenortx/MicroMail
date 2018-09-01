@@ -58,8 +58,8 @@ var page = {
 
 						return proItem;
 					}
-					for(var i = 0; i < pros.length; ++i) {
-						proList.append(cdom(pros[i]));
+					for(var i = 0; i < data.prolist.length; ++i) {
+						proList.append(cdom(data.prolist[i]));
 					}
 				}
 			}
