@@ -22,7 +22,7 @@ class WPagesController extends ControllerBase{
 	public function afterExecuteRoute($dispatcher){//Action加载完成时执行
 		$this->assets->addCss("css/wapApp/common.css");
 	}
-	
+
 	/**
 	 * 首页
 	 */
@@ -39,7 +39,7 @@ class WPagesController extends ControllerBase{
 	    	 ->addJs("js/wapApp/swiper.min.js")
 	    	 ->addJs("js/wapApp/app.js")
 	    	 ->addJs("js/wapApp/index/index.js");
-	    	 
+
 		$this->view->pick("wapApp/index/index");
     }
 
@@ -373,7 +373,7 @@ class WPagesController extends ControllerBase{
 	    	 ->addJs("js/wapApp/order/payment.js");
 	    if (WuserController::loginVerify()) {
 	    	$user = User::findFirst($this->session->get('waUid'));
-	    	
+
 	    	if (empty($user->openid)){
 	    		require_once PAYMENT."/wechat/lib/WxPay.Config.php";
 	    		WxPayConfig::initPayInfo('zzyh-gzh');
@@ -383,7 +383,7 @@ class WPagesController extends ControllerBase{
 	    	}
 	    	$oid= isset($_GET['oid']) ? $_GET['oid'] : 0;
 	    	$this->view->oid= $oid;
-	    	
+
 	    	$this->view->pick("wapApp/order/payment");
 	    }
     }
@@ -702,6 +702,24 @@ class WPagesController extends ControllerBase{
         if (WuserController::loginVerify()) $this->view->pick("wapApp/user/editAvatar");
     }
 
+    /**
+     * 订单评价
+     */
+    public function appraisePageAction(){
+        $this->view->title = "订单评价";
+        $this->assets
+             ->addCss("css/mui/mui.css")
+             ->addCss("css/mui/icon.css")
+             ->addCss("css/wapApp/cropper.min.css")
+             ->addCss("css/wapApp/order/appraise.css")
+             ->addJs("lib/jquery/1.9.1/jquery.min.js")
+             ->addJs("js/mui/mui.js")
+             ->addJs("js/wapApp/cropper.min.js")
+             ->addJs("js/wapApp/app.js")
+             ->addJs("js/wapApp/order/appraise.js");
+
+        if (WuserController::loginVerify()) $this->view->pick("wapApp/order/appraise");
+    }
 
 }
 

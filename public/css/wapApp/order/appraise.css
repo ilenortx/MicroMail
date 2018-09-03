@@ -1,0 +1,86 @@
+.appraise-head{
+    padding: 10px 10px;
+    background: #fff;
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    // justify-content: space-between;
+}
+.appraise-head img{
+    display:block;
+    width: 60px;
+    height: 60px;
+}
+.appraise-point{
+    margin-left: 10px;
+}
+.appraise-point div{
+    display: flex;
+}
+.appraise-point text{
+    line-height: 60px;
+    font-size: 14px;
+}
+.appraise-point i{
+    -webkit-transform: translateY(1px);
+       -moz-transform: translateY(1px);
+        -ms-transform: translateY(1px);
+         -o-transform: translateY(1px);
+            transform: translateY(1px);
+}
+.appraise-point i:before{
+    content: '\e408';
+    font-size: 25px;
+    color: #B5B5B5;
+}
+.appraise-point i.current:before{
+    content: '\e438';
+    color: #FFB400;
+}
+.appraise-text{
+    background: #fff;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ccc;
+}
+.appraise-text textarea{
+    margin: 0;
+    display: block;
+    border: none;
+}
+.appraise-image{
+    background: #fff;
+    padding: 10px 10px;
+}
+.appraise-image-content{
+    display: flex;
+    margin-top: 20px;
+}
+.appraise-image-content i,.appraise-image-content img{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+.appraise-image-content i{
+    text-align: center;
+    line-height: 48px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    color: #aaa;
+    position: relative;
+}
+.appraise-image-content i em{
+    font-style: normal;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 15px;
+    line-height: 15px;
+}
+.appraise-submit{
+    width: 75%;
+    margin: 20px auto 0;
+    color: #fff;
+    text-align: center;
+    line-height: 2;
+    border-radius: 6px;
+    background: red;
+}
