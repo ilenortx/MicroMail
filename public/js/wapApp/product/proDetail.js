@@ -116,11 +116,11 @@ var page = {
 			$('.xiaoliang').html('销量: ' + proInfo.shiyong);
 			$('.tkc').html('库存: ' + proInfo.num);
 			$('.pro-detail').html(proInfo.content);
-			
+
 			$('#skuprice').text('￥ ' + proInfo.price_yh);
 			this.data.proPrice = proInfo.price_yh;
 		}
-		
+
 		if (proInfo.hd_type == 2){
 			$('#tgprice').html('￥'+proInfo.gbInfo.gbprice+"<br/>我要开团");
 			this.initJGBL();
@@ -132,7 +132,7 @@ var page = {
 
 		//商品属性()
 		$('#proPhoto').attr('src', hi + proInfo.photo_x);
-		$('#skustock').text('库存：' + proInfo.num);
+		$('#skustock').text('库存：' + proInfo.num).data("stock", proInfo.num);
 		this.data.proStock = proInfo.num;
 		var proAttrs = this.data.proAttrs;
 		for(var i in proAttrs) {
@@ -272,52 +272,52 @@ var page = {
 
 		return ftime;
 	},
-	
+
 	initJGBL: function(){
 		var gbList = this.data.itemData.gbList;
         var gbList2 = this.data.itemData.gbList2;
-        
+
         for (var i in gbList){
 			var gld = $('<div class="gbl-list-div"></div>');
-			
+
 			var d1 = $('<div style="display:flex;width:55%;align-items:center;"></div>');
 			if (gbList[i].uphoto) d1.append('<img class="uavatar" src="'+gbList[i].uphoto+'"/>');
 			else d1.append('<img class="uavatar" src="../img/wapApp/user-avatar.png"/>');
 			d1.append('<text class="unick">'+gbList[i].uname+'</text>');
-			
+
 			var d2 = $('<div style="display:flex;width:45%;align-items:center;justify-content:flex-end;"></div>');
 			var gmi = $('<div class="gb-mt-info"></div>');
 			gmi.append('<div>还差<text>'+gbList[i].ungbnums+'人</text>拼成</div>');
 			gmi.append('<div>剩余<span class="gbdjs-'+gbList[i].id+'">0:00:00</span></div>');
 			d2.append(gmi);
-			
+
 			gld.append(d1); gld.append(d2);
 			gld.append('<div gblid="'+gbList[i].id+'" onclick="showDAC(this, 3)" class="gtgb-tbn">去拼单</div>');
-			
+
 			$('#gbList').append(gld);
         }
-        
+
         for (var i in gbList2){
 			var gld = $('<div class="gbl-list-div"></div>');
-			
+
 			var d1 = $('<div style="display:flex;width:70%;"></div>');
 			if (gbList2[i].uphoto) d1.append('<img class="uavatar" src="'+gbList2[i].uphoto+'"/>');
 			else d1.append('<img class="uavatar" src="../img/wapApp/user-avatar.png"/>');
-			
+
 			var d2 = $('<div style="margin-left:10px;font-size:12px;line-height:20px;"></div>');
 			var d3 = $('<div style="display:flex;"></div>');
 			d3.append('<div class="uname1">'+gbList2[i].uname+'</div>');
 			d3.append('还差<text>'+gbList2[i].ungbnums+'人</text>');
 			d2.append(d3); d2.append('<div>剩余<span class="gbdjs-'+gbList2[i].id+'">0:00:00</span></div>');
 			d1.append(d2);
-			
+
 			gld.append(d1); gld.append('<div gblid="'+gbList2[i].id+'" onclick="showDAC(this, 3)" class="gtgb-tbn">去拼单</div>');
-			
+
 			$('.gb-list-scroll').append(gld);
         }
-        
+
         $('#pdzrs').text(app.getObjLength(this.data.itemData.gbList2));
-        
+
         //倒计时
         setInterval(function(){
         	for (var i in gbList2){
@@ -382,7 +382,7 @@ function showDAC(obj, ot) {
 		else {$('#skuprice').text('￥ ' + page.data.itemData.price_yh); page.data.isPriceYh=true;}
 		$('.buyOpe').text('立即购买');
 		mui("#drawer_attr_content").popover('show');
-		
+
 	} else if(ot == 2) {
 		$('.buyOpe').css({
 			'background': '#f85'
@@ -402,7 +402,7 @@ function showDAC(obj, ot) {
 			});
 			$('#skuprice').text('￥ ' + page.data.itemData.hd_price);
 			$('.buyOpe').text('确定');
-			
+
 			$('.buyOpe').attr({
 				'onclick': 'orderPay('+ot+')'
 			});
@@ -464,7 +464,7 @@ function skuToData() {//sku获取库存和价格
 				$('#skuprice').text('￥ ' + data.sku.price);
 				page.data.proPrice = data.sku.price;
 			}
-			$('#skustock').text('库存：' + data.sku.stock);
+			$('#skustock').text('库存：' + data.sku.stock).data("stock", data.sku.stock);
 			page.data.proStock = data.sku.stock;
 		} else {
 			alert(data.err);
@@ -474,8 +474,13 @@ function skuToData() {//sku获取库存和价格
 
 function buyNum(ope) {
 	var nownum = parseInt($('.nownum').text());
-	if(ope == 'd') $('.nownum').text(--nownum);
-	else $('.nownum').text(++nownum);
+	if(ope == 'd') {
+		if(nownum == 1){ mui.toast("购买数量不能低于1"); return;}
+		$('.nownum').text(--nownum);
+	}else {
+		if(nownum == $('#skustock').data("stock")){ mui.toast("购买数量不能大于库存量"); return;}
+		$('.nownum').text(++nownum);
+	}
 }
 
 function orderPay(ope) {
@@ -484,7 +489,7 @@ function orderPay(ope) {
 		if (page.data.itemData.hd_type=='0') var orderInfo = {pid: page.data.productId, num: buynum, type: 'buyNow', skuid: page.data.skuid };
 		else if (page.data.itemData.hd_type=='1') var orderInfo = {pid: page.data.productId, num: buynum, hdId: page.data.itemData.hd_id, type: 'promotion', skuid: page.data.skuid };
 		else if (page.data.itemData.hd_type=='2') var orderInfo = {pid: page.data.productId, num: buynum, hdId: page.data.itemData.hd_id, type: 'gb', skuid: page.data.skuid, gblid: page.data.gblid };
-		
+
 		app.ls.save('orderInfo', JSON.stringify(orderInfo));
 		window.location.href = '../WPages/orderPayPage';
 	}
@@ -495,7 +500,7 @@ function wykj(hdId){
 		//window.location.href = '../WPages/orderPayPage?orderInfo='+JSON.stringify(orderInfo)+'&fxsId=0';
 
 		//app.post('../WPages/orderPayPage', datas);
-		
+
 		var cpInfo = {'dotype':'add', 'hdId':hdId, 'proId':page.data.productId, 'skuid':page.data.skuid};
 		//app.ls.save('cpinfo', app.json.encode(cpInfo));
 		window.location.replace('../WPages/cpDetailPage?dotype=add&hdId='+hdId+'&proId='+page.data.productId+'&skuid='+page.data.skuid);
