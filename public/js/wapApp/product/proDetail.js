@@ -111,8 +111,8 @@ var page = {
 			$('#skuprice').text('￥ ' + proInfo.skinfo.pprice);
 			this.data.proPrice = proInfo.skinfo.pprice;
 		} else {
-			$('.yjiage').html('¥: ' + proInfo.price_yh);
-			$('.jiage').html('¥: ' + proInfo.price);
+			$('.yjiage').html('¥ ' + proInfo.price_yh);
+			$('.jiage').html('¥ ' + proInfo.price);
 			$('.xiaoliang').html('销量: ' + proInfo.shiyong);
 			$('.tkc').html('库存: ' + proInfo.num);
 			$('.pro-detail').html(proInfo.content);
