@@ -1,14 +1,14 @@
 mui.ready(function() {
 	page.loadPros();
 
-	$(window).scroll(function() {　　
-		var scrollTop = $(this).scrollTop();　　
-		var scrollHeight = $(document).height();　　
-		var windowHeight = $(this).height();　　
-		if(scrollTop + windowHeight == (scrollHeight-0.5)) {
-			page.loadPros();
-		}
-	});
+//	$(window).scroll(function() {　　
+//		var scrollTop = $(this).scrollTop();　　
+//		var scrollHeight = $(document).height();　　
+//		var windowHeight = $(this).height();　　
+//		if(scrollTop + windowHeight == (scrollHeight)) {
+//			page.loadPros();
+//		}
+//	});
 
 });
 
@@ -19,7 +19,7 @@ var page = {
 		px: 0,
 		pros: []
 	},
-	loadPros: function() {
+	loadPros: function(callback) {
 		var proList = $('.pro-list-div');
 		if (this.data.offset==0) proList.html('');
 		var _this = this;
@@ -63,6 +63,7 @@ var page = {
 					}
 				}
 			}
+			if (typeof(callback)!='undefined') callback(data.status==0 || data.prolist.length==0);
 		});
 	},
 }
@@ -87,4 +88,8 @@ function pxquery(obj) {
 	page.data.offset = 0;
 	page.data.pros = [];
 	page.loadPros();
+}
+
+function loadMore(callback){
+	page.loadPros(callback);
 }

@@ -1,9 +1,10 @@
 .px-top-div{
 	width: 100%;
 	height: 40px;
-	position: fixed;
 	border-bottom: 1px #dedede solid;
-	z-index: 100;
+	position: fixed;
+	top: 44px;
+	z-index: 3;
 }
 .px-ul{
 	width: 100%;

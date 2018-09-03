@@ -9,7 +9,7 @@ var app = {
 		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
 		hostImg: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
 		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
-		
+
 		imgPath: 'https://wx.yingyuncn.com/public/img/',
 
 		hostVideo: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
@@ -130,7 +130,13 @@ var app = {
 	wxShare: function(obj) {
 		var _this = this;
 		var conf = {
-			title:'', desc:'', link:'', imgUrl:'', success:null, cancel:null, fail:null
+			title: '',
+			desc: '',
+			link: '',
+			imgUrl: '',
+			success: null,
+			cancel: null,
+			fail: null
 		}
 		$.extend(conf, obj);
 		if(this.isWxBrowser()) {
@@ -161,8 +167,8 @@ var app = {
 
 					wx.ready(function() {
 						wx.checkJsApi({
-                			jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'],
-            			});
+							jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'],
+						});
 						wx.showOptionMenu();
 						wx.onMenuShareAppMessage({
 							title: conf.title,
@@ -314,7 +320,7 @@ var app = {
 		}
 	},
 
-	getCookie: function (name) {//获取cookie
+	getCookie: function(name) { //获取cookie
 		var strcookie = document.cookie; //获取cookie字符串
 		var arrcookie = strcookie.split("; "); //分割
 		//遍历匹配
@@ -328,11 +334,46 @@ var app = {
 	},
 
 	getUrlParam: function(e) {
-	    var t = new RegExp("(^|&)" + e + "=([^&]*)(&|$)");
-	    var a = window.location.search.substr(1).match(t);
-	    if (a != null) return a[2];
-	    return ""
+		var t = new RegExp("(^|&)" + e + "=([^&]*)(&|$)");
+		var a = window.location.search.substr(1).match(t);
+		if(a != null) return a[2];
+		return ""
 	},
+
+	isPoneAvailable: function(pone) { // 判断是否为手机号
+		var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+		if(!myreg.test(pone)) {
+			return false;
+		} else {
+			return true;
+		}
+	},
+	isTelAvailable: function(tel) { // 判断是否为电话号码
+		var myreg = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+		if(!myreg.test(tel)) {
+			return false;
+		} else {
+			return true;
+		}
+	},
+
+	isMobile: function() {//判断是否是手机
+		var userAgentInfo = navigator.userAgent;
+
+		var mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+
+		var mobile_flag = false;
+
+		//根据userAgent判断是否是手机
+		for(var v = 0; v < mobileAgents.length; v++) {
+			if(userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+				mobile_flag = true;
+				break;
+			}
+		}
+
+		return mobile_flag;
+	}
 
 }
 

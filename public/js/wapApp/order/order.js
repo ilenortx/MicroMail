@@ -22,7 +22,7 @@ var page = {
         orderList4: [],
 	},
 
-	loadOrderList: function(){
+	loadOrderList: function(callback){
 		var _this = this;
 		var oitem = parseInt(this.data.oitem);
 
@@ -74,6 +74,8 @@ var page = {
 					else _this.data.page4 += 1;
 					break;
 			}
+			
+			if (typeof(callback)!='undefined') callback(data.status==0 || ords.length==0);
 		});
 	},
 
@@ -201,4 +203,8 @@ function recOrder(obj, oid){//确认收货
 			});
 		}
 	});
+}
+
+function loadMore(callback){
+	page.loadOrderList(callback);
 }

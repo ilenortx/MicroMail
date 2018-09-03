@@ -11,8 +11,9 @@
 	margin-bottom: 5px;
 	background: #fff;
 	position: fixed;
-	top: 0;
+	top: 44px;
 	left: 0;
+	z-index: 3;
 }
 .fl-item{
 	height:22px;

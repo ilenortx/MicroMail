@@ -152,6 +152,12 @@ function formSubmit() {
 			type: 'div'
 		});
 		return false;
+	}else if (!app.isPoneAvailable(tel)){
+		mui.toast('手机号格式错误', {
+			duration: 'long',
+			type: 'div'
+		});
+		return false;
 	}
 
 	var id = $('#id').val();
