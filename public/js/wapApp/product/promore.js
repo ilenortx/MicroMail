@@ -5,7 +5,7 @@ mui.ready(function() {
 		var scrollTop = $(this).scrollTop();　　
 		var scrollHeight = $(document).height();　　
 		var windowHeight = $(this).height();　　
-		if(scrollTop + windowHeight == (scrollHeight)) {
+		if(scrollTop + windowHeight == (scrollHeight-0.5)) {
 			page.loadPros();
 		}
 	});

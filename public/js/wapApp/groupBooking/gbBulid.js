@@ -88,7 +88,7 @@ var page = {
         $('.mui-content').on('click','.gbBulid-invite',function(){
             var share_data = {
                 title: "专致优货",
-                desc: "zhuanzhiyouhuo",
+                desc: page.data.pageData.oinfo.proname,
                 link: app.d.hostUrl + 'WPages/gbJoinPage?gblid=' + page.data.pageData.gblinfo.id,
                 imgUrl: app.d.hostImg + page.data.pageData.oinfo.prophoto,
                 success: function(){             //  分享成功

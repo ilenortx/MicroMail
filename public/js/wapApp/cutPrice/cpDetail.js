@@ -109,7 +109,7 @@ var page = {
 					/*var share = {title:'我发现一件好货，来一起砍价',desc:'data.pro.name',
 								link:app.d.hostUrl+'WPages/cpDetailPage?dotype=detail&ucpId='+_this.data.ucpId,
 								imgUrl:app.d.hostImg+data.pro.photo_x,success:function(){alert('分享成功');}};*/
-					var share = {title:'专致优货',desc:'sssdfas',link:app.d.hostUrl+'WPages/cpDetailPage',imgUrl:'https://wx.yingyuncn.com/img/wapApp/user-avatar.png',success:function(){alert(123342323)}};
+					var share = {title:'我发现一件好货，来一起砍价',desc:data.pro.name,link:app.d.hostUrl+'WPages/cpDetailPage',imgUrl:'https://wx.yingyuncn.com/img/wapApp/user-avatar.png',success:function(){alert('分享成功')}};
 					app.wxShare(share);
 				}
 				if(data.ucp.cp_result == '4') $('#jycg').css('display', 'flex');
