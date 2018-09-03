@@ -52,9 +52,6 @@
                 邀请好友参加
             </div>
             <% } %>
-            <div class="gbBulid-invite">
-                邀请好友参加
-            </div>
         </div>
     </div>
 </script>
