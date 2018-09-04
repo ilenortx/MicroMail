@@ -25,14 +25,18 @@ var page = {
 
                 for (var i in img_array) {
                     if($('.upload-photo').length > 0){
-                        var img_object = $('.upload-photo').clone();
+                        var img_object = $('.upload-photo').eq(0).clone();
                     }else{
                         var img_object = $('<img />');
                         img_object.addClass('upload-photo');
                     }
 
                     img_object.attr('src', img_array[i]);
-                    $('.appraise-image-content').prepend(img_object);
+                    if($('.upload-photo').length > 0){
+                        $('.upload-photo').last().after(img_object);
+                    }else{
+                        $('.appraise-image-content').prepend(img_object);
+                    }
                 };
             }else{
                 mui.toast("请求失败");
@@ -63,13 +67,17 @@ var page = {
                     var file = files[i];
                     if (/^image\/\w+$/.test(file.type)) {
                         if($('.upload-photo').length > 0){
-                            var img_object = $('.upload-photo').clone();
+                            var img_object = $('.upload-photo').eq(0).clone();
                         }else{
                             var img_object = $('<img />');
                             img_object.addClass('upload-photo');
                         }
                         img_object.attr('src',URL.createObjectURL(file));
-                        $('.appraise-image-content').prepend(img_object);
+                        if($('.upload-photo').length > 0){
+                            $('.upload-photo').last().after(img_object);
+                        }else{
+                            $('.appraise-image-content').prepend(img_object);
+                        }
                     }
                 };
 
