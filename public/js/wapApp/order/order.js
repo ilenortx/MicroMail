@@ -117,7 +117,7 @@ var page = {
 			var xq = $('<a href="../WPages/orderDetailPage?orderId='+ords[i].id+'" class="ope-item ope-gray">详情</a>');
 			var fk = $('<a href="../WPages/paymentPage?oid='+ords[i].id+'" class="ope-item ope-red">付款</a>');
 			var sh = $('<div onclick="recOrder(this,'+ords[i].id+')" class="ope-item ope-red">确认收货</div>');
-			var pj = $('<a href="../WPages/appraisePage?oid=' + ords[i].id + '" class="ope-item ope-gray">评价</a>');
+			var pj = $('<a href="../WPages/appraisePage?sn=' + ords[i].order_sn + '" class="ope-item ope-gray">评价</a>');
 			if (oitem==0) opeRight.append(qx);
 			if (oitem==3) opeRight.append(pj);
 			opeRight.append(xq);

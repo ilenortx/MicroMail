@@ -75,6 +75,9 @@
     font-size: 15px;
     line-height: 15px;
 }
+.appraise-image-content input[type="file"]{
+    display: none;
+}
 .appraise-submit{
     width: 75%;
     margin: 20px auto 0;

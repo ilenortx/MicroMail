@@ -710,11 +710,9 @@ class WPagesController extends ControllerBase{
         $this->assets
              ->addCss("css/mui/mui.css")
              ->addCss("css/mui/icon.css")
-             ->addCss("css/wapApp/cropper.min.css")
              ->addCss("css/wapApp/order/appraise.css")
              ->addJs("lib/jquery/1.9.1/jquery.min.js")
              ->addJs("js/mui/mui.js")
-             ->addJs("js/wapApp/cropper.min.js")
              ->addJs("js/wapApp/app.js")
              ->addJs("js/wapApp/order/appraise.js");
 
