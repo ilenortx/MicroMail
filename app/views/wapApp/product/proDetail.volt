@@ -89,7 +89,8 @@
 	<div class="detail">
 		<div class="swiper-tab">
 			<div class="bre swiper-tab-list on" cw='1' onclick="chooseDetail(this);">图文详情</div>
-			<div class="swiper-tab-list" cw='2' onclick="chooseDetail(this);">产品参数</div>
+			<div class="bre swiper-tab-list" cw='2' onclick="chooseDetail(this);">产品参数</div>
+			<div class="swiper-tab-list" cw='3' onclick="chooseDetail(this);">评价</div>
 		</div>
 		<div class="pro-detail-div prodetail">
 			<div class="pro-detail"></div>
@@ -139,6 +140,46 @@
 			<div class="canshu df">
 				<div class="name">售后：</div>
 				<div class="df_1 c3">签收之日48小时无条件退货</div>
+			</div>
+		</div>
+		<div class="pro-evaluate-div prodetail">
+			<div class="pe-item-div">
+				<div class="top-div">
+					<div class="head-left">
+						<text>测试名</text>
+						<span class="icons">
+							<i data-index="1" class="mui-icon mui-icon-star"></i>
+							<i data-index="2" class="mui-icon mui-icon-star"></i>
+							<i data-index="3" class="mui-icon mui-icon-star"></i>
+							<i data-index="4" class="mui-icon mui-icon-star"></i>
+							<i data-index="5" class="mui-icon mui-icon-star"></i>
+						</span>
+					</div>
+					<text>2018-09-05</text>
+				</div>
+				<div class="evaluate-cont">阿克苏的复活节喀的萨芬贺卡和大家看法哈神经科大夫很健康啊科技时代发贺卡合适的借口发哈就开始阿迪斯发贺卡收到就好什地方哈接口和地方艰苦阿贾克斯东方红卡斯大家看法和进口啊哈飞机和地方就卡和尚大家看法哈几十块阿道夫黄金卡合适的借口和</div>
+				<div class="pe-img-div">
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+					<img src="../img/wapApp/user-avatar.png" />
+				</div>
+			</div>
+			
+			<div class="ckqb-div">
+				<a class="ckqb-btn" href="#">查看全部评价</a>
 			</div>
 		</div>
 	</div>

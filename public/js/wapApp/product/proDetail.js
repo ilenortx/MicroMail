@@ -334,7 +334,8 @@ function chooseDetail(obj) { //图文详情/产品参数切换
 
 	var cw = $(obj).attr('cw');
 	if(cw == '1') $('.pro-detail-div').show();
-	else $('.pro-attrs-div').show();
+	else if(cw == '2') $('.pro-attrs-div').show();
+	else if(cw == '3') $('.pro-evaluate-div').show();
 }
 
 function gotoHome() { //返回首页
