@@ -6,13 +6,15 @@ mui.ready(function(){
 
 var page = {
     data: {
+        uid: app.ls.get('uid')? app.ls.get('uid'):app.getUrlParam('uid'),
+        order_sn: app.getUrlParam('sn'),
         bind_obj: {},
         count: 1,
     },
     loadPros: function() {
         mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo', {
-            uid: app.ls.get('uid')? app.ls.get('uid'):app.getUrlParam('uid'),
-            orderSn: app.getUrlParam('sn'),
+            uid: page.data.uid,
+            orderSn: page.data.order_sn,
         }, function(data) {
             if(data.status==1){
                 var order_info = data.proInfo;
@@ -107,10 +109,12 @@ var page = {
 
         $('.appraise-submit').click(function(){
             var form_data = new FormData($('#form')[0]);
+            form_data.append('uid',page.data.uid);
+            form_data.append('orderSn',page.data.order_sn);
 
             $.ajax({
                 type: 'post',
-                url: app.d.hostUrl + 'WPages/ApiProEvaluate/addOrderEvaluate',
+                url: app.d.hostUrl + 'ApiProEvaluate/addOrderEvaluate',
                 data: form_data,
                 processData: false,
                 contentType: false,
