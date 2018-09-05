@@ -316,4 +316,51 @@ class Order extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取订单信息
+     */
+    public static function orderInfo($type='id', $params){
+    	if (!$params) return 'DATAERR';
+    	if ($type == 'id'){
+    		
+    	}else if ($type == 'osn'){//order_sn
+    		if (!isset($params['orderSn']) || empty($params['orderSn'])) return 'DATAERR';
+    		$conditions = array( 'conditions'=> "order_sn='{$params['orderSn']}'" );
+    		
+    		if (isset($params['columns'])) $conditions['columns'] = $params['columns'];
+    		if (isset($params['order'])) $conditions['order'] = $params['order'];
+    		if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
+    		
+    		$order = Order::findFirst($conditions);
+    		
+    		if ($order && count($order)) return $order->toArray();
+    	}
+    	
+    	return 'NULL';
+    }
+    
+    /**
+     * 修改订单状态
+     */
+    public static function reOrderStatus($type='id', $data, $status=10){
+    	if (!$data) return 'DATAERR';
+    	if ($type == 'id'){
+    		
+    	}else if ($type == 'osn'){
+    		if (!isset($data['orderSn']) || empty($data['orderSn'])) return 'DATAERR';
+    		
+    		$order = Order::findFirst("order_sn='{$data['orderSn']}'");
+    		$order->status = $status;
+    		
+    		if ($order->save()) return 'SUCCESS';
+    		else return 'OPEFILE';
+    	}
+    	
+    	return 'NULL';
+    }
+    
 }
