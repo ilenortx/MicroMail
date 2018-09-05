@@ -95,8 +95,8 @@ var page = {
                     page.data.bind_obj[page.data.count] = $(this);
 
                     if($('.uploadAction').length < 10){
-                        parent_obj.append($('.uploadImg').eq(0).clone());
-                        var file_obj = $('.uploadAction').eq(0).clone().val('');
+                        parent_obj.append(parent_obj.find('.uploadImg').eq(0).clone());
+                        var file_obj = parent_obj.find('.uploadAction').eq(0).clone().val('');
                         parent_obj.append(file_obj);
 
                     }
