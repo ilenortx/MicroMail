@@ -224,44 +224,47 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     	$pe = OrderEvaluate::find($conditions);
     	
     	if ($pe){
-    		//获取sku
-    		$skuCond = array();
-    		foreach ($pe as $k=>$v){
-    			if (!empty($v->skuids)){//sku库存
-    				$skus = str_replace('/', ',', $v->skuids);
-    				$skus = explode(',', $v->skuids);
-    				foreach ($skus as $v){
-    					if (!in_array($v, $skuCond)) array_push($skuCond, $v);
-    				}
-    			}
-    		}
-    		
-    		//获取需要属性值
-    		$sb = new SkuBase();
-    		$skus = $sb->skuToAttrs(implode(',', $skuCond));
-    		
     		$peArr = array();
-    		foreach ($pe as $k=>$v){
-    			$skuStr = ''; $user = $v->User;
-    			if (!empty($v->skuids)){
-    				$skuids = explode('/', $v->skuids);
-    				for($i=0; $i<count($skuids); ++$i){
-    					$skuid = explode(',', trim($skuids[$i], ','));
-    					for($j=0; $j<count($skuid); ++$j){
-    						$skuStr .= $skus[$skuid[$j]]['pname'].':'.$skus[$skuid[$j]]['name'].'   ';
+    		if (count($pe->toArray())){
+    			//获取sku
+    			$skuCond = array();
+    			foreach ($pe as $k=>$v){
+    				if (!empty($v->skuids)){//sku库存
+    					$skus = str_replace('/', ',', $v->skuids);
+    					$skus = explode(',', $v->skuids);
+    					foreach ($skus as $v){
+    						if (!in_array($v, $skuCond)) array_push($skuCond, $v);
     					}
-    					$skuStr .= '/';
     				}
-    				if(strlen($skuStr)>0) $skuStr = trim($skuStr, '/');
     			}
     			
-    			$peArr[$v->id] = array(
-    					'id'=>$v->id, 'shop_id'=>$v->shop_id, 'pid'=>$v->pid,
-    					'grade'=>$v->grade, 'evaluate'=>$v->evaluate, 'sku'=>$skuStr,
-    					'show_photos'=>explode(',', $v->show_photos),
-    					'time'=>date('Y-h-d', $v->time), 'uid'=>$v->uid,
-    					'uname'=>$user->uname, 'uavatar'=>$user->photo
-    			);
+    			//获取需要属性值
+    			$sb = new SkuBase();
+    			if (count($skuCond)) $skus = $sb->skuToAttrs(implode(',', $skuCond));
+    			else $skus = array();
+    			
+    			foreach ($pe as $k=>$v){
+    				$skuStr = ''; $user = $v->User;
+    				if (!empty($v->skuids) && count($skus)){
+    					$skuids = explode('/', $v->skuids);
+    					for($i=0; $i<count($skuids); ++$i){
+    						$skuid = explode(',', trim($skuids[$i], ','));
+    						for($j=0; $j<count($skuid); ++$j){
+    							$skuStr .= $skus[$skuid[$j]]['pname'].':'.$skus[$skuid[$j]]['name'].'   ';
+    						}
+    						$skuStr .= '/';
+    					}
+    					if(strlen($skuStr)>0) $skuStr = trim($skuStr, '/');
+    				}
+    				
+    				$peArr[$v->id] = array(
+    						'id'=>$v->id, 'shop_id'=>$v->shop_id, 'pid'=>$v->pid,
+    						'grade'=>intval($v->grade), 'evaluate'=>$v->evaluate, 'sku'=>$skuStr,
+    						'show_photos'=>explode(',', $v->show_photos),
+    						'time'=>date('Y-h-d', $v->time), 'uid'=>$v->uid,
+    						'uname'=>$user->uname, 'uavatar'=>$user->photo
+    				);
+    			}
     		}
     		
     		return $peArr;
