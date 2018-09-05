@@ -44,18 +44,22 @@
 .appraise-text textarea{
     margin: 0;
     display: block;
+    font-size: 14px;
     border: none;
 }
 .appraise-image{
     background: #fff;
     padding: 10px 10px;
 }
+.appraise-image-title{
+    font-size: 14px;
+}
 .appraise-image-content{
     display: flex;
     margin-top: 20px;
     flex-wrap: wrap;
 }
-.appraise-image-content i,.appraise-image-content img{
+.appraise-image-content i,.appraise-image-content .upload-photo{
     width: 50px;
     height: 50px;
     margin: 5px;
@@ -75,6 +79,23 @@
     right: 0;
     font-size: 15px;
     line-height: 15px;
+}
+.appraise-image-content .upload-photo{
+    background-size: 100%;
+    position: relative;
+}
+.appraise-image-content .upload-photo .delAction{
+    content: '-';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    line-height: 14px;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
 }
 .appraise-image-content input[type="file"]{
     display: none;

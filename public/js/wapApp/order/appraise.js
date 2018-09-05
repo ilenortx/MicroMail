@@ -6,7 +6,8 @@ mui.ready(function(){
 
 var page = {
     data: {
-
+        bind_obj: {},
+        count: 1,
     },
     loadPros: function() {
         mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo', {
@@ -55,41 +56,64 @@ var page = {
             $('[name="grade"]').val(index);
         });
 
-        $('.uploadImg').click(function(){
+        $('.mui-content').on('click','.uploadImg',function(){
             $(this).next().click();
         });
 
-        $('[name="image[]"]').change(function(){
+        $('.mui-content').on('change', '.uploadAction',function(){
             var files = this.files;
-
             if (files && files.length) {
-                for (var i in files) {
-                    var file = files[i];
-                    if (/^image\/\w+$/.test(file.type)) {
-                        if($('.upload-photo').length > 0){
-                            var img_object = $('.upload-photo').eq(0).clone();
-                        }else{
-                            var img_object = $('<img />');
-                            img_object.addClass('upload-photo');
-                        }
-                        img_object.attr('src',URL.createObjectURL(file));
-                        if($('.upload-photo').length > 0){
-                            $('.upload-photo').last().after(img_object);
-                        }else{
-                            $('.appraise-image-content').prepend(img_object);
-                        }
-                    }
-                };
+                var file = files[0]
+                if (/^image\/\w+$/.test(file.type)) {
 
+                    if($('.upload-photo').length > 0){
+                        var img_object = $('.upload-photo').eq(0).clone();
+                    }else if($('.uploadAction').length > 10){
+                        mui.toast("上传图片数量不能大于10");
+                        return;
+                    }else{
+                        var img_object = $('<div class="upload-photo"><em class="delAction">-</em></div>');
+                    }
+                    img_object.css('background-image', 'url('+URL.createObjectURL(file)+')').data('index', page.data.count);
+                    page.data.bind_obj[page.data.count] = $(this);
+
+                    if($('.uploadAction').length < 10){
+                        $('.appraise-image-content').append($('.uploadImg').eq(0).clone());
+                        var file_obj = $('.uploadAction').eq(0).clone().val('');
+                        $('.appraise-image-content').append(file_obj);
+
+                    }
+                    $(this).prev().remove();
+                    if($('.upload-photo').length > 0){
+                        $('.upload-photo').last().after(img_object);
+                    }else{
+                        $('.appraise-image-content').prepend(img_object);
+                    }
+                    page.data.count++;
+                }
             }
         });
 
+        $('.mui-content').on('click', '.delAction',function(){
+            if($('.uploadAction').length >= 10){
+                $('.appraise-image-content').append($('<i class="mui-icon mui-icon-image uploadImg"><em>+</em></i>'));
+                $('.appraise-image-content').append($('<input type="file" name="image[]" class="uploadAction" accept="image/*">'));
+            }
+            var index = $(this).parent().data('index');
+            page.data.bind_obj[index].remove();
+            $(this).parent().remove();
+            delete page.data.bind_obj[index];
+        });
+
         $('.appraise-submit').click(function(){
+            var form_data = new FormData($('#form')[0]);
+
             $.ajax({
                 type: 'post',
-                url: app.d.hostUrl + 'ApiProEvaluate/addOrderEvaluate?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=15266949870761',
-                data: new FormData($('#form')[0]),
+                url: app.d.hostUrl + 'WPages/ApiProEvaluate/addOrderEvaluate',
+                data: form_data,
                 processData: false,
+                contentType: false,
                 success: function(data){
 
                 },
