@@ -76,8 +76,8 @@ class FileUpload extends File{
 				$this->errorState = true;
 				$this->errorInfo = '上传文件失败';
 			}else{
-				$this->fileRealpath[] = $filepath . $filename;
-				$this->fileNames[] = $filename;
+				$this->fileRealpath[$this->file->getKey()] = $filepath . $filename;
+				$this->fileNames[$this->file->getKey()] = $filename;
 			}
 		}
 	}

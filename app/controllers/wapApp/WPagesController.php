@@ -718,7 +718,7 @@ class WPagesController extends ControllerBase{
              ->addJs("js/wapApp/app.js")
              ->addJs("js/wapApp/order/appraise.js");
 
-        if (WuserController::loginVerify()) $this->view->pick("wapApp/order/appraise");
+        $this->view->pick("wapApp/order/appraise");
     }
 
 }

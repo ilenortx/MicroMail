@@ -104,7 +104,11 @@ class SkuBase extends ControllerBase{
 		$avals = ProductAttrValue::find("id in ($sku)");
 		
 		$avalArr = array();
-		if ($avals) $avalArr = $avals->toArray();
+		if ($avals) {
+			foreach ($avals as $k=>$v){
+				$avalArr[$v->id] = $v->toArray();
+			}
+		}
 		
 		return $avalArr;
 	}

@@ -13,7 +13,7 @@ var page = {
         pageData: {},
     },
     loadPros: function() {
-        mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=15266949870761', {
+        mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo', {
             uid: page.data.uid,
             orderSn: page.data.order_sn,
         }, function(data) {
@@ -114,7 +114,7 @@ var page = {
         $('.mui-content').on('click', '.delAction',function(){
             if($('.uploadAction').length >= 10){
                 var parent_obj = $(this).parents('.appraise-image-content');
-                var pid = parent_obj.data('id');
+                var pid = parent_obj.data('pid');
                 parent_obj.append($('<i class="mui-icon mui-icon-image uploadImg"><em>+</em></i>'));
                 parent_obj.append($('<input type="file" name="image['+ pid +'][]" class="uploadAction" accept="image/*">'));
             }

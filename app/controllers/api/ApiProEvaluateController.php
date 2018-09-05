@@ -54,16 +54,16 @@ class ApiProEvaluateController extends ApiBase{
     			$this->err('数据错误错误!'); exit();
     		}
     		
-    		$oe = OrderEvaluate::find("order_sn='{$orderSn}'");
+    		$oe = OrderEvaluate::find("order_sn='{$orderSn}' order by id desc");
     		if ($oe && count($oe)){
     			$oeArr = array(); $proArr = array();
     			foreach ($oe as $k=>$v){
     				if ($v->uid == $uid){
     					if (!isset($proArr[$v->pid])){
     						$oeArr[$v->pid] = array(
-    								'id'=>$v->id, 'orderSn'=>$v->order_sn, 'uid'=>$v->uid,
-    								'grade'=>$v->grade, 'evaluate'=>$v->evaluate,
-    								'show_photos'=>$v->show_photos, 'status'=>$v->status
+    								'id'=>$v->id, 'pid'=>$v->pid, 'orderSn'=>$v->order_sn,
+    								'uid'=>$v->uid, 'grade'=>$v->grade, 'evaluate'=>$v->evaluate,
+    								'show_photos'=>explode(',', $v->show_photos), 'status'=>$v->status
     						);
     						
     						$pro = $v->Product;
@@ -82,8 +82,8 @@ class ApiProEvaluateController extends ApiBase{
     					$proArr = array();
     					foreach ($ops as $k=>$v){
     						if (!isset($proArr['pid'])){
-    							$proArr[$v->id] = array(
-    									'pid'=>$v->id, 'name'=>$v->name, 'photo'=>$v->photo_x
+    							$proArr[$v->pid] = array(
+    									'id'=>$v->id, 'pid'=>$v->pid, 'name'=>$v->name, 'photo'=>$v->photo_x
     							);
     						}
     					}
@@ -101,9 +101,8 @@ class ApiProEvaluateController extends ApiBase{
     	if ($this->request->isPost()){
     		$uid = isset($_POST['uid']) ? intval($_POST['uid']) : 0;
     		$orderSn = isset($_POST['orderSn']) ? $_POST['orderSn'] : 0;
-    		$grade = isset($_POST['grade']) ? $_POST['grade'] : 1;
-    		$evaluate = isset($_POST['evaluate']) ? $_POST['evaluate'] : '';
-    		//$showPhotos = isset($_POST['showPhotos']) ? $_POST['showPhotos'] : '';
+    		$grade = isset($_POST['grade']) ? $_POST['grade'] : null;
+    		$evaluate = isset($_POST['evaluate']) ? $_POST['evaluate'] : null;
     		
     		if (!$uid || !$orderSn) {//数据验证
     			$this->err('数据错误错误!'); exit();
@@ -112,10 +111,13 @@ class ApiProEvaluateController extends ApiBase{
     		//文件上传
     		$filePath = 'evaluate/'.date('Ymd');
     		$sp = new FileUpload($this->request, UPLOAD_FILE.$filePath, array('jpg','png'), 5*1024*1024);
-    		$sp->uploadfile(); $showPhotos = '';
+    		$sp->uploadfile(); $spArr = array();
     		if(!$sp->errState()){
-    			foreach ($sp->getFileNames() as $v){
-    				$showPhotos .= $filePath.'/'.$v.',';
+    			foreach ($sp->getFileNames() as $k=>$v){
+    				$spKey = explode('.', str_replace('image.', '', $k))[0];
+    				if (!isset($spArr[$spKey])) $spArr[$spKey] = $filePath.'/'.$v.',';
+    				else $spArr[$spKey] .= $filePath.'/'.$v.',';
+    				
     				//压缩图片
     				$ic = new ImgCompres(UPLOAD_FILE.$filePath.'/'.$v);
     				$ic->compressImg(UPLOAD_FILE.$filePath, $v);
@@ -124,13 +126,12 @@ class ApiProEvaluateController extends ApiBase{
     				/* $_img = new CreatLitimg(UPLOAD_FILE.$filePath.'/'.$v, UPLOAD_FILE.$filePath.'/ll', 'heheh.png');
     				$_img->litimg(100, 100); */
     			}
-    			if (strlen($showPhotos) > 0) $showPhotos = trim($showPhotos, ',');
     		}else{//文件上传失败
     			$this->err($sp->errInfo()); exit();
     		}
     		
     		$result = OrderEvaluate::addEvaluate($orderSn, $uid, array(
-    				'grade'=>$grade, 'evaluate'=>$evaluate, 'showPhotos'=>$showPhotos
+    				'grade'=>$grade, 'evaluate'=>$evaluate, 'showPhotos'=>$spArr
     		));
     		
     		if ($result == 'SUCCESS') $this->msg('success');

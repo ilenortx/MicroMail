@@ -157,17 +157,26 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     		if (!$orderInfo|| !count($orderInfo)) return "DATAERR";
     		$ops = $orderInfo->OrderProduct;
     		
+    		$skus = array();
     		foreach ($ops as $k=>$v){
+    			if (isset($datas['grade'][$v->pid]) && isset($datas['evaluate'][$v->pid])){
+    				if (!isset($skus[$v->pid])) $skus[$v->pid] = $v->skuid;
+    				else $skus[$v->pid] .= '/'.$v->skuid;
+    			}else return 'DATAERR';
+    		}
+    		foreach ($skus as $k=>$v){
+    			$himg = isset($datas['showPhotos'][$k])&&!empty($datas['showPhotos'][$k]);
     			$oe = new OrderEvaluate();
     			$oe->shop_id = $orderInfo->shop_id;
     			$oe->uid = $uid;
-    			$oe->pid = $v->pid;
+    			$oe->pid = $k;
     			$oe->order_sn = $orderSn;
-    			$oe->grade = $datas['grade'];
-    			$oe->evaluate = $datas['evaluate'];
-    			$oe->show_photos = isset($datas['showPhotos']) ? $datas['showPhotos'] : '';
+    			$oe->grade = $datas['grade'][$k];
+    			$oe->evaluate = $datas['evaluate'][$k];
+    			$oe->show_photos = $himg ? trim($datas['showPhotos'][$k],',') : '';
     			$oe->time = time();
-    			$oe->status = (isset($datas['showPhotos'])&&!empty($datas['showPhotos'])) ? 'S2' : 'S1';
+    			$oe->skuids = $v;
+    			$oe->status = $himg ? 'S2' : 'S1';
     			
     			if (!$oe->save()) return 'OPEFILE';
     		}
@@ -176,9 +185,9 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     		foreach ($oe as $k=>$v){
     			if ($v->status == 'S2') return 'S2';
     			
-    			if (!isset($datas['showPhotos'])||empty($datas['showPhotos'])) return 'DATAERR';
+    			if (!isset($datas['showPhotos'][$v->pid])||empty($datas['showPhotos'][$v->pid])) return 'DATAERR';
     			
-    			$v->show_photos = $datas['showPhotos'];
+    			$v->show_photos = $datas['showPhotos'][$v->pid];
     			$v->status = 'S2';
     			
     			if (!$v->save()) return 'OPEFILE';
@@ -215,7 +224,47 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     	$pe = OrderEvaluate::find($conditions);
     	
     	if ($pe){
-    		return $pe->toArray();
+    		//获取sku
+    		$skuCond = array();
+    		foreach ($pe as $k=>$v){
+    			if (!empty($v->skuids)){//sku库存
+    				$skus = str_replace('/', ',', $v->skuids);
+    				$skus = explode(',', $v->skuids);
+    				foreach ($skus as $v){
+    					if (!in_array($v, $skuCond)) array_push($skuCond, $v);
+    				}
+    			}
+    		}
+    		
+    		//获取需要属性值
+    		$sb = new SkuBase();
+    		$skus = $sb->skuToAttrs(implode(',', $skuCond));
+    		
+    		$peArr = array();
+    		foreach ($pe as $k=>$v){
+    			$skuStr = ''; $user = $v->User;
+    			if (!empty($v->skuids)){
+    				$skuids = explode('/', $v->skuids);
+    				for($i=0; $i<count($skuids); ++$i){
+    					$skuid = explode(',', trim($skuids[$i], ','));
+    					for($j=0; $j<count($skuid); ++$j){
+    						$skuStr .= $skus[$skuid[$j]]['pname'].':'.$skus[$skuid[$j]]['name'].'   ';
+    					}
+    					$skuStr .= '/';
+    				}
+    				if(strlen($skuStr)>0) $skuStr = trim($skuStr, '/');
+    			}
+    			
+    			$peArr[$v->id] = array(
+    					'id'=>$v->id, 'shop_id'=>$v->shop_id, 'pid'=>$v->pid,
+    					'grade'=>$v->grade, 'evaluate'=>$v->evaluate, 'sku'=>$skuStr,
+    					'show_photos'=>explode(',', $v->show_photos),
+    					'time'=>date('Y-h-d', $v->time), 'uid'=>$v->uid,
+    					'uname'=>$user->uname, 'uavatar'=>$user->photo
+    			);
+    		}
+    		
+    		return $peArr;
     	}else return 'DATAERR';
     }
     
@@ -231,7 +280,7 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     		else if ($v['grade']==3) $typeArr['zp']+=1;
     		else if ($v-['grade']==1 || $v['grade']==2) $typeArr['cp']+=1;
     		
-    		if ($v['showw_photos'] != '') $typeArr['sd']+=1;
+    		if ($v['show_photos'] != '') $typeArr['sd']+=1;
     	}
     	
     	return $typeArr;
