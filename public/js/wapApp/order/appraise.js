@@ -62,9 +62,10 @@ var page = {
 
     bindAction: function(){
         $('.mui-content').on('click','.appraise-point .mui-icon',function(){
-            var pid = $(this).parents('.appraise-point').data('id');
+            var parent_obj = $(this).parents('.appraise-point');
+            var pid = parent_obj.data('id');
             if(!page.data.pageData.oeInfo || !page.data.pageData.oeInfo[pid] || !page.data.pageData.oeInfo[pid].grade){
-                $('.appraise-point .mui-icon').removeClass('current');
+                parent_obj.find('.mui-icon').removeClass('current');
                 $(this).addClass('current').prevAll('i').addClass('current');
                 var index = $(this).index();
                 $('[name="grade['+ pid +']"]').val(index);
