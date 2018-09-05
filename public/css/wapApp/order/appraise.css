@@ -81,7 +81,7 @@
     line-height: 15px;
 }
 .appraise-image-content .upload-photo{
-    background-size: 100%;
+    background-size: 100% 100%;
     position: relative;
 }
 .appraise-image-content .upload-photo .delAction{

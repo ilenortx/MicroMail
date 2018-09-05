@@ -117,6 +117,7 @@ class WPagesController extends ControllerBase{
 	    	 ->addJs("js/wapApp/video.min.js")
 	    	 ->addJs("js/mui/mui.js")
 	    	 ->addJs("js/wapApp/swiper.min.js")
+             ->addJs("js/wapApp/template.js")
 	    	 ->addJs("js/wapApp/app.js")
 	    	 ->addJs("js/wapApp/product/proDetail.js");
 
@@ -713,6 +714,7 @@ class WPagesController extends ControllerBase{
              ->addCss("css/wapApp/order/appraise.css")
              ->addJs("lib/jquery/1.9.1/jquery.min.js")
              ->addJs("js/mui/mui.js")
+             ->addJs("js/wapApp/template.js")
              ->addJs("js/wapApp/app.js")
              ->addJs("js/wapApp/order/appraise.js");
 

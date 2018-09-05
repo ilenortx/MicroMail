@@ -10,52 +10,65 @@ var page = {
         order_sn: app.getUrlParam('sn'),
         bind_obj: {},
         count: 1,
+        pageData: {},
     },
     loadPros: function() {
         mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=15266949870761', {
             uid: page.data.uid,
             orderSn: page.data.order_sn,
         }, function(data) {
-            if(data.status==2){
-                var order_info = data.datas.proInfo;
-                var appraise_info = data.datas.oeInfo;
+            if(data.status==2 || data.status==1){
+                page.data.pageData = data.datas;
 
-                $('#product_img').attr('src', app.d.hostImg+order_info.photo);
-                $($('.appraise-point').children()[appraise_info.grade]).addClass('current').prevAll('i').addClass('current');
-                $('[name="evaluate"]').val(appraise_info.evaluate);
-
-                var img_array = appraise_info.show_photos.split(",");
-
-                for (var i in img_array) {
-                    if($('.upload-photo').length > 0){
-                        var img_object = $('.upload-photo').eq(0).clone();
-                    }else{
-                        var img_object = $('<img />');
-                        img_object.addClass('upload-photo');
-                    }
-
-                    img_object.attr('src', app.d.hostImg+img_array[i]);
-                    if($('.upload-photo').length > 0){
-                        $('.upload-photo').last().after(img_object);
-                    }else{
-                        $('.appraise-image-content').prepend(img_object);
-                    }
-                };
+                page.cprodom();
             }else if (data.status==0){
                 mui.toast("请求失败");
             }
         },'json');
     },
     cprodom: function() {
+        var data = {
+            proInfo: page.data.pageData.proInfo,
+            oeInfo: page.data.pageData.oeInfo? page.data.pageData.oeInfo:{},
+            imgUrl: app.d.hostImg,
+        };
+        var html = template('orderAppraise-template', data);
+        $('.appraise-box').html(html);
 
+        // var order_info = page.data.pageData.proInfo;
+        // var appraise_info = page.data.pageData.oeInfo;
+
+        // $($('.appraise-point').children()[appraise_info.grade]).addClass('current').prevAll('i').addClass('current');
+        // $('[name="evaluate"]').val(appraise_info.evaluate);
+
+        // var img_array = appraise_info.show_photos.split(",");
+
+        // for (var i in img_array) {
+        //     if($('.upload-photo').length > 0){
+        //         var img_object = $('.upload-photo').eq(0).clone();
+        //     }else{
+        //         var img_object = $('<img />');
+        //         img_object.addClass('upload-photo');
+        //     }
+
+        //     img_object.attr('src', app.d.hostImg+img_array[i]);
+        //     if($('.upload-photo').length > 0){
+        //         $('.upload-photo').last().after(img_object);
+        //     }else{
+        //         $('.appraise-image-content').prepend(img_object);
+        //     }
+        // };
     },
 
     bindAction: function(){
         $('.mui-content').on('click','.appraise-point .mui-icon',function(){
-            $('.appraise-point .mui-icon').removeClass('current');
-            $(this).addClass('current').prevAll('i').addClass('current');
-            var index = $(this).index();
-            $('[name="grade"]').val(index);
+            var pid = $(this).parents('.appraise-point').data('id');
+            if(!page.data.pageData.oeInfo || !page.data.pageData.oeInfo[pid] || !page.data.pageData.oeInfo[pid].grade){
+                $('.appraise-point .mui-icon').removeClass('current');
+                $(this).addClass('current').prevAll('i').addClass('current');
+                var index = $(this).index();
+                $('[name="grade['+ pid +']"]').val(index);
+            }
         });
 
         $('.mui-content').on('click','.uploadImg',function(){
@@ -67,6 +80,7 @@ var page = {
             if (files && files.length) {
                 var file = files[0]
                 if (/^image\/\w+$/.test(file.type)) {
+                    var parent_obj = $(this).parents('.appraise-image-content');
 
                     if($('.upload-photo').length > 0){
                         var img_object = $('.upload-photo').eq(0).clone();
@@ -80,16 +94,16 @@ var page = {
                     page.data.bind_obj[page.data.count] = $(this);
 
                     if($('.uploadAction').length < 10){
-                        $('.appraise-image-content').append($('.uploadImg').eq(0).clone());
+                        parent_obj.append($('.uploadImg').eq(0).clone());
                         var file_obj = $('.uploadAction').eq(0).clone().val('');
-                        $('.appraise-image-content').append(file_obj);
+                        parent_obj.append(file_obj);
 
                     }
                     $(this).prev().remove();
-                    if($('.upload-photo').length > 0){
-                        $('.upload-photo').last().after(img_object);
+                    if(parent_obj.find('.upload-photo').length > 0){
+                        parent_obj.find('.upload-photo').last().after(img_object);
                     }else{
-                        $('.appraise-image-content').prepend(img_object);
+                        parent_obj.prepend(img_object);
                     }
                     page.data.count++;
                 }
@@ -98,8 +112,10 @@ var page = {
 
         $('.mui-content').on('click', '.delAction',function(){
             if($('.uploadAction').length >= 10){
-                $('.appraise-image-content').append($('<i class="mui-icon mui-icon-image uploadImg"><em>+</em></i>'));
-                $('.appraise-image-content').append($('<input type="file" name="image[]" class="uploadAction" accept="image/*">'));
+                var parent_obj = $(this).parents('.appraise-image-content');
+                var pid = parent_obj.data('id');
+                parent_obj.append($('<i class="mui-icon mui-icon-image uploadImg"><em>+</em></i>'));
+                parent_obj.append($('<input type="file" name="image['+ pid +'][]" class="uploadAction" accept="image/*">'));
             }
             var index = $(this).parent().data('index');
             page.data.bind_obj[index].remove();
