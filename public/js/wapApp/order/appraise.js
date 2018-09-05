@@ -12,16 +12,16 @@ var page = {
         count: 1,
     },
     loadPros: function() {
-        mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo', {
+        mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=15266949870761', {
             uid: page.data.uid,
             orderSn: page.data.order_sn,
         }, function(data) {
-            if(data.status==1){
-                var order_info = data.proInfo;
-                var appraise_info = data.oeInfo;
+            if(data.status==2){
+                var order_info = data.datas.proInfo;
+                var appraise_info = data.datas.oeInfo;
 
-                $('#product_img').attr('src', order_info.photo);
-                $('.appraise-point').children()[appraise_info.grade].addClass('current').prevAll('i').addClass('current');
+                $('#product_img').attr('src', app.d.hostImg+order_info.photo);
+                $($('.appraise-point').children()[appraise_info.grade]).addClass('current').prevAll('i').addClass('current');
                 $('[name="evaluate"]').val(appraise_info.evaluate);
 
                 var img_array = appraise_info.show_photos.split(",");
@@ -34,14 +34,14 @@ var page = {
                         img_object.addClass('upload-photo');
                     }
 
-                    img_object.attr('src', img_array[i]);
+                    img_object.attr('src', app.d.hostImg+img_array[i]);
                     if($('.upload-photo').length > 0){
                         $('.upload-photo').last().after(img_object);
                     }else{
                         $('.appraise-image-content').prepend(img_object);
                     }
                 };
-            }else{
+            }else if (data.status==0){
                 mui.toast("请求失败");
             }
         },'json');
