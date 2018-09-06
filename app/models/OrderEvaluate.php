@@ -208,10 +208,10 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     		else return 'DATAERR';
     		
     		if (isset($params['type'])){
-    			if ($params['type'] == 1) $params['type'] .= " and grade in(4,5)";
-    			else if ($params['type'] == 2) $params['type'] .= " and grade=3";
-    			else if ($params['type'] == 3) $params['type'] .= " and grade in(1,2)";
-    			else if ($params['type'] == 4) $params['type'] .= " and show_photos!=''";
+    			if ($params['type'] == 1) $conditions['conditions'] .= " and grade in('4','5')";
+    			else if ($params['type'] == 2) $conditions['conditions'] .= " and grade=3";
+    			else if ($params['type'] == 3) $conditions['conditions'] .= " and grade in(1,2)";
+    			else if ($params['type'] == 4) $conditions['conditions'] .= " and show_photos!=''";
     		}
     		
     		if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
@@ -276,14 +276,21 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
      * @param array $pe
      * @return number[]
      */
-    public static function getTypeNum($pe){
-    	$typeArr = array('qb'=>count($pe), 'hp'=>0, 'zp'=>0, 'cp'=>0, 'sd'=>0);
-    	foreach ($pe as $k=>$v){
-    		if ($v['grade']==4 || $v['grade']==5) $typeArr['hp']+=1;
-    		else if ($v['grade']==3) $typeArr['zp']+=1;
-    		else if ($v-['grade']==1 || $v['grade']==2) $typeArr['cp']+=1;
-    		
-    		if ($v['show_photos'] != '') $typeArr['sd']+=1;
+    public static function getTypeNum($pid=''){
+    	$typeArr = array('qb'=>0, 'hp'=>0, 'zp'=>0, 'cp'=>0, 'sd'=>0);
+    	
+    	if (!empty($pid)) $conditions['conditions'] = "pid={$pid}";
+    	else return 'DATAERR';
+    	$pe = OrderEvaluate::find($conditions);
+    	if ($pe){
+    		$typeArr['qb'] = count($pe->toArray());
+    		foreach ($pe as $k=>$v){
+    			if ($v->grade==4 || $v->grade==5) $typeArr['hp']+=1;
+    			else if ($v->grade==3) $typeArr['zp']+=1;
+    			else if ($v->grade==1 || $v->grade==2) $typeArr['cp']+=1;
+    			
+    			if ($v->show_photos != '') $typeArr['sd']+=1;
+    		}
     	}
     	
     	return $typeArr;

@@ -32,7 +32,7 @@ class ApiProEvaluateController extends ApiBase{
     		));
     		
     		if (is_array($result)){
-    			$this->result(1, 'success', array('peInfo'=>$result, 'typeNum'=>OrderEvaluate::getTypeNum($result)));
+    			$this->result(1, 'success', array('peInfo'=>$result, 'typeNum'=>OrderEvaluate::getTypeNum($pid)));
     		}else $this->err('数据异常');
     		
     	}else $this->err('请求方式错误');
