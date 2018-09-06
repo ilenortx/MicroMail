@@ -143,44 +143,7 @@
 			</div>
 		</div>
 		<div class="pro-evaluate-div prodetail">
-			<div class="pe-item-div">
-				<div class="top-div">
-					<div class="head-left">
-						<text>测试名</text>
-						<span class="icons">
-							<i data-index="1" class="mui-icon mui-icon-star"></i>
-							<i data-index="2" class="mui-icon mui-icon-star"></i>
-							<i data-index="3" class="mui-icon mui-icon-star"></i>
-							<i data-index="4" class="mui-icon mui-icon-star"></i>
-							<i data-index="5" class="mui-icon mui-icon-star"></i>
-						</span>
-					</div>
-					<text>2018-09-05</text>
-				</div>
-				<div class="evaluate-cont">阿克苏的复活节喀的萨芬贺卡和大家看法哈神经科大夫很健康啊科技时代发贺卡合适的借口发哈就开始阿迪斯发贺卡收到就好什地方哈接口和地方艰苦阿贾克斯东方红卡斯大家看法和进口啊哈飞机和地方就卡和尚大家看法哈几十块阿道夫黄金卡合适的借口和</div>
-				<div class="pe-img-div">
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-					<img src="../img/wapApp/user-avatar.png" />
-				</div>
-			</div>
-			
-			<div class="ckqb-div">
-				<a class="ckqb-btn" href="#">查看全部评价</a>
-			</div>
+
 		</div>
 	</div>
 
@@ -275,4 +238,57 @@
 <script>
 	/*初始化参数*/
 	page.data.productId = "{{productId}}";
+</script>
+<script type="text/template" id="appraise-template">
+	<div class="appraise_type">
+		<a href="../WPages/proPeListPage?pid=<%=pid %>#type=0">全部 <%=data.typeNum.qb %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=1">好评 <%=data.typeNum.hp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=2">中评 <%=data.typeNum.zp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=3">差评 <%=data.typeNum.cp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=4">晒单 <%=data.typeNum.sd %></a>
+	</div>
+
+	<% if(data.peInfo.length > 0){ %>
+	<% for(var i in data.peInfo){ %>
+	<% var log_item = data.peInfo[i]; %>
+	<div class="pe-item-div">
+		<div class="top-div">
+			<div class="head-left">
+				<text><%=log_item.uname %></text>
+				<span class="icons">
+					<% for(var j=1;j<=5;j++){ %>
+					<i data-index="<%=j %>" class="mui-icon <% if(j<=log_item.grade){ %>mui-icon-star-filled<% }else{ %>mui-icon-star<% } %>"></i>
+					<!-- <i data-index="2" class="mui-icon mui-icon-star"></i>
+					<i data-index="3" class="mui-icon mui-icon-star"></i>
+					<i data-index="4" class="mui-icon mui-icon-star"></i>
+					<i data-index="5" class="mui-icon mui-icon-star"></i> -->
+					<% } %>
+				</span>
+			</div>
+			<text><%=log_item.time %></text>
+		</div>
+		<div class="evaluate-cont"><%=log_item.evaluate %></div>
+		<div class="pe-img-div">
+			<% var img_array = log_item.show_photos.split(","); %>
+			<% for(var k in img_array){ %>
+			<img src="<%=img_array[k] %>" />
+			<% } %>
+			<!-- <img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" />
+			<img src="../img/wapApp/user-avatar.png" /> -->
+		</div>
+	</div>
+	<% } %>
+	<% } %>
+	<div class="ckqb-div">
+		<a class="ckqb-btn" href="../WPages/proPeListPage?pid=<%=pid %>#type=0">查看全部评价</a>
+	</div>
 </script>

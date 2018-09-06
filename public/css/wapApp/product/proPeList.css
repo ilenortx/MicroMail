@@ -1,0 +1,113 @@
+#tabs{
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    height: 50px;
+}
+.appraise_type{
+    display: flex;
+    height: 100%;
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    /*flex-wrap: wrap;*/
+}
+.appraise_type a{
+    width: 20%;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.2;
+    // text-align: center;
+    // padding: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.appraise_type a em{
+    font-style: normal;
+    color: #999;
+}
+.appraise_type a.current{
+    border-bottom: 2px solid red;
+}
+.appraise_type a.current,.appraise_type a.current em{
+    color: red;
+}
+#appraise-box{
+    padding-top: 50px;
+    background: #fff;
+}
+.pro-evaluate-div{
+    width: 100%;
+    background: #fff;
+    padding: 3%;
+    display: none;
+}
+.pe-item-div{
+    width: 100%;
+    border-bottom: 1px solid #efeff4;
+    padding: 5px 10px 0;
+}
+.pe-item-div .top-div{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    font-size: 14px;
+}
+.pe-item-div .top-div span.icons{
+    margin-left: 10px;
+}
+.pe-item-div .mui-icon-star{
+    color: #B5B5B5;
+    font-size: 20px;
+}
+.pe-item-div .mui-icon-star-filled{
+    color: #FFB400;
+    font-size: 20px;
+}
+.pe-item-div .evaluate-cont{
+    width: 100%;
+    font-size: 13px;
+    line-height: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+}
+.pe-item-div .pe-img-div{
+    width: 100%;
+    // height: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.pe-item-div .pe-img-div img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+.pro-evaluate-div .ckqb-div{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pro-evaluate-div .ckqb-div .ckqb-btn{
+    display: inline-block;
+    height: 30px;
+    border: 1px solid #000;
+    padding: 0 5px;
+    line-height: 30px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.extra_info{
+    font-size: 12px;
+}

@@ -146,6 +146,7 @@ var page = {
 
 			$('#attrs-list').append(proAttr);
 		}
+
 	},
 
 	procx: function() { //促销地址
@@ -324,7 +325,25 @@ var page = {
         		$('.gbdjs-'+gbList2[i].id).text(app.timeFormat(gbList2[i].etime));
         	}
         },1000);
-	}
+	},
+
+	getEvaluate: function(){
+		mui.post(app.d.hostUrl + 'ApiProEvaluate/proEvaluates', {
+			type: -1,
+			pid: page.data.productId,
+		}, function(data) {
+			if(data.status == 1) {
+				var tem_data = {
+					data: data.datas,
+					pid: page.data.productId,
+				};
+				var html = template("appraise-template", tem_data);
+		        $('.pro-evaluate-div').html(html);
+			} else {
+				mui.toast("网络错误");
+			}
+		},'json');
+	},
 }
 
 function chooseDetail(obj) { //图文详情/产品参数切换
@@ -335,7 +354,10 @@ function chooseDetail(obj) { //图文详情/产品参数切换
 	var cw = $(obj).attr('cw');
 	if(cw == '1') $('.pro-detail-div').show();
 	else if(cw == '2') $('.pro-attrs-div').show();
-	else if(cw == '3') $('.pro-evaluate-div').show();
+	else if(cw == '3') {
+		$('.pro-evaluate-div').show();
+		page.getEvaluate();
+	}
 }
 
 function gotoHome() { //返回首页

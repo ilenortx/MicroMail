@@ -243,6 +243,18 @@
 	-webkit-tap-highlight-color:transparent;
 }
 /*评论*/
+.appraise_type{
+	display: flex;
+	flex-wrap: wrap;
+}
+.appraise_type a{
+	font-size: 13px;
+	background: #fd9d21;
+	color: #fff;
+	border-radius: 6px;
+	padding: 0 10px;
+	margin-right: 10px;
+}
 .pro-evaluate-div{
 	width: 100%;
 	background: #fff;
@@ -770,5 +782,4 @@
 	line-height:35px;
 	text-align:center;
 }
-
 

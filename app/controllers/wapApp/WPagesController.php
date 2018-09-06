@@ -723,5 +723,22 @@ class WPagesController extends ControllerBase{
         $this->view->pick("wapApp/order/appraise");
     }
 
+    /**
+     * 商品评价列表
+     */
+    public function proPeListPageAction(){
+        $this->view->title = "商品评价";
+        $this->assets
+             ->addCss("css/mui/mui.css")
+             ->addCss("css/mui/icon.css")
+             ->addCss("css/wapApp/product/proPeList.css")
+             ->addJs("lib/jquery/1.9.1/jquery.min.js")
+             ->addJs("js/mui/mui.js")
+             ->addJs("js/wapApp/template.js")
+             ->addJs("js/wapApp/app.js")
+             ->addJs("js/wapApp/product/proPeList.js");
+
+        $this->view->pick("wapApp/product/proPeList");
+    }
 }
 
