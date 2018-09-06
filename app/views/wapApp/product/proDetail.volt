@@ -289,6 +289,6 @@
 	<% } %>
 	<% } %>
 	<div class="ckqb-div">
-		<a class="ckqb-btn" href="../WPages/proPeListPage?pid=<%=pid %>#type=0">查看全部评价</a>
+		<a class="ckqb-btn" href="../WPages/proPeListPage?pid=<%=pid %>">查看全部评价</a>
 	</div>
 </script>
