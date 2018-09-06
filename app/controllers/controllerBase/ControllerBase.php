@@ -277,4 +277,26 @@ class ControllerBase extends Controller{
 			return false;
 		}
 	}
+
+	/**
+	 * 判断是否是微信浏览器
+	 * @return boolean
+	 */
+	protected function isWeixin() {
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+			return true;
+		} return false;
+	}
+	/**
+	 * 判断是否是微信小程序浏览器
+	 * @return boolean
+	 */
+	protected function isWxMiniProgram(){
+		if ($this->isWeixin()){
+			if (strpos($_SERVER['HTTP_USER_AGENT'], 'miniprogram') !== false) {
+				return true;
+			} return false;
+		}else return false;
+	}
+	
 }

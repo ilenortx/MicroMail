@@ -17,6 +17,7 @@ class WPagesController extends ControllerBase{
 
 		$this->view->setVar("title", "专致优货");
 		$this->view->setVar("isBasePage", false);
+		$this->view->setVar("isWxMiniProgram", false);
 		$this->view->setTemplateAfter('wapApp');
 	}
 	public function afterExecuteRoute($dispatcher){//Action加载完成时执行
@@ -707,6 +708,7 @@ class WPagesController extends ControllerBase{
      * 订单评价
      */
     public function appraisePageAction(){
+    	$this->view->setVar("isWxMiniProgram", $this->isWxMiniProgram());
         $this->view->title = "订单评价";
         $this->assets
              ->addCss("css/mui/mui.css")
