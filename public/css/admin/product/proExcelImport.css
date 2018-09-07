@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+.pei-form{
+	display: flex;
+	align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+}
+.daoru {font-size: 13px;}
+.daoru .ef_text {width: 140px;height: 12px;line-height: 12px;padding: 5px;border: 1px solid #C0C5CB;font-size: 12px;color: #333;}
+.daoru .cf_sub {width: 60px;height: 24px;line-height: 24px;text-align: center;font-size: 13px;color: #fff;border: none;background: #DA3610;}
+.daoru .e_file {filter: alpha(opacity : 0);opacity: 0;width: 218px; display: none;}
+
+.file_type{
+	margin-top: 10px;
+	width: 260px;
+}
+.ft_select_box{
+	width: 80px;
+}
+
+.sub_btn{
+	width: 60px;
+	height: 30px;
+	border-radius: 5px;
+	background: #DA3610;
+	color: #fff;
+	text-align: center;
+	line-height: 30px;
+	margin-top: 20px;
+	cursor: pointer;
+	font-size: 14px;
+}

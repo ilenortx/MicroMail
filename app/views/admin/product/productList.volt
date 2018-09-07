@@ -37,7 +37,15 @@
         	</div>
         </nav>
         <div class="page-container">
-		    <table id="pro-table" class="layui-table" lay-data="{id:'pros', height:'full-90', loading:true, page:true, limit:30, url:'../Product/proList'}" lay-filter='pros'>
+			<div class="toolbar">
+			  	<a class="btna" onclick="openEdit('添加商品','../Amaterial/goodsEditPage','800','500')">
+			    	<i class="layui-icon">&#xe654;</i>添加
+			 	</a>
+			  	<a class="btna" onclick="openEdit('批量导入','../Product/peiPage','600','300')">
+			    	<i class="layui-icon">&#xe645;</i>导入
+			 	</a>
+			</div>
+		    <table id="pro-table" class="layui-table" lay-data="{id:'pros', height:'full-120', loading:true, page:true, limit:30, url:'../Product/proList'}" lay-filter='pros'>
 				<thead>
 					<tr>
 						<th lay-data="{field:'id', width:60, sort:true, align:'center'}">ID</th>

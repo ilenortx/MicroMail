@@ -93,7 +93,27 @@ class ProductController extends AdminBase{
 	    $this->view->cxlist = self::procxlistAction();
 	    $this->view->pick("admin/product/productAdd");
     }
-
+    
+    /**
+     * 商品excel导入页面
+     */
+    public function peiPageAction(){
+    	$this->assets
+	    	 ->addCss("css/static/h-ui/H-ui.min.css")
+	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/static/h-ui.admin/style.css")
+	    	 ->addCss("css/admin/product/proExcelImport.css")
+	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+	    	 ->addJs("lib/layer/layer.js")
+	    	 ->addJs("js/static/h-ui/H-ui.min.js")
+	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
+	    	 ->addJs("js/admin/pageOpe.js")
+	    	 ->addJs("js/admin/product/proExcelImport.js");
+    	
+    	$this->view->pick("admin/product/proExcelImport");
+    }
+    
     /**
      * 获取产品信息
      */
@@ -112,11 +132,12 @@ class ProductController extends AdminBase{
     		$proArr = $pro->toArray();
     		$proArr['photo_string'] = explode(',', trim($proArr['photo_string'], ','));
     		$cg = $pro->category;
-    		$proArr['tid'] = $cg->tid;
+    		if ($cg) {
+    			$proArr['tid'] = $cg->tid;
+    			$ct = Category::find("tid={$cg->tid}");
+    			if ($ct) $catetwo = $ct->toArray();
+    		}else $proArr['tid'] = 0;
     		$proArr['snids'] = explode(',', trim($proArr['snids'], ','));
-
-    		$ct = Category::find("tid={$cg->tid}");
-    		if ($ct) $catetwo = $ct->toArray();
     	}
 
     	return array($proArr, $catetwo);
@@ -1033,5 +1054,37 @@ class ProductController extends AdminBase{
     	}
     }
 
+    
+    
+    //----------
+    // 导入产品
+    //----------
+    /**
+     * 上传excel文件
+     */
+    public function subProExcelAction(){
+    	if ($this->request->isPost()){
+    		$eftype = isset($_POST['eftype']) ? $_POST['eftype'] : '1';
+    		
+    		$filePath = 'improt_pro/'.date('Ymd');
+    		
+    		//上传excel文件
+    		$pei = new FileUpload($this->request, UPLOAD_FILE.$filePath, array('cvs','xls','xlsx'), 5*1024*1024);
+    		$pei->uploadfile();
+    		$seiName = '';
+    		if(!$pei->errState()){
+    			$seiName = $filePath.'/'.$pei->getFileNames()['efile'];
+    		}else{ $this->err($pei->errInfo()); exit(); }//文件上传失败
+    		
+    		$result = TaskQueue::addTaskQueue(array(
+    				'sid'=>$this->session->get('sid'), 'admin'=>$this->session->get('uid'),
+    				'name'=>'产品导入', 'params'=>$seiName, 'ttype'=>'T1',
+    				'remark'=>date('Y-m-d').'导入商品', 'level'=>8,
+    		));
+    		if ($result == true) $this->msg('success');
+    		else if ($result=='DATAERR') $this->err('数据异常');
+    		else if ($result=='OPEFILE') $this->err('操作失败');
+    	}else $this->err('请求方式错误');
+    }
 }
 

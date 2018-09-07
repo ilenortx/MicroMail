@@ -4,7 +4,7 @@ html,body{ height:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-s
 *{ margin:0px; }
 .layui-table-view{ margin:0px; }
 .navb{ position:inherit;margin-bottom:10px;}
-.page-container{ padding:20px;margin-top:0px; }
+.page-container{ padding:0 20px;margin-top:0px; }
 
 /*toolbar按钮*/
 .toolbar{margin-bottom:10px;}
