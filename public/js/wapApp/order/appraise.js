@@ -136,7 +136,14 @@ var page = {
                 processData: false,
                 contentType: false,
                 success: function(data){
-
+                    if(data.status==1){
+                        mui.toast("提交成功");
+                        setTimeout(function(){
+                            app.pageGoBack(-1, true);
+                        },3000);
+                    }else{
+                        mui.toast("提交失败");
+                    }
                 },
                 error: function(xhr,type,errorThrown){
                     mui.toast(type);
