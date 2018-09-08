@@ -13,6 +13,8 @@ var page = {
         pageData: {},
     },
     loadPros: function() {
+        app.loadJs("https://res.wx.qq.com/open/js/jweixin-1.3.0.js");
+
         mui.post(app.d.hostUrl + 'ApiProEvaluate/orderEvaluateInfo', {
             uid: page.data.uid,
             orderSn: page.data.order_sn,
@@ -138,9 +140,15 @@ var page = {
                 success: function(data){
                     if(data.status==1){
                         mui.toast("提交成功");
-                        setTimeout(function(){
-                            app.pageGoBack(-1, true);
-                        },3000);
+
+                        wx.ready(function() {
+                            setTimeout(function(){
+                                wx.miniProgram.navigateBack();
+                            },3000);
+                            return;
+                        });
+
+                        location.reload();
                     }else{
                         mui.toast("提交失败");
                     }
