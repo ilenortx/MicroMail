@@ -245,6 +245,20 @@
                     </dd>
                 </dl>
             	{% endif %}
+            	<dl id="menu-ad"><!-- 任务管理 -->
+                    <dt>
+                        <i class="Hui-iconfont">&#xe637;</i>&nbsp;任务管理
+                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+					</dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <a data-href="../ATaskQueue/index" data-title="任务列表" href="javascript:void(0)">任务列表</a>
+                                <a data-href="../ATaskQueue/tqRecycleBin" data-title="任务回收站" href="javascript:void(0)">任务回收站</a>
+							</li>
+                        </ul>
+                    </dd>
+                </dl>
             </div>
         </aside>
 

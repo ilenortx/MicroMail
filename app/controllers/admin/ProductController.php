@@ -20,7 +20,7 @@ class ProductController extends AdminBase{
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
 	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
 	    	 ->addCss("css/layui/layui.css")
-	    	 ->addCss("css/admin/public.css")
+	    	 ->addCss("css/pages/admin/public.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("lib/layui/layui.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
@@ -103,13 +103,13 @@ class ProductController extends AdminBase{
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
 	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
 	    	 ->addCss("css/static/h-ui.admin/style.css")
-	    	 ->addCss("css/admin/product/proExcelImport.css")
+	    	 ->addCss("css/pages/admin/product/proExcelImport.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("lib/layer/layer.js")
 	    	 ->addJs("js/static/h-ui/H-ui.min.js")
 	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
-	    	 ->addJs("js/admin/pageOpe.js")
-	    	 ->addJs("js/admin/product/proExcelImport.js");
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+	    	 ->addJs("js/pages/admin/product/proExcelImport.js");
     	
     	$this->view->pick("admin/product/proExcelImport");
     }

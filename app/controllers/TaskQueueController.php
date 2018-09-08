@@ -12,10 +12,12 @@ class TaskQueueController extends ControllerBase{
     	$tqs = TaskQueue::getTaskQueue();
 		
 		if ($tqs){
+			foreach ($tqs as $k=>$v){//锁定状态
+				$v->status = 'S2'; $v->save();
+			}
 			foreach ($tqs as $k=>$v){
 				$v->dotime = time();
-				$v->status = 'S2';
-				if ($v->save()){//保存为执行状态
+				if ($v->save()){//保存执行时间
 					
 					if ($v->ttype = 'T1'){//商品Excel导入
 						$result = $this->proExcelImport($v);//执行导入
