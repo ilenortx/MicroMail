@@ -37,9 +37,6 @@
         	</div>
         </nav>
         <div class="page-container">
-			<div class="toolbar">
-			  	
-			</div>
 			<script type="text/html" id="proTableToolbar">
   				<div class="toolbar">
 					<a class="btna" onclick="openEdit('添加商品','../Amaterial/goodsEditPage','800','500')">

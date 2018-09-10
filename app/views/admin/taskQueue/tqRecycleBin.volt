@@ -34,11 +34,14 @@
         	</div>
         </nav>
         <div class="page-container">
-            <div class="toolbar">
-			  	<a class="btna" onclick="restore()"> <i class="layui-icon">&#xe666;</i>还原选中 </a>
+			<script type="text/html" id="tqTableToolbar">
+  				<div class="toolbar">
+					<a class="btna" onclick="restore()"> <i class="layui-icon">&#xe666;</i>还原选中 </a>
 			  	<a class="btna" onclick="delig()"> <i class="layui-icon">&#xe640;</i>删除选中 </a>
-			</div>
-		    <table id="tq-table" class="layui-table" lay-data="{id:'tqrb', height:'full-120', loading:true, page:true, limit:30, url:'../ATaskQueue/tqrbList'}" lay-filter='tqrb'>
+				</div>
+			</script>
+			<table id="tq-table" class="layui-hide" lay-filter='tqrb'></table>
+		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'tqrb', height:'full-120', loading:true, page:true, limit:30, url:'../ATaskQueue/tqrbList'}" lay-filter='tqrb'>
 				<thead>
 					<tr>
 						<th lay-data="{type:'checkbox'}"></th>
@@ -52,7 +55,7 @@
 					 	<th lay-data="{field:'remark'}">备注</th>
 					</tr>
 				</thead>
-			</table>
+			</table> -->
         </div>
         <script>
         	

@@ -34,10 +34,13 @@
         	</div>
         </nav>
         <div class="page-container">
-            <div class="toolbar">
-			  	<a class="btna" onclick="del()"> <i class="layui-icon">&#xe640;</i>删除选中 </a>
-			</div>
-		    <table id="tq-table" class="layui-table" lay-data="{id:'taskQueue', height:'full-120', loading:true, page:true, limit:30, url:'../ATaskQueue/getTqls'}" lay-filter='taskQueue'>
+			<script type="text/html" id="tqTableToolbar">
+  				<div class="toolbar">
+					<a class="btna" onclick="del()"> <i class="layui-icon">&#xe640;</i>删除选中 </a>
+				</div>
+			</script>
+			<table id="tq-table" class="layui-hide" lay-filter='taskQueue'></table>
+		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'taskQueue', height:'full-120', loading:true, page:true, limit:30, url:'../ATaskQueue/getTqls'}" lay-filter='taskQueue'>
 				<thead>
 					<tr>
 						<th lay-data="{type:'checkbox'}"></th>
@@ -53,7 +56,7 @@
 					 	<th lay-data="{field:'operate', width:160}">操作</th>
 					</tr>
 				</thead>
-			</table>
+			</table> -->
         </div>
         <script>
         	

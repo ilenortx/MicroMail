@@ -57,13 +57,12 @@ class ATaskQueueController extends AdminBase{
     	foreach ($tqls as $k=>$v){
     		$tqls[$k]['operate'] = "";
     		if ($v['status'] != 'S2'){
-    			$tqls[$k]['operate'] = "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\"><i class=\"layui-icon\">&#xe642;</i> 删除</a>";
+    			$tqls[$k]['operate'] = "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\"><i class=\"layui-icon\">&#xe640;</i> 删除</a>";
     		}
     		
     		if ($v['ttype']=='T2'){
     			$tqls[$k]['operate'] .= "<a class=\"layui-btn layui-btn-xs\"><i class=\"layui-icon\">&#xe641;</i> 下载</a>";
     		}
-    		
     	}
     	
     	$this->tableData($tqls, 0, '加载成功!', array('page'=>$page, 'limit'=>$limit));

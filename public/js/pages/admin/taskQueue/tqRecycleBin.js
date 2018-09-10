@@ -5,6 +5,25 @@ $(document).ready(function(){
 	});
 	layui.use('table', function(){
 		table = layui.table;
+		table.render({
+			elem: '#tq-table',	page: true,
+			id:'tqrb',		toolbar: '#tqTableToolbar',
+			title: '任务回收站',	loading: true,
+			height:'full-60',	limit: 30,
+			url: '../ATaskQueue/tqrbList',
+			defaultToolbar: ['filter', 'print'],
+			cols: [[
+				{type:'checkbox'},
+				{field:'id', width:60, align:'center', sort:true, 'title':'ID'},
+				{field:'name', width:150, sort:true, title:'任务名'},
+				{field:'admin', width:100, title:'添加者'},
+				{field:'tdesc', width:100, align:'center', title:'类型'},
+				{field:'intime', width:150, sort:true, align:'center', title:'添加时间'},
+				{field:'dotime', width:150, sort:true, title:'执行时间'},
+				{field:'etime', width:150, sort:true, title:'完成时间'},
+				{field:'remark', title:'备注'}
+			]]
+		});
 		
 		table.on('tool(tqrb)', function(obj){
 			var data = obj.data;
