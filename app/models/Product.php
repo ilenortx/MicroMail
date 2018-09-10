@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Mvc\Model\Query\Status;
 
 class Product extends \Phalcon\Mvc\Model
 {
@@ -351,5 +352,58 @@ class Product extends \Phalcon\Mvc\Model
     /* public function getCategory($parameters=null){
     	return $this->getRelated('Category', $parameters);
     } */
+    
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取商品列表
+     */
+    public static function proList($param=array()){
+    	if (isset($param['conditions'])) $conditions['conditions'] = $param['conditions'];
+    	if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
+    	if (isset($params['order'])) $conditions['order'] = $params['order'];
+    	
+    	$pros = Product::find($conditions);
+    	$proArr = array();
+    	
+    	if ($pros) $proArr = $pros->toArray();
+    	
+    	return $proArr;
+    }
+    /**
+     * 设置商品上下架
+     */
+    public static function soldOutIn($pids, $sid, $status=0){
+    	if (empty(trim($pids, ''))) return 'DATAERR';
+    	
+    	$pids = trim($pids, ',');
+    	$pros = Product::find("id in ($pids) and del=0 and shop_id=$sid");
+    	
+    	if ($pros){
+    		foreach ($pros as $k=>$v){
+    			$v->is_down = $status;
+    			if (!$v->save()) return 'OPEFILE';
+    		}
+    		
+    		return 'SUCCESS';
+    	}else return 'DATAEXCEPTION';
+    }
+    /**
+     * 删除商品
+     */
+    public static function proDel($pids, $sid){
+    	if (empty($pids) || empty($sid)) return 'DATAERR';
+    	
+    	$pros = Product::find("id in ($pids) and shop_id={$sid}");
+    	
+    	if ($pros){
+    		foreach ($pros as $k=>$v){
+    			if (!$v->delete()) return 'OPEFILE';
+    		}
+    		return 'SUCCESS';
+    	}else return 'DATAEXCEPTION';
+    }
 
 }

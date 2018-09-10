@@ -36,7 +36,7 @@
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
 					<a href="javascript:;" onclick="prosnAdd('添加服务说明','../Product/prosnAddPage','600','350')" class="btn btn-primary radius">
-						<i class="Hui-iconfont">&#xe600;</i>添加促销
+						<i class="Hui-iconfont">&#xe600;</i>添加服务说明
 					</a>
 				</span>
 			</div>

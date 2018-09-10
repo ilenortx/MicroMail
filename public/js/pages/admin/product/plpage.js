@@ -1,4 +1,4 @@
-var table;
+var table, isDown=0;
 $(document).ready(function(){
 	layui.use('element', function(){
 		var $ = layui.jquery, element = layui.element;
@@ -9,11 +9,13 @@ $(document).ready(function(){
 		table.render({
 			elem: '#pro-table',	page: true,
 			id:'pros', 			toolbar: '#proTableToolbar',
-			title: '商品数据',	loading: true,
+			title: '在售商品',	loading: true,
 			height:'full-60',	limit: 30,
 			url: '../Product/proList',
 			defaultToolbar: ['filter', 'print', 'exports'],
+			where: {isDown:isDown},
 			cols: [[
+				{type:'checkbox', fixed:'left', style:'height:91px'},
 				{field:'id', width:60, sort:true, align:'center', title:'ID'},
 				{field:'photo_x', width:150, sort:true, align:'center', 'title':'图片'},
 				{field:'brand_id', width:70, align:'center', title:'品牌'},
@@ -68,6 +70,8 @@ $(document).ready(function(){
 					})
 				  	layer.close(index);
 				});
+			}else if (layEvent == 'soldOut'){
+				console.log(getCheckData('pros'));
 			}
 		});
 	});
@@ -77,8 +81,31 @@ $(document).ready(function(){
  * 商品列表重新加载
  */
 function reloadProList(){
-	var mcode = $('#pros').val();
-	reloadTable('pros', '../Product/proList', {mcode:mcode});
+	reloadTable('pros', '../Product/proList', {isDown:isDown});
+}
+
+/**
+ * 商品上下架
+ */
+function soldOutIn(status){//0下架 1上架
+	var proc = getCheckData('pros');
+	if (!proc.length) {layer.msg('请先选择商品!', {  });return;}
+	var ids = '';
+	for(var i=0; i<proc.length; ++i){
+		ids += proc[i].id+',';
+	}
+	
+	existSoldOutIn(ids, status);
+}
+function existSoldOutIn(ids, status, obj){
+	$.post('../Product/soldOutIn', {'ids':ids, status:status}, function(data){
+    	var datas = jQuery.parseJSON(data);
+    	if (datas.status == 1){
+    		if (typeof(obj) != 'undefined') obj.del();
+    		else reloadProList();
+            layer.msg('下架成功!', { icon: 1,time: 1000 });
+    	}else layer.msg(datas.msg, { icon: 5, time: 1000 });
+    });
 }
 
 /*编辑*/
@@ -123,15 +150,28 @@ function pro_hot(pro_id,type){
 
 
 /*删除*/
-function admin_del(obj, id) {
+function proDel(){
+	var proc = getCheckData('pros');
+	if (!proc.length) {layer.msg('请先选择商品!', {  });return;}
+	var ids = '';
+	for(var i=0; i<proc.length; ++i){
+		ids += proc[i].id+',';
+	}
+	
+	existProDel(ids);
+}
+function existProDel(ids, obj) {
     layer.confirm('确认要删除吗？',
     function(index) {
-    	$.post('../Product/proDel', {'id':id}, function(data){
+    	$.post('../Product/proDel', {'ids':ids}, function(data){
         	var datas = jQuery.parseJSON(data);
         	if (datas.status == 1){
-        		$(obj).parents("tr").remove();
+        		reloadProList();
                 layer.msg('已删除!', { icon: 1,time: 1000 });
         	}else layer.msg(datas.msg, { icon: 5, time: 1000 });
         });
     });
 }
+
+
+

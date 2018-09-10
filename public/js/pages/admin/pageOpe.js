@@ -46,6 +46,18 @@ function openEditFull(title, url){
 }
 
 /**
+ * 获取选中数据
+ * @returns
+ */
+function getCheckData(filter){
+	var checkStatus = table.checkStatus(filter),
+	data = checkStatus.data;
+
+	return data;
+}
+
+
+/**
  * 应用重新加载
  */
 function reloadTable(id, url, where={}){

@@ -30,7 +30,7 @@
         	<div class="breadcrumb">
         		<i class="Hui-iconfont">&#xe67f;</i>首页
 	            <span class="c-gray en">&gt;</span>产品管理
-	            <span class="c-gray en">&gt;</span>全部产品
+	            <span class="c-gray en">&gt;</span>{% if isDown=='0' %}在售商品管理{% else %}待售商品管理{% endif %}
 	            <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
 	                <i class="Hui-iconfont">&#xe68f;</i>
 	            </a>
@@ -39,12 +39,25 @@
         <div class="page-container">
 			<script type="text/html" id="proTableToolbar">
   				<div class="toolbar">
-					<a class="btna" onclick="openEdit('添加商品','../Amaterial/goodsEditPage','800','500')">
+					{% if isDown=='0' %}
+					<a class="btna" onclick="openEditFull('添加商品','../Product/paPage')">
 			    		<i class="layui-icon">&#xe654;</i>添加
 			 		</a>
+					{% endif %}
+			  		<a class="btna" onclick="soldOutIn({{isDown}})">
+						{% if isDown=='0' %} <i class="Hui-iconfont">&#xe6de;</i>下架
+						{% else %} <i class="Hui-iconfont">&#xe6dc;</i>上架 {% endif %}
+					</a>
+					{% if isDown=='0' %}
 			  		<a class="btna" onclick="openEdit('批量导入','../Product/peiPage','600','300')">
 			    		<i class="layui-icon">&#xe63c;</i>导入
 			 		</a>
+					{% endif %}
+					{% if isDown=='1' %}
+			  		<a class="btna" onclick="proDel()">
+			    		<i class="Hui-iconfont">&#xe609;</i>删除
+			 		</a>
+					{% endif %}
 				</div>
 			</script>
 			<table id="pro-table" class="layui-hide" lay-filter='pros'></table>
@@ -120,7 +133,7 @@
             </table> -->
         </div>
         <script>
-
+        	isDown = {{isDown}};
 
         </script>
     </body>

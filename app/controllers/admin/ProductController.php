@@ -26,13 +26,14 @@ class ProductController extends AdminBase{
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/product/plpage.js");
 
-    	$products = array();
+    	/* $products = array();
     	$plist = Product::find(array(
     			'conditions'=>'del!=?1 and shop_id=?2',
     			'bind'=>array(1=>1, 2=>$this->session->get('sid'))
     	));
     	if ($plist) $products = $plist->toArray();
-    	$this->view->products = $products;
+    	$this->view->products = $products; */
+	    $this->view->isDown = isset($_GET['isDown']) ? $_GET['isDown'] : 0;
 
 
     	$this->view->pick("admin/product/productList");
@@ -150,9 +151,12 @@ class ProductController extends AdminBase{
     	//获取页面参数
     	$page = (isset($_GET['page'])&&intval($_GET['page'])) ? intval($_GET['page']) : 0;
     	$limit = (isset($_GET['limit'])&&intval($_GET['limit'])) ? intval($_GET['limit']) : 0;
+    	$isDown = (isset($_GET['isDown'])) ? intval($_GET['isDown']) : 0;
 
-    	$pl = new AproductBase();
-    	$proArr = $pl->proList($this->session->get('sid'));
+    	/* $pl = new AproductBase();
+    	$proArr = $pl->proList($this->session->get('sid')); */
+    	$sid = $this->session->get('sid');
+    	$proArr = Product::proList(array('conditions'=>"shop_id=$sid and is_down=$isDown and del=0"));
 
     	foreach ($proArr as $k=>$v){
     		$proArr[$k]['attrs'] = "";
@@ -170,7 +174,7 @@ class ProductController extends AdminBase{
     		}
     		$proArr[$k]['operate'] .= "
 				<a title=\"编辑\" href=\"../Product/paPage?pid={$v['id']}\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>
-				<a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,{$v['id']})\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>
+				<a title=\"删除\" href=\"javascript:;\" onclick=\"existProDel({$v['id']},this)\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>
 			";
 
     		$proArr[$k]['photo_x'] = '<img src="../files/uploadFiles/'.$v['photo_x'].'" width="80px" height="80px" />';
@@ -562,13 +566,13 @@ class ProductController extends AdminBase{
      */
     public function proDelAction(){
     	if ($this->request->isPost()){
-    		$id = isset($_POST['id']) ? $this->request->getPost('id') : '';
-    		if ($id){
-    			$pro = Product::findFirstById($id);
-    			if ($pro){
-    				if ($pro->delete()) echo json_encode(array('status'=>1, 'mag'=>'success'));
-    				else echo json_encode(array('status'=>1, 'mag'=>'删除错误!'));
-    			}else echo json_encode(array('status'=>1, 'mag'=>'产品不存在!'));
+    		$ids = isset($_POST['ids']) ? $this->request->getPost('ids') : '';
+    		if ($ids){
+    			$result = Product::proDel(trim($ids, ','), $this->session->get('sid'));
+    			if ($result == 'SUCCESS') $this->msg('SUCCESS');
+    			else if ($result == 'DATAERR') $this->err('数据错误');
+    			else if ($result == 'OPEFILE') $this->err('操作失败');
+    			else if ($result == 'DATAEXCEPTION') $this->err('数据异常');
     		}else echo json_encode(array('status'=>1, 'mag'=>'数据错误!'));
     	}else echo json_encode(array('status'=>1, 'mag'=>'通信方法错误!'));
     }
@@ -1054,6 +1058,23 @@ class ProductController extends AdminBase{
     	}
     }
 
+    /**
+     * 商品上下架
+     */
+    public function soldOutInAction(){
+    	if ($this->request->isPost()){
+    		$ids = isset($_POST['ids']) ? trim($_POST['ids'], ',') : '';
+    		$status = isset($_POST['status']) ? intval($_POST['status']) : 0;
+    		$status = $status==0 ? 1 : 0;
+    		$result = Product::soldOutIn($ids, $this->session->get('sid'), $status);
+    		
+    		
+    		if ($result == 'SUCCESS') $this->msg('success');
+    		else if($result == 'DATAERR') $this->err('数据错误');
+    		else if($result == 'OPEFILE') $this->err('操作失败');
+    		else if($result == 'DATAEXCEPTION') $this->err('数据异常');
+    	}else $this->err('请求方式错误');
+    }
     
     
     //----------

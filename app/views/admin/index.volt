@@ -118,8 +118,9 @@
                     <dd>
                         <ul>
                             <li>
-                                <a data-href="../Product/paPage" data-title="添加产品" href="javascript:void(0)">添加产品</a>
-                                <a data-href="../Product/plPage" data-title="管理产品" href="javascript:void(0)">管理产品</a>
+                                <a data-href="../Product/paPage" data-title="添加商品" href="javascript:void(0)">添加商品</a>
+                                <a data-href="../Product/plPage?isDown=0" data-title="在售商品管理" href="javascript:void(0)">在售商品管理</a>
+                                <a data-href="../Product/plPage?isDown=1" data-title="待售商品管理" href="javascript:void(0)">待售商品管理</a>
 							</li>
 							{% if scType=='ST0' %}
 							<li>
