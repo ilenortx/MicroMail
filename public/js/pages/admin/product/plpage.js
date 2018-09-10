@@ -3,8 +3,28 @@ $(document).ready(function(){
 	layui.use('element', function(){
 		var $ = layui.jquery, element = layui.element;
 	});
+	
 	layui.use('table', function(){
 		table = layui.table;
+		table.render({
+			elem: '#pro-table',	page: true,
+			id:'pros', 			toolbar: '#proTableToolbar',
+			title: '商品数据',	loading: true,
+			height:'full-60',	limit: 30,
+			url: '../Product/proList',
+			defaultToolbar: ['filter', 'print', 'exports'],
+			cols: [[
+				{field:'id', width:60, sort:true, align:'center', title:'ID'},
+				{field:'photo_x', width:150, sort:true, align:'center', 'title':'图片'},
+				{field:'brand_id', width:70, align:'center', title:'品牌'},
+				{field:'name', width:400, sort:true, align:'center', title:'产品名称'},
+				{field:'price_yh', width:100, sort:true, title:'价格/元'},
+				{field:'renqi', width:80, sort:true, title:'人气'},
+				{field:'attrs', width:130, align:'center', title:'属性(点击修改)'},
+				{field:'stype', width:80, sort: true, align:'center', fixed:'right', title:'推荐'},
+				{field:'operate', width:160, sort: true, fixed:'right', style:'height:91px', title:'操作'},
+			]],
+		});
 		
 		table.on('tool(pros)', function(obj){
 			var data = obj.data;

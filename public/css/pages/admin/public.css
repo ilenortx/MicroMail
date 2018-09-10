@@ -7,7 +7,8 @@ html,body{ height:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-s
 .page-container{ padding:0 20px;margin-top:0px; }
 
 /*toolbar按钮*/
-.toolbar{margin-bottom:10px;}
+.layui-table-tool{background:#fff;}
+.toolbar{}
 .toolbar .search-input{height:30px;}
 .toolbar .search-btn{height:30px;margin-left:10px;}
 .toolbar .btna{ height:25px;line-height:25px;display:inline-block;border:1px solid #e6e6e6;border-radius:5px;padding:0 5px;margin:5px;text-decoration:none; }

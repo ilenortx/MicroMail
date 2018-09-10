@@ -38,14 +38,22 @@
         </nav>
         <div class="page-container">
 			<div class="toolbar">
-			  	<a class="btna" onclick="openEdit('添加商品','../Amaterial/goodsEditPage','800','500')">
-			    	<i class="layui-icon">&#xe654;</i>添加
-			 	</a>
-			  	<a class="btna" onclick="openEdit('批量导入','../Product/peiPage','600','300')">
-			    	<i class="layui-icon">&#xe645;</i>导入
-			 	</a>
+			  	
 			</div>
-		    <table id="pro-table" class="layui-table" lay-data="{id:'pros', height:'full-120', loading:true, page:true, limit:30, url:'../Product/proList'}" lay-filter='pros'>
+			<script type="text/html" id="proTableToolbar">
+  				<div class="toolbar">
+					<a class="btna" onclick="openEdit('添加商品','../Amaterial/goodsEditPage','800','500')">
+			    		<i class="layui-icon">&#xe654;</i>添加
+			 		</a>
+			  		<a class="btna" onclick="openEdit('批量导入','../Product/peiPage','600','300')">
+			    		<i class="layui-icon">&#xe63c;</i>导入
+			 		</a>
+				</div>
+			</script>
+			<table id="pro-table" class="layui-hide" lay-filter='pros'></table>
+		    <!-- <table id="pro-table" class="layui-table" lay-data="{
+		    		id:'pros', height:'full-120', loading:true, page:true, limit:30, url:'../Product/proList',
+		    		defaultToolbar: ['filter', 'print', 'exports']},toolbar: true" lay-filter='pros'>
 				<thead>
 					<tr>
 						<th lay-data="{field:'id', width:60, sort:true, align:'center'}">ID</th>
@@ -59,7 +67,7 @@
 					  	<th lay-data="{field:'operate', width:160, sort: true, fixed:'right', style:'height:91px'}">操作</th>
 					</tr>
 				</thead>
-			</table>
+			</table> -->
             <!-- <table id="userListDataTables" class="table table-border table-bordered table-bg table-hover table-sort">
                 <thead>
                     <tr>
