@@ -244,7 +244,7 @@
 		<a href="../WPages/proPeListPage?pid=<%=pid %>#type=0">全部 <%=data.typeNum.qb %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=1">好评 <%=data.typeNum.hp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=2">中评 <%=data.typeNum.zp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=3">差评 <%=data.typeNum.cp %></a><a href="../WPages/proPeListPage?pid=<%=pid %>#type=4">晒单 <%=data.typeNum.sd %></a>
 	</div>
 
-	<% if(data.peInfo.length > 0){ %>
+	<% if(data.peInfo){ %>
 	<% for(var i in data.peInfo){ %>
 	<% var log_item = data.peInfo[i]; %>
 	<div class="pe-item-div">
@@ -254,10 +254,6 @@
 				<span class="icons">
 					<% for(var j=1;j<=5;j++){ %>
 					<i data-index="<%=j %>" class="mui-icon <% if(j<=log_item.grade){ %>mui-icon-star-filled<% }else{ %>mui-icon-star<% } %>"></i>
-					<!-- <i data-index="2" class="mui-icon mui-icon-star"></i>
-					<i data-index="3" class="mui-icon mui-icon-star"></i>
-					<i data-index="4" class="mui-icon mui-icon-star"></i>
-					<i data-index="5" class="mui-icon mui-icon-star"></i> -->
 					<% } %>
 				</span>
 			</div>
@@ -265,25 +261,9 @@
 		</div>
 		<div class="evaluate-cont"><%=log_item.evaluate %></div>
 		<div class="pe-img-div">
-			<% var img_array = log_item.show_photos.split(","); %>
-			<% for(var k in img_array){ %>
-			<img src="<%=img_array[k] %>" />
+			<% for(var k in log_item.show_photos){ %>
+			<img src="<%=log_item.show_photos[k] %>" />
 			<% } %>
-			<!-- <img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" />
-			<img src="../img/wapApp/user-avatar.png" /> -->
 		</div>
 	</div>
 	<% } %>
