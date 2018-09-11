@@ -35,7 +35,7 @@ class ApiOrderController extends ApiBase{
     				$status = '30';
     				break;
     			case 'evaluate':
-    				$status = '40';
+    				$status = '40,50';
     				break;
     			case 'finish':
     				$status = '40,50,51';

@@ -256,11 +256,11 @@ class OrderEvaluate extends \Phalcon\Mvc\Model
     					}
     					if(strlen($skuStr)>0) $skuStr = trim($skuStr, '/');
     				}
-    				
+    				$sps = empty($v->show_photos) ? array() : explode(',', $v->show_photos);
     				$peArr[$v->id] = array(
     						'id'=>$v->id, 'shop_id'=>$v->shop_id, 'pid'=>$v->pid,
     						'grade'=>intval($v->grade), 'evaluate'=>$v->evaluate, 'sku'=>$skuStr,
-    						'show_photos'=>explode(',', $v->show_photos),
+    						'show_photos'=>$sps,
     						'time'=>date('Y-h-d', $v->time), 'uid'=>$v->uid,
     						'uname'=>$user->uname, 'uavatar'=>$user->photo
     				);
