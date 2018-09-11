@@ -14,7 +14,7 @@
     </div>
 </script>
 <script type="text/template" id="apList-template">
-    <% if(list.length > 0){ %>
+    <% if(list){ %>
     <% for(var i in list){ %>
     <% var log_item = list[i]; %>
     <div class="pe-item-div">
@@ -31,9 +31,8 @@
         </div>
         <div class="evaluate-cont"><%=log_item.evaluate %></div>
         <div class="pe-img-div">
-            <% var img_array = log_item.show_photos.split(","); %>
-            <% for(var k in img_array){ %>
-            <img src="<%=img_array[k] %>" />
+            <% for(var k in log_item.show_photos){ %>
+            <img src="<%=log_item.show_photos[k] %>" />
             <% } %>
         </div>
         <div class="extra_info"><%=log_item.sku %></div>
