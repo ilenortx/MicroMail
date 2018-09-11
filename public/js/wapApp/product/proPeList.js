@@ -44,7 +44,7 @@ var page = {
                     if(data.datas.peInfo.length == 0) page.data.disabled[type] = true;
 
                     page.data.page[type] += 1;
-                    page.data.list[type] = page.data.list[type].concat(data.datas.peInfo);
+                    page.data.list[type] = $.extend(page.data.list[type] ,data.datas.peInfo);
 
                     if(type != page.data.type) return;
                     page.cprodom();
