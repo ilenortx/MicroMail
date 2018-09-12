@@ -32,13 +32,16 @@
         	</div>
         </nav>
         <div class="page-container">
-        	<!-- <div class="cl pd-5 bg-1 bk-gray mt-20">
-				<span class="l">
-					<a href="javascript:;" onclick="" class="btn btn-primary radius">
-						<i class="Hui-iconfont">&#xe600;</i>添加属性
-					</a>
-				</span>
-			</div> -->
+            <script type="text/html" id="proTableToolbar">
+                <div class="toolbar">
+                    <a class="btna" href="../ProductParm/proParmAddPage">
+                        <i class="layui-icon">&#xe654;</i>添加类型
+                    </a>
+                    <a class="btna" onclick="proDel()">
+                        <i class="Hui-iconfont">&#xe609;</i>删除
+                    </a>
+                </div>
+            </script>
             <table id="userListDataTables" class="table table-border table-bg table-hover table-sort">
             </table>
         </div>
@@ -50,8 +53,11 @@
                     table.render({
                         elem: '#userListDataTables',
                         url: '../ProductParm/getAllParm',
-                        toolbar: false,
+                        toolbar: true,
+                        defaultToolbar: [],
+                        toolbar: '#proTableToolbar',
                         title: '用户数据表',
+                        height:'full-70',
                         cols: [[
                             {field:'id', title:'ID', width:80, unresize: true, sort: true},
                             {field:'t_name', title:'类型名称', unresize: true,},

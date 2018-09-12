@@ -79,8 +79,9 @@ function dataSub(){
         data: post_data,
         success: function(data){
             if (data.status == 1){
-                layer.msg('成功!', { icon: 6,time: 1000 });
-                layer_close();
+                layer.msg('成功!', { icon: 6,time: 2000 }, function(){
+                    window.history.go(-1);
+                });
             }else layer.msg(data.msg, { icon: 5, time: 1000 });
         },
         error: function(){

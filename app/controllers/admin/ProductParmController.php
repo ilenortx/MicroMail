@@ -19,9 +19,9 @@ class ProductParmController extends AdminBase{
              ->addCss("css/static/h-ui/H-ui.min.css")
              ->addCss("css/static/h-ui.admin/H-ui.admin.css")
              ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
-             // ->addCss("css/static/h-ui.admin/style.css")
+             ->addCss("css/static/h-ui.admin/style.css")
              ->addCss("css/layui/layui.css")
-             // ->addCss("css/pages/admin/public.css")
+             ->addCss("css/pages/admin/public.css")
              ->addJs("lib/jquery/1.9.1/jquery.min.js")
              ->addJs("lib/layer/layer.js")
              ->addJs("lib/layui/layui.js")
@@ -81,6 +81,7 @@ class ProductParmController extends AdminBase{
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         $this->view->parmInfo = $this->proParmInfoAction($id);
+
         $this->view->pick("admin/product/proParmAdd");
     }
     /**
@@ -88,7 +89,9 @@ class ProductParmController extends AdminBase{
      */
     private function proParmInfoAction($id){
         $info = array(
-            'id'=>'', 'name'=>'', 'type'=>'text', 'value'=>'',
+            'id'=>'', 't_name'=>'', 'vid'=>'',
+            'values'=>array(
+            ),
         );
 
         $parm = ProductParm::findFirstById($id);
