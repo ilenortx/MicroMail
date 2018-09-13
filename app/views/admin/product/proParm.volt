@@ -37,48 +37,36 @@
                     <a class="btna" href="../ProductParm/proParmAddPage">
                         <i class="layui-icon">&#xe654;</i>添加类型
                     </a>
-                    <a class="btna" onclick="proDel()">
+                    <!-- <a class="btna" onclick="proDel()">
                         <i class="Hui-iconfont">&#xe609;</i>删除
-                    </a>
+                    </a> -->
                 </div>
             </script>
             <table id="userListDataTables" class="table table-border table-bg table-hover table-sort">
             </table>
         </div>
         <script>
-            $(document).ready(function(){
-                layui.use('table', function(){
-                    var table = layui.table;
+            function admin_del(e, id){
+                layer.confirm('确认要删除吗？',function(index) {
+                    $.ajax({
+                        url: '../ProductParm/proParmDel',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {ids: [id]},
+                        success: function(data){
+                            if (data.status == 1){
+                                layer.msg('删除成功!', { icon: 6,time: 2000 }, function(){
+                                    window.location.reload();
+                                });
+                            }else layer.msg(data.msg, { icon: 5, time: 1000 });
+                        },
+                        error: function(){
 
-                    table.render({
-                        elem: '#userListDataTables',
-                        url: '../ProductParm/getAllParm',
-                        toolbar: true,
-                        defaultToolbar: [],
-                        toolbar: '#proTableToolbar',
-                        title: '用户数据表',
-                        height:'full-70',
-                        cols: [[
-                            {field:'id', title:'ID', width:80, unresize: true, sort: true},
-                            {field:'t_name', title:'类型名称', unresize: true,},
-                            {field:'control', title:'操作', unresize: true,}
-                        ]],
-                        page: true,
-                        parseData: function(res){
-                            for (var i = 0; i < res.data.length; i++) {
-                                res.data[i].control = '<a title="编辑" href="../ProductParm/proParmAddPage?id='+ res.data[i].id +'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a><a title="删除" href="javascript:;" onclick="admin_del(this,'+ res.data[i].id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>';
-                            };
-
-                            return {
-                                "code": res.code,
-                                "msg": res.msg,
-                                "count": res.total,
-                                "data": res.data,
-                            };
-                        }
+                        },
                     });
                 });
-            });
+
+            }
         </script>
     </body>
 </html>

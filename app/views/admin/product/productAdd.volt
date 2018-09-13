@@ -114,6 +114,7 @@
                         <li>产品介绍</li>
                         <li>标签与相关信息</li>
                         <li>商品属性</li>
+                        <li>商品参数</li>
                     </ul>
                     <div class="layui-tab-content">
                         <!-- 基本信息 start -->
@@ -432,6 +433,31 @@
                                     <div id="skuTable"></div>
                                 </div>
                             </div>
+                        </div>
+                        <!-- 商品属性 end -->
+
+                        <!-- 商品属性 start -->
+                        <div class="layui-tab-item">
+                            {% for vk,p_item in parmData %}
+                            <div class="row cl">
+                                <label class="form-label col-xs-4 col-sm-3">
+                                    {{p_item['name']}}：
+                                </label>
+                                <div class="formControls col-xs-8 col-sm-3">
+                                    {% set parm_value = proInfo['parm'][vk] %}
+                                    {% if p_item['type']=='text' %}
+                                    <input type="text" class="input-text" name="parm[]" id="name" value="{{parm_value}}">
+                                    {% else %}
+                                    <select name="parm[]">
+                                        <option value="">未选择</option>
+                                        {% for k,option_item in p_item['value'] %}
+                                        <option value="{{k}}" {% if parm_value==k %}selected="selected"{% endif %} >{{option_item}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
                         <!-- 商品属性 end -->
                     </div>

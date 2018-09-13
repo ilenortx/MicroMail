@@ -92,22 +92,30 @@ class Category extends \Phalcon\Mvc\Model
     public $status;
 
     /**
+     *
+     * @var string
+     * @Column(column="parm_id", type="integer", length=11, nullable=false)
+     */
+    public $parm_id;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("micro_mail");
         $this->setSource("category");
-        
+
         $this->addBehavior(new SoftDelete(
         	array(
         		'field' => 'status',
         		'value' => 'S0'
         	)
         ));
-        
-        $this->belongsTo("id", "Product", "cid");
-        
+
+        $this->hasMany("id", "Product", "cid");
+        $this->hasOne("parm_id", "ProductParm", "id");
+
         $this->useDynamicUpdate(true);
     }
 

@@ -26,7 +26,8 @@ class ProductParmController extends AdminBase{
              ->addJs("lib/layer/layer.js")
              ->addJs("lib/layui/layui.js")
              ->addJs("js/static/h-ui/H-ui.min.js")
-             ->addJs("js/static/h-ui.admin/H-ui.admin.js");
+             ->addJs("js/static/h-ui.admin/H-ui.admin.js")
+             ->addJs("js/pages/admin/product/proParm.js");
 
         // $this->view->proAttrs = $this->proAttrs();
 
@@ -37,7 +38,7 @@ class ProductParmController extends AdminBase{
      * 获取列表数据
      */
     public function getAllParmAction(){
-        $allparm = ProductParm::find();
+        $allparm = ProductParm::find(array('conditions'=> "disabled=0"));
         $parm_list = $allparm->toArray();
 
         //return json_encode(array('code'=>'1', 'msg'=>'','data'=>$parm_list));
@@ -45,21 +46,35 @@ class ProductParmController extends AdminBase{
     }
 
     /**
-     * 获取属性信息
+     * 删除参数类型
      */
-    // private function proAttrs(){
-    //     $sid = $this->session->get('sid');
-    //     $attrs = ProductAttr::find(array(
-    //             'conditions'=> "sid=?1 and status!=?2",
-    //             'bind'      => array(1=>$sid, 2=>'S0'),
-    //             'order'     => "sort desc"
-    //     ));
+    public function proParmDelAction(){
+        if ($this->request->isPost()){
+            $ids = is_array($_POST['ids'])? $_POST['ids']:array();
+            if(empty($ids)){
+                echo json_encode(array('status'=>0, 'msg'=>'请求参数错误'));
+                exit;
+            }
 
-    //     $attrArr = array();
-    //     if ($attrs) $attrArr = $attrs->toArray();
+            $ids = implode(',', $ids);
+            $del_data = ProductParm::find("id in ({$ids})");
 
-    //     return $attrArr;
-    // }
+            if ($del_data){
+                foreach ($del_data as $k=>$v){
+                    if (!$v->delete()) {
+                        echo json_encode(array('status'=>0, 'msg'=>'数据错误'));
+                        exit();
+                    }
+                }
+
+                echo json_encode(array('status'=>1, 'msg'=>'删除成功'));
+                exit();
+            }else{
+                echo json_encode(array('status'=>0, 'msg'=>'未找到对应记录'));
+                exit();
+            }
+        }else echo json_encode(array('status'=>0, 'msg'=>'请求方式错误'));
+    }
 
     /**
      * 产品属性编辑
@@ -115,7 +130,7 @@ class ProductParmController extends AdminBase{
 
             foreach($info['values'] as $k=>&$v){
                 if(isset($v['value']) && $v['value']){
-                    $v['value'] = implode('|', (array)json_decode($v['value']));
+                    $v['value'] = implode('|', json_decode($v['value'], true));
                 }
             }
 

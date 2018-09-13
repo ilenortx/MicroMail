@@ -10,7 +10,7 @@
     <script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
     <script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
     <![endif]-->
-    
+
     {{ assets.outputCss('css1') }}
     <link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
     {{ assets.outputCss('css2') }}
@@ -19,7 +19,7 @@
     <script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    
+
     <title>{% if edit %}分类编辑{% else %}新增分类{% endif %}</title>
     <style>
     	.choosePhotoImg{ width:120px;height:120px; }
@@ -61,6 +61,17 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属类型：</label>
+            <div class="formControls col-xs-8 col-sm-3">
+                <select class="inp_1" name="parm_id">
+                    <option value="0">不设置分类</option>
+                    {% for p_item in allParm %}
+                    <option value="{{p_item['id']}}" {% if cginfo['parm_id']==p_item['id'] %}selected="selected"{% endif %} >{{p_item['t_name']}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>略缩图，图片大小200*200</label>
             <div class="formControls col-xs-8 col-sm-3">
                 <input type='hidden' name="bz_1" id="photo_sj0" value="{{ cginfo['bz_1'] }}">
@@ -68,7 +79,7 @@
                 <img src="{{imgPath}}{{cginfo['bz_1']}}" width="200" height="200" />
                 {% endif %}
                 <input type="file" name="file" id="bz_1" /> -->
-                
+
                 <img onclick="cppvw('file','photofPvw');" id="photofPvw" src="{% if cginfo['bz_1'] %}../files/uploadFiles/{{ cginfo['bz_1'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg" style="margin-bottom: 3px;width:125px;height:125px"  >
 				<input id="file" class="choosePhotoIpt" name="file" accept="image/*" type="file" />
             </div>

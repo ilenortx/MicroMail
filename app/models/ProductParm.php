@@ -1,5 +1,7 @@
 <?php
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class ProductParm extends \Phalcon\Mvc\Model
 {
 
@@ -22,6 +24,12 @@ class ProductParm extends \Phalcon\Mvc\Model
     public $vid;
 
     /**
+     *
+     * @var integer
+     */
+    public $disabled;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -29,7 +37,12 @@ class ProductParm extends \Phalcon\Mvc\Model
         $this->setSchema("micro_mail");
         $this->setSource("product_parm");
 
-        $this->hasMany('id', 'ProductParmValue', 'pid');
+        $this->addBehavior(new SoftDelete(
+            array(
+                'field' => 'disabled',
+                'value' => 1
+            )
+        ));
         $this->useDynamicUpdate(true);
     }
 
