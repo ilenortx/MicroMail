@@ -195,7 +195,10 @@ class ProductParmController extends AdminBase{
                 if(!$post_data['id']){
                     $new_type_obj = clone $type_obj;
                     $new_type_obj->t_name = $post_data['name'];
-                    $new_type_obj->save();
+                    if(!$new_type_obj->save()){
+                        echo json_encode(array('status'=>0, 'msg'=>'新建类型保存错误'));
+                        exit();
+                    }
                     $post_data['id'] = $new_type_obj->id;
                 }
 
