@@ -444,11 +444,11 @@
                                     {{p_item['name']}}：
                                 </label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    {% set parm_value = proInfo['parm'][vk] %}
+                                    {% set parm_value = proInfo['parm'][p_item['id']] %}
                                     {% if p_item['type']=='text' %}
-                                    <input type="text" class="input-text" name="parm[]" id="name" value="{{parm_value}}">
+                                    <input type="text" class="input-text" name="parm[{{p_item['id']}}]" id="name" value="{{parm_value}}">
                                     {% else %}
-                                    <select name="parm[]">
+                                    <select name="parm[{{p_item['id']}}]">
                                         <option value="">未选择</option>
                                         {% for k,option_item in p_item['value'] %}
                                         <option value="{{k}}" {% if parm_value==k %}selected="selected"{% endif %} >{{option_item}}</option>

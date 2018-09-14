@@ -314,7 +314,7 @@ class Product extends \Phalcon\Mvc\Model
         	)
         ));
 
-        $this->hasOne("cid", "Category", "id");
+        $this->belongsTo("cid", "Category", "id");
 
         $this->useDynamicUpdate(true);
     }
