@@ -81,7 +81,7 @@ class ApiProductController extends ApiBase{
                     $parm_data = Category::find("id={$pro['cid']}");
                     if($parm_data[0]->parm_id > 0){
                         $type_data = $parm_data[0]->ProductParm->toArray();
-                        if ($type_data['disabled']==0) {
+                        if ($type_data['disabled']==0 && $pro['parm']!='') {
                             $value_data = ProductParmValue::find("id in ({$type_data['vid']})")->toArray();
                             $value_data_keys = array_column($value_data, 'id');
 
