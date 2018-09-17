@@ -350,7 +350,7 @@
                                 <label class="form-label col-xs-4 col-sm-3">
                                     <span class="c-red">*</span>排序：</label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    <input type="text" class="input-text" placeholder="人气" name="sort" id="sort" value="{{ proInfo['sort'] }}">
+                                    <input type="text" class="input-text" placeholder="排序" name="sort" id="sort" value="{{ proInfo['sort'] }}">
                                 </div>
                             </div>
                             <div class="row cl">

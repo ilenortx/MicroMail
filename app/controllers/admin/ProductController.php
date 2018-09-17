@@ -125,7 +125,7 @@ class ProductController extends AdminBase{
     	$proArr = array(
     			'id'=>'', 'name'=>'', 'intro'=>'', 'cateid'=>'', 'cid'=>'', 'brand_id'=>'',
     			'company'=>'', 'price'=>'', 'price_yh'=>'', 'price_jf'=>'', 'pro_number'=>'',
-    			'num'=>'', 'photo_x'=>'', 'photo_d'=>'', 'content'=>'', 'renqi'=>'', 'is_show'=>0,
+    			'num'=>'', 'photo_x'=>'', 'photo_d'=>'', 'content'=>'', 'renqi'=>'', 'sort'=>'','is_show'=>0,
     			'is_hot'=>0, 'photo_string'=>'', 'tid'=>'', 'video'=>'', 'procxid'=>'', 'tjpro'=>'',
     			'photo_tjx'=>'', 'photo_tj'=>'', 'snids'=>array()
     	);
