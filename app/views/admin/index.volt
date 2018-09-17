@@ -227,6 +227,21 @@
                     </dd>
                 </dl>
                 
+                <dl id="menu-marketing"><!-- 我的配送 -->
+                    <dt>
+                        <i class="Hui-iconfont">&#xe669;</i>&nbsp;我的配送
+                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+					</dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <a data-href="#" data-title="物流公司" href="javascript:void(0)">物流公司</a>
+								<a data-href="../AMyDelivery/shipAddressPage" data-title="发货地址" href="javascript:void(0)">发货地址</a>
+							</li>
+                        </ul>
+                    </dd>
+                </dl>
+                
                 {% if scType=='ST0' %}
                 <dl id="menu-ad"><!-- 广告 -->
                     <dt>
