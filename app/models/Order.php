@@ -263,6 +263,13 @@ class Order extends \Phalcon\Mvc\Model
     
     /**
      *
+     * @var integer
+     * @Column(column="note_grade", type="integer", length=255, nullable=true)
+     */
+    public $note_grade;
+    
+    /**
+     *
      * @var string
      * @Column(column="note", type="string", length=255, nullable=true)
      */
@@ -280,6 +287,7 @@ class Order extends \Phalcon\Mvc\Model
         //$this->hasOne("post", "Post", "id");
         $this->hasMany('id', "OrderProduct", 'order_id');
         $this->hasOne('receiver', 'Address', 'id');
+        $this->hasOne('vid', 'UserVoucher', 'id');
         
         $this->useDynamicUpdate(true);
     }
@@ -361,6 +369,54 @@ class Order extends \Phalcon\Mvc\Model
     	}
     	
     	return 'NULL';
+    }
+    
+    /**
+     * 订单列表
+     */
+    public static function orderList($params=array()){
+    	if (isset($param['conditions'])) $conditions['conditions'] = $params['conditions'];
+    	if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
+    	if (isset($params['order'])) $conditions['order'] = $params['order'];
+    	
+    	if (isset($conditions) && count($conditions)) $orders = Order::find($conditions);
+    	else $orders = Order::find();
+    	$orderArr = array();
+    	
+    	if ($orders) {
+    		foreach ($orders as $k=>$v){
+    			$user = $v->User;
+    			$orderArr[$k] = $v->toArray();
+    			$orderArr[$k]['uname'] = $user->uname;
+    		}
+    	}
+    	
+    	return $orderArr;
+    }
+    
+    /**
+     * 查询总数
+     */
+    public static function getCount($conditions){
+    	$count = $conditions?Order::count($conditions):Order::count();
+    	
+    	return $count;
+    }
+    
+    /**
+     * 修改备注
+     */
+    public static function renote($oid, $sid, $ong=0, $onc=''){
+    	if (!$oid || !$sid) return 'DATAERR';
+    	
+    	$order = Order::findFirst("id=$oid and shop_id=$sid");
+    	
+    	if ($order) {
+    		$order->note_grade = $ong;
+    		$order->note = $onc;
+    		if ($order->save()) return 'SUCCESS';
+    		else return 'OPEFILE';
+    	}else return 'DATAEXCEPTION';
     }
     
 }

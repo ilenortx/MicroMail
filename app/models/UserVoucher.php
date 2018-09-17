@@ -82,6 +82,8 @@ class UserVoucher extends \Phalcon\Mvc\Model
     {
         $this->setSchema("micro_mail");
         $this->setSource("user_voucher");
+        
+        $this->hasOne('vid', 'Voucher', 'id');
     }
 
     /**

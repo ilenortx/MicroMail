@@ -360,12 +360,13 @@ class Product extends \Phalcon\Mvc\Model
     /**
      * 获取商品列表
      */
-    public static function proList($param=array()){
-    	if (isset($param['conditions'])) $conditions['conditions'] = $param['conditions'];
+    public static function proList($params=array()){
+    	if (isset($param['conditions'])) $conditions['conditions'] = $params['conditions'];
     	if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
     	if (isset($params['order'])) $conditions['order'] = $params['order'];
     	
-    	$pros = Product::find($conditions);
+    	if (isset($conditions) && count($conditions)) $pros = Product::find($conditions);
+    	else $pros = Product::find();
     	$proArr = array();
     	
     	if ($pros) $proArr = $pros->toArray();
