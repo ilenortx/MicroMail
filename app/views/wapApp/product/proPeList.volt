@@ -14,7 +14,7 @@
     </div>
 </script>
 <script type="text/template" id="apList-template">
-    <% if(list){ %>
+    <% if(list.length > 1){ %>
     <% for(var i in list){ %>
     <% var log_item = list[i]; %>
     <div class="pe-item-div">

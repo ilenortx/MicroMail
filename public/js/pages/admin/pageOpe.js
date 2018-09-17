@@ -19,9 +19,10 @@ function layerClose(){
  * @param h
  * @returns
  */
-function openEdit(title, url, w, h){
+function openEdit(title, url, w, h, type){
+	type = typeof(type)!='undefined' ? type : 2;
 	layer.open({
-		type: 2,
+		type: type,
 		title: title,
 		shadeClose: true,
 		shade: 0.8,

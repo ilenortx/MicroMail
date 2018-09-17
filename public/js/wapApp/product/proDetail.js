@@ -31,6 +31,7 @@ mui.ready(function() {
 			page.data.proAttrs = data.porAttr;
 			page.data.bannerItem = bannerItem;
 			page.data.isSc = data.is_sc;
+			page.data.proParms = data.parm;
 
 			scStatus(data.is_sc); //收藏图片
 			if(data.pro.tjpro) page.loadTjpro();
@@ -62,6 +63,7 @@ var page = {
 		skuid: '',
 		isPriceYh: true,
 		gblid: 0,//参团对象id
+		proParms: [],
 	},
 	initWinWH: function() {
 		this.data.winWidth = $(window).width();
@@ -126,9 +128,9 @@ var page = {
 			this.initJGBL();
 		}
 
-		$('.proname').html(proInfo.name);
-		$('.procode').html(proInfo.pro_number);
-		$('.protype').html('');
+		// $('.proname').html(proInfo.name);
+		// $('.procode').html(proInfo.pro_number);
+		// $('.protype').html('');
 
 		//商品属性()
 		$('#proPhoto').attr('src', hi + proInfo.photo_x);
@@ -147,6 +149,16 @@ var page = {
 			$('#attrs-list').append(proAttr);
 		}
 
+		// 产品参数
+		var parms = this.data.proParms;
+		var parms_html = '';
+		for (var i = 0; i < parms.length; i++) {
+			parms_html += '<div class="canshu df">';
+			parms_html += '<div class="name">'+ parms[i].name +'：</div>';
+			parms_html += '<div class="df_1 c3">'+ parms[i].value +'</div>';
+			parms_html += '</div>';
+		};
+		$('.pro-attrs-div').html(parms_html);
 	},
 
 	procx: function() { //促销地址

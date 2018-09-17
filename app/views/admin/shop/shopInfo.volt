@@ -10,11 +10,10 @@
             <script type="text/javascript" src="lib/html5shiv.js"></script>
             <script type="text/javascript" src="lib/respond.min.js"></script>
         <![endif]-->
-        
-        {{ assets.outputCss('css1') }}
+
+        {{ assets.outputCss() }}
         <link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
-        {{ assets.outputCss('css2') }}
-        
+
         <!--[if IE 6]>
             <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
             <script>DD_belatedPNG.fix('*');</script>
@@ -178,8 +177,16 @@
                         <input type="text" class="input-text" placeholder="微信SECRET" name="wx_secret" id="wx_secret" value="{{ sinfo['wx_secret'] }}">
                     </div>
                 </div>
-                
-                
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">
+                        店铺介绍：
+                    </label>
+                    <div class="formControls col-xs-8">
+                        <textarea class="inp_1 inp_2" style="width:100%;height:600px" name="content" id="content" />{{sinfo['content']}}</textarea>
+                    </div>
+                </div>
+
+
                 <div class="row cl">
                     <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 		                <input class="btn btn-primary radius" type="submit" name="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -189,12 +196,17 @@
             </form>
         </div>
         <!--_footer 作为公共模版分离出去-->
-        {{ assets.outputJs('js1') }}
+        {{ assets.outputJs() }}
         <!--/_footer 作为公共模版分离出去-->
         <!--请在下方写此页面业务相关的脚本-->
-        {{ assets.outputJs('js2') }}
         <script>
 	        $(function(){
+                /*初始化编辑器*/
+                $('#content').xheditor({
+                    skin: 'nostyle',
+                    upImgUrl: '../Upload/xheditor'
+                });
+
 				/* 表单验证 */
 		    	$("#shopInfo").validate({
 		    		rules:{

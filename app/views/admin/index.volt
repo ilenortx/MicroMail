@@ -127,6 +127,8 @@
                                 <a data-href="../Category/cgLPage" data-title="分类列表" href="javascript:;">分类列表</a>
                                 <a data-href="../Category/cgAPage" data-title="新增分类" href="javascript:void(0)">新增分类</a>
                                 <a data-href="../ProductAttr/proAttrPage" data-title="产品属性" href="javascript:void(0)">产品属性</a>
+
+                                <a data-href="../ProductParm/allParmPage" data-title="参数类型" href="javascript:void(0);">参数类型</a>
 							</li>
 							{% endif %}
                             <li>

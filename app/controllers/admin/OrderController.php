@@ -4,27 +4,19 @@ class OrderController extends AdminBase{
 
     public function indexAction(){
     	$this->assets
-	    	 ->collection('css1')
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
-	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css");
-	    $this->assets
-	    	 ->collection('css2')
-	    	 ->addCss("css/static/h-ui.admin/style.css");
-	    $this->assets
-	    	 ->collection('js1')
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/layui/layui.css")
+	    	 ->addCss("css/pages/admin/public.css")
+	    	 ->addCss("css/pages/admin/order/order.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
-	    	 ->addJs("lib/layer/layer.js")
-	    	 ->addJs("js/static/h-ui/H-ui.min.js")
-	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js");
-	    $this->assets
-	    	 ->collection('js2')
-	    	 ->addJs("lib/My97DatePicker/4.8/WdatePicker.js")
-	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
-	    	 ->addJs("lib/laypage/1.2/laypage.js");
+	    	 ->addJs("lib/layui/layui.js")
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+	    	 ->addJs("js/pages/admin/order/orderList.js");
     	
-	    $this->view->orderlist = $this->allOrderAction();
-	    $this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
+// 	    $this->view->orderlist = $this->allOrderAction();
+// 	    $this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
     	
     	$this->view->pick("admin/order/index");
     }
@@ -33,33 +25,75 @@ class OrderController extends AdminBase{
      * 详情页面
      */
     public function showPageAction(){
-    	$this->assets
-	    	 ->collection('css1')
+    	/* $this->assets
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
-	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css");
-	    $this->assets
-	    	 ->collection('css2')
-	    	 ->addCss("css/static/h-ui.admin/style.css");
-	    $this->assets
-	    	 ->collection('js1')
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/static/h-ui.admin/style.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("lib/layer/layer.js")
 	    	 ->addJs("js/static/h-ui/H-ui.min.js")
-	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js");
-	    $this->assets
-	    	 ->collection('js2')
+	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
 	    	 ->addJs("lib/My97DatePicker/4.8/WdatePicker.js")
 	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
-	    	 ->addJs("lib/laypage/1.2/laypage.js");
+	    	 ->addJs("lib/laypage/1.2/laypage.js"); */
+    	$this->assets
+	    	 ->addCss("css/static/h-ui/H-ui.min.css")
+	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/layui/layui.css")
+	    	 ->addCss("css/pages/admin/public.css")
+	    	 ->addCss("css/pages/admin/order/order.css")
+	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+	    	 ->addJs("lib/jquery/clipboard.min.js")
+	    	 ->addJs("lib/layer/layer.js")
+	    	 ->addJs("lib/layui/layui.js")
+	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+	    	 ->addJs("js/pages/admin/order/orderShow.js");
     	
 	    $oi = $this->orderInfoAction(intval($this->request->get('oid')));
-	    $this->view->prolist = $this->orderProsAction();
+	    $orderPros = $this->orderProsAction();
+	    $proTF = 0.00;
+	    foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
+	    $oi['proTF'] = $this->numberFormat($proTF);
+	    
+	    $this->view->prolist = $orderPros;
 	    $this->view->postInfo = $this->postInfoAction($oi['post']);
 	    $this->view->orderInfo = $oi;
     	$this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
     	
     	$this->view->pick("admin/order/show");
+    }
+    
+    public function dfGodownPageAction(){
+    	$this->assets
+	    	 ->addCss("css/static/h-ui/H-ui.min.css")
+	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/layui/layui.css")
+	    	 ->addCss("css/pages/admin/public.css")
+	    	 ->addCss("css/pages/admin/order/dfGodown.css")
+	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+	    	 ->addJs("lib/jquery/clipboard.min.js")
+	    	 ->addJs("lib/layer/layer.js")
+	    	 ->addJs("lib/layui/layui.js")
+	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+	    	 ->addJs("js/pages/admin/order/orderShow.js");
+    	
+    	$oi = $this->orderInfoAction(intval($this->request->get('oid')));
+    	$orderPros = $this->orderProsAction();
+    	$proTF = 0.00;
+    	foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
+    	$oi['proTF'] = $this->numberFormat($proTF);
+    	
+    	$this->view->prolist = $orderPros;
+    	$this->view->postInfo = $this->postInfoAction($oi['post']);
+    	$this->view->orderInfo = $oi;
+    	$this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
+    	
+    	$this->view->pick("admin/order/dfGodown");
     }
     
     /**
@@ -87,7 +121,57 @@ class OrderController extends AdminBase{
     	
     	return $orderArr;
     }
-
+	public function orderListAction(){
+		//获取页面参数
+		$page = (isset($_GET['page'])&&intval($_GET['page'])) ? intval($_GET['page']) : 0;
+		$limit = (isset($_GET['limit'])&&intval($_GET['limit'])) ? intval($_GET['limit']) : 0;
+		
+		$sid = $this->session->get('sid');
+		$orderArr = Order::orderList(array(
+				'conditions'=> "shop_id=$sid and del=0",
+				'order'		=> "addtime desc",
+				'limit'		=> array("number" => $limit, "offset" => $limit*($page-1))
+		));
+		
+		$count = Order::getCount("shop_id=$sid and del=0");
+		
+		$ptype = array('weixin'=>'微信支付', 'cash'=>'货到付款');
+		$status = array('0'=>'<text style="">取消订单</text>',
+				'10'=>'<text style="">待付款</text>', '20'=>'<text style="color:red">待发货</text>',
+				'30'=>'<text style="">待收货</text>', '40'=>'<text style="color:green">完成</text>',
+				'50'=>'<text style="color:green">完成</text>','51'=>'<text style="color:green">完成</text>'
+		);
+		
+		$noteG = array(
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_gray.png" />',
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_red.png" />',
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_yellow.png" />',
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_green.png" />',
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_blue.png" />',
+				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_purple.png" />',
+		);
+		foreach ($orderArr as $k=>$v){
+			$orderArr[$k]['addtime'] = date('Y-m-d H:i:s', $orderArr[$k]['addtime']);
+			$orderArr[$k]['paytime'] = date('Y-m-d H:i:s', $orderArr[$k]['paytime']);
+			
+			$orderArr[$k]['type'] = $ptype[$orderArr[$k]['type']];
+			
+			$orderArr[$k]['operate'] = "<a title=\"查看订单详情\" onclick=\"openEditFull('订单详情','../Order/showPage?oid={$orderArr[$k]['id']}')\" class=\"ml-5\" style=\"text-decoration:none\">详情</a> | ";
+			$x = $orderArr[$k]['status'];
+			if ($orderArr[$k]['status']==20) {
+				$orderArr[$k]['operate'] .= "<a title=\"出货\" href=\"../Order/dfGodownPage?oid={$orderArr[$k]['id']}\" class=\"ml-5\" style=\"text-decoration:none;color:#29f\">出货</a> | ";
+			}
+			$ng = empty($orderArr[$k]['note_grade']) ? 0 : $orderArr[$k]['note_grade'];
+			$orderArr[$k]['operate'] .= $noteG[$ng];
+			
+			
+			$orderArr[$k]['status'] = $status[$orderArr[$k]['status']];
+			
+		}
+		
+		$this->tableData1($count, $orderArr, 0, '加载成功!');
+	}
+    
     /**
      * 获取订单信息
      */
@@ -95,7 +179,11 @@ class OrderController extends AdminBase{
     	$order = Order::findFirstById($oid);
     	$oArr = array();
     	if ($order){
+    		//地址
     		$address = $order->Address;
+    		//优惠券
+    		$uvoucher = $address->UserVoucher;
+    		
     		$oArr = $order->toArray();
     		if ($address) $oArr['address'] = $address->toArray();
     		else{
@@ -105,6 +193,21 @@ class OrderController extends AdminBase{
     			);
     		}
     		
+    		$oArr['voucher'] = array(
+    				'id'=>'', 'title'=>'', 'full_money'=>'0.00', 'amount'=>'0.00'
+    		);
+    		if ($uvoucher) {
+    			$voucher = $uvoucher->Voucher;
+    			$oArr['voucher']['id'] = $uvoucher->id;
+    			$oArr['voucher']['title'] = $voucher->title;
+    			$oArr['voucher']['full_money'] = $this->numberFormat($voucher->full_money);
+    			$oArr['voucher']['amount'] = $this->numberFormat($voucher->amount);
+    		}
+    		
+    		$payType = array('weixin'=>'微信支付', 'cash'=>'货到付款');
+    		$oArr['addtime'] = date('Y-m-d H:i:s', $oArr['addtime']);
+    		$oArr['paytime'] = date('Y-m-d H:i:s', $oArr['paytime']);
+    		$oArr['type'] = $payType[$oArr['type']];
     	}
     	return $oArr;
     }
@@ -180,6 +283,26 @@ class OrderController extends AdminBase{
     			else echo json_encode(array('status'=>0, 'msg'=>"保存失败"));
     		}else echo json_encode(array('status'=>0, 'msg'=>"订单不存在"));
     	}else echo json_encode(array('status'=>0, 'msg'=>"请求方式错误"));
+    }
+    
+    /**
+     * 修改备注
+     */
+    public function renoteAction(){
+    	if ($this->request->isPost()){
+    		$ong = isset($_POST['ong']) ? intval($_POST['ong']) : 0;
+    		$onc = isset($_POST['onc']) ? $_POST['onc'] : '';
+    		$oid = isset($_POST['oid']) ? intval($_POST['oid']) : 0;
+    		
+    		if (!$oid) { $this->err('数据错误'); exit(); }
+    		
+    		$result = Order::renote($oid, $this->session->get('sid'), $ong, $onc);
+    		
+    		if ($result == 'SUCCESS') $this->msg('success');
+    		else if ($result == 'DATAERR') $this->err('数据错误');
+    		else if ($result == 'OPEFILE') $this->err('操作失败');
+    		else if ($result == 'DATAEXCEPTION') $this->err('数据异常');
+    	}else $this->err('请求方式错误');
     }
     
 }

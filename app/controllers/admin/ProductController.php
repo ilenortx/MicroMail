@@ -86,15 +86,18 @@ class ProductController extends AdminBase{
 
 	    $pid = isset($_GET['pid']) ? $_GET['pid'] : '';
 	    $pifno = $this->proInfoAction($pid);
+        $pifno[0]['parm'] = json_decode($pifno[0]['parm'], true);
+
 	    $this->view->proInfo = $pifno[0];
 	    $this->view->attrs = self::getProAttr($pid);
 	    $this->view->skus = json_encode(self::getProSku($pid));
 	    $this->view->catetwo = $pifno[1];
 	    $this->view->pid = $pid;
 	    $this->view->cxlist = self::procxlistAction();
+        $this->view->parmData = $pifno[2];
 	    $this->view->pick("admin/product/productAdd");
     }
-    
+
     /**
      * 商品excel导入页面
      */
@@ -111,10 +114,10 @@ class ProductController extends AdminBase{
 	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/product/proExcelImport.js");
-    	
+
     	$this->view->pick("admin/product/proExcelImport");
     }
-    
+
     /**
      * 获取产品信息
      */
@@ -122,11 +125,12 @@ class ProductController extends AdminBase{
     	$proArr = array(
     			'id'=>'', 'name'=>'', 'intro'=>'', 'cateid'=>'', 'cid'=>'', 'brand_id'=>'',
     			'company'=>'', 'price'=>'', 'price_yh'=>'', 'price_jf'=>'', 'pro_number'=>'',
-    			'num'=>'', 'photo_x'=>'', 'photo_d'=>'', 'content'=>'', 'renqi'=>'', 'is_show'=>0,
+    			'num'=>'', 'photo_x'=>'', 'photo_d'=>'', 'content'=>'', 'renqi'=>'', 'sort'=>'','is_show'=>0,
     			'is_hot'=>0, 'photo_string'=>'', 'tid'=>'', 'video'=>'', 'procxid'=>'', 'tjpro'=>'',
     			'photo_tjx'=>'', 'photo_tj'=>'', 'snids'=>array()
     	);
     	$catetwo = '';
+        $new_array = array();
 
     	$pro = Product::findFirstById($pid);
     	if ($pro) {
@@ -137,11 +141,31 @@ class ProductController extends AdminBase{
     			$proArr['tid'] = $cg->tid;
     			$ct = Category::find("tid={$cg->tid}");
     			if ($ct) $catetwo = $ct->toArray();
+
+                $cat_info = $cg->toArray();
+                if($cat_info['parm_id'] > 0){
+                    $parm_data = $cg->ProductParm->toArray();
+
+                    if($parm_data['disabled'] == 0){
+                        $parm_value_data = ProductParmValue::find("id in ({$parm_data['vid']})")->toArray();
+
+                        $parm_value_keys = array_column($parm_value_data, 'id');
+                        $parm_data['vid'] = explode(',', $parm_data['vid']);
+                        foreach ($parm_data['vid'] as $k => $v) {
+                            $key = array_search($v, $parm_value_keys);
+                            if($parm_value_data[$key]['type']=='select'){
+                                $parm_value_data[$key]['value'] = json_decode($parm_value_data[$key]['value']);
+                            }
+                            array_push($new_array, $parm_value_data[$key]);
+                        }
+                    }
+                }
+
     		}else $proArr['tid'] = 0;
     		$proArr['snids'] = explode(',', trim($proArr['snids'], ','));
     	}
 
-    	return array($proArr, $catetwo);
+    	return array($proArr, $catetwo, $new_array);
     }
 
     /**
@@ -282,7 +306,8 @@ class ProductController extends AdminBase{
     				//'is_sale'		=>	intval($_POST['is_sale']),//是否折扣
     				'procxid'		=>	intval($_POST['procxid']),//是否折扣
     				'tjpro'			=>	trim($_POST['tjpro'],','),//是否折扣
-    				'snids'			=>	join(',', $_POST['snids']),//产品说明
+    				'snids'			=>	isset($_POST['snids'])? join(',', $_POST['snids']):'',//产品说明
+                    'parm'          =>  isset($_POST['parm'])? json_encode((object)$_POST['parm'], true):'',//商品参数
     			);
 
     			//判断产品详情页图片是否有设置宽度，去掉重复的100%
@@ -459,6 +484,7 @@ class ProductController extends AdminBase{
     			$product->tjpro = $array['tjpro'];
     			$product->snids = $array['snids'];
     			$product->sort = $array['sort'];
+                $product->parm = $array['parm'];
 
     			$sql = $product->save();
 
@@ -1067,16 +1093,16 @@ class ProductController extends AdminBase{
     		$status = isset($_POST['status']) ? intval($_POST['status']) : 0;
     		$status = $status==0 ? 1 : 0;
     		$result = Product::soldOutIn($ids, $this->session->get('sid'), $status);
-    		
-    		
+
+
     		if ($result == 'SUCCESS') $this->msg('success');
     		else if($result == 'DATAERR') $this->err('数据错误');
     		else if($result == 'OPEFILE') $this->err('操作失败');
     		else if($result == 'DATAEXCEPTION') $this->err('数据异常');
     	}else $this->err('请求方式错误');
     }
-    
-    
+
+
     //----------
     // 导入产品
     //----------
@@ -1086,9 +1112,9 @@ class ProductController extends AdminBase{
     public function subProExcelAction(){
     	if ($this->request->isPost()){
     		$eftype = isset($_POST['eftype']) ? $_POST['eftype'] : '1';
-    		
+
     		$filePath = 'improt_pro/'.date('Ymd');
-    		
+
     		//上传excel文件
     		$pei = new FileUpload($this->request, UPLOAD_FILE.$filePath, array('cvs','xls','xlsx'), 5*1024*1024);
     		$pei->uploadfile();
@@ -1096,7 +1122,7 @@ class ProductController extends AdminBase{
     		if(!$pei->errState()){
     			$seiName = $filePath.'/'.$pei->getFileNames()['efile'];
     		}else{ $this->err($pei->errInfo()); exit(); }//文件上传失败
-    		
+
     		$result = TaskQueue::addTaskQueue(array(
     				'sid'=>$this->session->get('sid'), 'admin'=>$this->session->get('uid'),
     				'name'=>'产品导入', 'params'=>$seiName, 'ttype'=>'T1',

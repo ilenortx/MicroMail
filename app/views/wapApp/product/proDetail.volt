@@ -125,22 +125,6 @@
 			</div>
 		</div>
 		<div class="pro-attrs-div prodetail">
-			<div class="canshu df">
-				<div class="name">商品名称：</div>
-				<div class="df_1 c3 proname"></div>
-			</div>
-			<div class="canshu df">
-				<div class="name">商品编号：</div>
-				<div class="df_1 c3 procode"></div>
-			</div>
-			<div class="canshu df">
-				<div class="name">分类：</div>
-				<div class="df_1 c3 protype"></div>
-			</div>
-			<div class="canshu df">
-				<div class="name">售后：</div>
-				<div class="df_1 c3">签收之日48小时无条件退货</div>
-			</div>
 		</div>
 		<div class="pro-evaluate-div prodetail">
 

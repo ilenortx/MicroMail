@@ -11,9 +11,8 @@
     <script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
     <![endif]-->
     
-	{{ assets.outputCss('css1') }}
-	<link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
-	{{ assets.outputCss('css2') }}
+	{{ assets.outputCss() }}
+	{{ assets.outputJs() }}
         
     <!--[if IE 6]>
     <script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
@@ -70,9 +69,28 @@
     </form>
     <br>
 -->
-    
-    
-    <table id="orderList" class="table table-border table-bordered table-bg">
+    <script type="text/html" id="orderTableToolbar">
+		<div class="toolbar">
+			<!--<a class="btna" onclick="openEditFull('添加商品','../Product/paPage')">
+			    <i class="layui-icon">&#xe654;</i>添加
+			 </a>-->
+		</div>
+	</script>
+	<div class="layui-row" id="noteGrade" style="display: none;">
+		<div class="layui-form">
+			<label class="layui-form-label">备注等级</label>
+			<input type="radio" name="grade" value="0" title="<img src='../img/common/note/note_gray.png' title='无等级'>" />
+			<input type="radio" name="grade" value="1" title="<img src='../img/common/note/note_red.png' title='等级一'>" />
+			<input type="radio" name="grade" value="2" title="<img src='../img/common/note/note_yellow.png' title='等级二'>" />
+			<input type="radio" name="grade" value="3" title="<img src='../img/common/note/note_green.png' title='等级三'>" />
+			<input type="radio" name="grade" value="4" title="<img src='../img/common/note/note_blue.png' title='等级四'>" />
+			<input type="radio" name="grade" value="5" title="<img src='../img/common/note/note_purple.png' title='等级五'>" />
+			<textarea class="order_note_context" placeholder="备注信息"></textarea>
+			<button class="renote layui-btn layui-btn-primary layui-btn-sm">提  交</button>
+		</div>
+	</div>
+    <table id="order-table" class="layui-hide" lay-filter='order'></table>
+    <!-- <table id="orderList" class="table table-border table-bordered table-bg">
         <thead>
 	        <tr class="text-c">
 	            <th width="40">订单ID</th>
@@ -111,83 +129,13 @@
                 <td>{{ list['note'] }}</td>
                 <td>
                     <a href="../Order/showPage?oid={{ list['id'] }}">查看</a>
-                    <!--  | <a onclick="del_id_url({{ list['id'] }})">删除</a> -->
+                     | <a onclick="del_id_url({{ list['id'] }})">删除</a>
                     {% if list['back']==1 %} | <a href="{:U('back')}?oid={{ list['id'] }}">确认退款</a>{% endif %}
                 </td>
             </tr>
         {% endfor %}
-    </table>
+    </table> -->
 </div>
-<!--_footer 作为公共模版分离出去-->
-{{ assets.outputJs('js1') }}
-<!--/_footer 作为公共模版分离出去-->
-<!--请在下方写此页面业务相关的脚本-->
-{{ assets.outputJs('js2') }}
-<script>
-	$('#orderList').DataTable({
-	    bSort: true,      /*是否排序*/
-	    bPaginate: true,  /*是否分页*/
-	    bFilter: true,    /*是否查询*/
-	    bInfo: true,      /*是否显示基本信息*/ 
-	    iDisplayLength: 25,
-	    "order": [[ 0, 'desc' ]]
-	});
-    /*搜索按钮点击事件*/
-    function product_option(){
-        $('form').submit();
-    }
-
-    function openDialog(){
-        location="{:U('Inout/expOrder')}";
-    }
-
-    function openDialog2(){
-        var shop_id = $('#shop_id').val();
-        var type = $('#type').val();
-        var status = $('#status').val();
-        var start_time = $('#start_time').val();
-        var end_time = $('#end_time').val();
-        location="{:U('Inout/expOrder')}?shop_id="+shop_id+"&type="+type+"&status="+status+"&start_time="+start_time+'&end_time='+end_time;
-    }
-
-    /*订单状态字体颜色设置*/
-    $('.font_color').each(function(index, element) {
-        var obj = $(this);
-        switch(obj.html()){
-            case '待发货':
-            case '交易完成':
-            case '待收货':
-                obj.css('color','#090');
-                break;
-            case '交易关闭':
-            case '已退款':
-                obj.css('color','#900');
-                break;
-            case '申请退款':
-                obj.css('color','#f00');
-            default:
-                obj.css('color','#063559');
-                break;
-        }
-    });
-
-    /*选择商家按钮事件*/
-    function win_open(url,width,height){
-
-        height==null ? height=600 : height;
-        width==null ?  width=800 : width;
-        var myDate=new Date();
-        window.open(url,'newwindow'+myDate.getSeconds(),'height='+height+',width='+width);
-    }
-
-    /*订单删除方法*/
-    function del_id_url(id){
-        if(confirm("确认删除吗？"))
-        {
-            location='{:U("del")}?did='+id;
-        }
-    }
-</script>
 
 </body>
 </html>

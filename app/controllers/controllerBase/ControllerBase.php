@@ -250,6 +250,9 @@ class ControllerBase extends Controller{
 
 		echo json_encode(array("code"=>$code,"msg"=>$msg,"count"=>count($datas),"data"=>$tableData));
 	}
+	protected function tableData1($count=0, $datas=array(), $code=0, $msg='seccess'){
+		echo json_encode(array("code"=>$code,"msg"=>$msg,"count"=>$count,"data"=>$datas));
+	}
 
 	/**
 	 * 上传保存base64图片
@@ -297,6 +300,13 @@ class ControllerBase extends Controller{
 				return true;
 			} return false;
 		}else return false;
+	}
+	
+	/**
+	 * 保留两位有效数字
+	 */
+	protected function numberFormat($num=0, $decimal=2){
+		return number_format($num, $decimal);
 	}
 	
 }
