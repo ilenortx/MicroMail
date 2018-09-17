@@ -130,6 +130,7 @@ class ProductController extends AdminBase{
     			'photo_tjx'=>'', 'photo_tj'=>'', 'snids'=>array()
     	);
     	$catetwo = '';
+        $new_array = array();
 
     	$pro = Product::findFirstById($pid);
     	if ($pro) {
@@ -143,7 +144,6 @@ class ProductController extends AdminBase{
 
                 $cat_info = $cg->toArray();
                 if($cat_info['parm_id'] > 0){
-                    $new_array = array();
                     $parm_data = $cg->ProductParm->toArray();
 
                     if($parm_data['disabled'] == 0){
