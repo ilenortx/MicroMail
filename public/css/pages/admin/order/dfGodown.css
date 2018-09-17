@@ -1,0 +1,183 @@
+@CHARSET "UTF-8";
+.out-title-first {
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    color: #464c5b;
+    font-weight: bold;
+    font-size: 15px;
+}
+.order_note_context{
+	width: 360px;
+	height: 150px;
+	resize: none;
+}
+.renote{
+	position: relative;
+	left: calc(50% - 15px);
+	top: 5px;
+}
+.top-base-info-div{
+	width: 100%;
+	border: 1px solid #dedede;
+}
+.top-base-info-div .top-div{
+	height: 40px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.top-base-info-div .top-div .td-left{
+	
+}
+.top-base-info-div .top-div .td-left .order_sn-text{
+	font-size: 18px;
+	font-weight: 900;
+}
+.top-base-info-div .top-div .td-left .order-status-text{
+	font-size: 20px;
+	color: #99ffcc;
+}
+.top-base-info-div .top-div .dt-right{
+	
+}
+.bottom-div{
+	width: auto;
+	margin: 10px 20px;
+	border: 1px solid #dedede;
+	background: #ffffcc;
+	line-height: 26px;
+	padding: 0 20px;
+}
+.note-info-div{
+	widht: 100%;
+	
+}
+.note-info-div .note-text{
+	font-size: 13px;
+	color: #999;
+}
+#copyImg{
+	width: 20px;
+	height: 20px;
+}
+
+
+
+
+
+.shdz-div{
+	width: calc(100% - 40px);
+	margin: 0px 20px;
+	border-bottom: 1px solid #dedede;
+	line-height: 40px;
+	font-size: 13px;
+}
+.shdz-div .shdzd-title{
+	color: #657180;
+    font-weight: 600;
+    line-height: 42px;
+    font-size: 13px;
+}
+.order-other{
+	width: clac(100% - 40px);
+    padding: 15px 0;
+    margin: 0 20px;
+    border-bottom: 1px #e2e6eb solid;
+    overflow: hidden;
+    font-size: 13px;
+}
+.order-other .other-left{
+	float: left;
+    width: 49%;
+    border-right: 1px #e2e6eb solid;
+}
+.order-other .other-right{
+	border: none;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+.order-other span{
+	font-size: 13px;
+    font-weight: 600;
+    color: #657180;
+    line-height: 0;
+}
+.order-other img{
+	vertical-align: top;
+}
+
+/*商家地址信息*/
+.confirm-addr{
+	width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    border: 1px #d7dde4 solid;
+    display: flex;
+    justify-content: space-between;
+}
+.re-fhdz-a{
+	color: #3399ff;
+}
+
+/*物流服务*/
+.server{
+	width: 100%;
+    border: 1px #d7dde4 solid;
+    padding: 0 20px 15px 20px;
+    box-sizing: border-box;
+}
+.server-title{
+	height: 38px;
+    line-height: 38px;
+}
+.set-express{
+	width: 100%;
+    background-color: #f5f7f9;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.btn-box{
+	width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+}
+.btn-so{
+	border-radius: 1px;
+    width: 108px;
+    height: 36px;
+    margin: 0 15px;
+}
+.ivu-btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.5;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 6px 15px;
+    font-size: 12px;
+    border-radius: 0;
+    transition: color .2s linear,background-color .2s linear,border .2s linear;
+    color: #495060;
+    background-color: #f7f7f7;
+    border-color: #dddee1;
+}
+.ivu-btn-primary {
+    color: #fff;
+    background-color: #f33;
+    border-color: #f33;
+}

@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+.layui-form {
+	margin-top: 20px;
+}
+.layui-form-label{
+	width: 100px;
+}

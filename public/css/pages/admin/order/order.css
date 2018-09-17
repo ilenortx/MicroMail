@@ -1,0 +1,131 @@
+@CHARSET "UTF-8";
+.order_note_context{
+	width: 360px;
+	height: 150px;
+	resize: none;
+}
+.renote{
+	position: relative;
+	left: calc(50% - 15px);
+	top: 5px;
+}
+
+/*订单详情*/
+.top-base-info-div{
+	width: 100%;
+	border: 1px solid #dedede;
+	margin-top: 20px;
+}
+.top-base-info-div .top-div{
+	height: 40px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.top-base-info-div .top-div .td-left{
+	
+}
+.top-base-info-div .top-div .td-left .order_sn-text{
+	font-size: 18px;
+	font-weight: 900;
+}
+.top-base-info-div .top-div .td-left .order-status-text{
+	font-size: 20px;
+	color: #99ffcc;
+}
+.top-base-info-div .top-div .dt-right{
+	
+}
+
+.bottom-div{
+	width: auto;
+	margin: 10px 20px;
+	border: 1px solid #dedede;
+	background: #ffffcc;
+	line-height: 26px;
+	padding: 0 20px;
+}
+
+.note-info-div{
+	widht: 100%;
+	
+}
+.note-info-div .note-text{
+	font-size: 13px;
+	color: #999;
+}
+
+
+
+/*物流信息*/
+.logistics-info-div{
+	width: 100%;
+	max-height: 400px;
+	margin-top: 20px;
+	border: 1px solid #dedede;
+}
+.logistics-info-div .lid-left-div{
+	width: 25%;
+	height: 100%;
+	padding: 0 20px;
+	font-size: 14px;
+	border-right: 1px solid #dedede;
+}
+.lld-info-div{
+	display: flex;
+	align-items: center;
+	line-height: 50px;
+}
+.logistics-info-div .lid-left-div .bgimg{
+	width: 25px;
+	height: 25px;
+}
+
+/*订单信息*/
+.order-info-div{
+	width: 100%;
+	margin-top: 20px;
+	border: 1px solid #dedede;
+	display: flex;
+}
+.order-info-div .oid-info-div{
+	width: 20%;
+	border-right: 1px solid #dedede;
+	padding: 20px 2.5%;
+}
+.order-info-div .oid-info-div .info-item-title{
+	font-size: 15px;
+	font-weight: 800;
+	line-height: 30px;
+}
+.info-item-item{
+	font-size: 14px;
+	line-height: 30px;
+}
+
+.oidid-title{
+	width: 80px;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.state-contant{
+	border: 1px solid #d0e4c2;
+    padding: 10px;
+    background: #fcfffa;
+    line-height: 15px;
+    min-height: 40px;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: left;
+    margin-top: 16px;
+}
+.state-contant .public-ftb{
+	font-weight: bold;
+}
+#copyImg{
+	width: 20px;
+	height: 20px;
+}
+
