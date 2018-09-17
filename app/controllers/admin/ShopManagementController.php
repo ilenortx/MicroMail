@@ -459,7 +459,7 @@ class ShopManagementController extends AdminBase{
     			$v->sqtxtime = $v->sqtxtime?date('Y-m-d H:i:s', $v->sqtxtime):'';
     			$v->txtime = $v->txtime?date('Y-m-d H:i:s', $v->txtime):'';
     			$txArr[$k] = $v->toArray();
-    			$txArr[$k][shop] = $shop->toArray();
+    			$txArr[$k]['shop'] = $shop->toArray();
     		}
     	}
 
