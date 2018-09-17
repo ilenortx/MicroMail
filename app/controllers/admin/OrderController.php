@@ -182,7 +182,7 @@ class OrderController extends AdminBase{
     		//地址
     		$address = $order->Address;
     		//优惠券
-    		$uvoucher = $address->UserVoucher;
+    		$uvoucher = $order->UserVoucher;
     		
     		$oArr = $order->toArray();
     		if ($address) $oArr['address'] = $address->toArray();
