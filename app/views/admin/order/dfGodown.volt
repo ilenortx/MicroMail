@@ -110,10 +110,23 @@
     	
     	<h3 data-v-814df97a="" class="out-title-first">2.确认发货信息</h3>
     	<div class="confirm-addr">
-    		<span>专致服饰, 18926108998, 广东广州市番禺区城区桥南南新大街2号绣品创意园405</span>
+    		<!-- <span>专致服饰, 18926108998, 广东广州市番禺区城区桥南南新大街2号绣品创意园405</span> -->
+    		<span class="fhaddress-show">{% if samr %}
+    			{{ samr['fhname'] }}, {{ samr['tel'] }}, {{ samr['aname'] }}&nbsp;{{ samr['address'] }}
+    			{% else %}暂无{% endif %}</span>
     		<div class="fr ivu-poptip">
-    			<div class="ivu-poptip-rel" style="float:right;">
+    			<div class="ivu-poptip-rel" style="float:right;position:relative;">
     				<a class="re-fhdz-a">修改发货地址</a>
+    				<div class="choose-address-div">
+	    				<div class="triangle_border_up"></div>
+	    				<div class="cad-div">
+	    					<div class="cadd-top">
+	    						<text>发货地址选着</text>
+	    						<a class="address-managen" onclick='window.parent.creatIframe("../AMyDelivery/shipAddressPage", "发货地址")'>地址管理</a>
+	    					</div>
+	    					<div class="layui-form cadd-content"></div>
+	    				</div>
+    				</div>
 				</div>
 			</div>
     	</div>
@@ -158,6 +171,17 @@
     			'note_grade': '{{ orderInfo['note_grade'] }}',
     			'note': '{{ orderInfo['note'] }}'
     	};
+    	saarr = JSON.parse('{{saarr}}');
+
+    	layui.use(['form'], function(){
+    		form = layui.form;
+    		
+    		form.on('radio(fhaddress)', function(data){
+    			cfhaddress = data.value;
+    			$('.fhaddress-show').html(data.elem.title);
+    			form.render();
+    		}); 
+    	});
     </script>
 
 </body>

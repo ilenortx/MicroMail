@@ -243,4 +243,18 @@ class ShipAddress extends \Phalcon\Mvc\Model
     			'fhname'=>'', 'default'=>'D0'
     	));
     }
+    
+    /**
+     * 获取多个发货地址信息
+     */
+    public static function sasInfo($sid, $params=array()){
+    	if (empty($sid)) return 'DATAERR';
+    	
+    	$conditions = array('conditions'=>"shop_id=$sid");
+    	if (isset($params['conditions']) && !empty($params['conditions'])){
+    		$conditions['conditions'] .= " and ".$params['conditions'];
+    	}
+    	
+    }
+    
 }

@@ -80,7 +80,8 @@ class OrderController extends AdminBase{
 	    	 ->addJs("lib/layui/layui.js")
 	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
-	    	 ->addJs("js/pages/admin/order/orderShow.js");
+	    	 ->addJs("js/pages/admin/order/orderShow.js")
+	    	 ->addJs("js/pages/admin/order/dfGodown.js");
     	
     	$oi = $this->orderInfoAction(intval($this->request->get('oid')));
     	$orderPros = $this->orderProsAction();
@@ -88,10 +89,17 @@ class OrderController extends AdminBase{
     	foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
     	$oi['proTF'] = $this->numberFormat($proTF);
     	
+    	$sas = ShipAddress::getSAs('sid', $this->session->get('sid'), array('order'=>"default desc,sort desc"));
+    	$sas = is_array($sas) ? $sas : array();
+    	
     	$this->view->prolist = $orderPros;
     	$this->view->postInfo = $this->postInfoAction($oi['post']);
     	$this->view->orderInfo = $oi;
     	$this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
+    	//发货地址
+    	$this->view->samr = count($sas) ? current($sas) : false;
+    	$this->view->saarr = json_encode($sas);
+    	
     	
     	$this->view->pick("admin/order/dfGodown");
     }

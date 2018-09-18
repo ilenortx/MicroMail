@@ -120,6 +120,54 @@
 .re-fhdz-a{
 	color: #3399ff;
 }
+.choose-address-div{
+	width: 500px;
+	height: 250px;
+	border: 1px solid #dedede;
+	position: absolute;
+	top: 25px;
+	right: 0;
+	background: #fff;
+	display: none;
+}
+.triangle_border_up{
+    width:0;
+    height:0;
+    border-width:0 6px 6px;
+    border-style:solid;
+    border-color:transparent transparent #dedede;/*透明 透明  灰*/
+    position: absolute;
+    top: -6px;
+    right: 30px;
+}
+.cad-div{
+	width: 100%;
+	height: 100%;
+}
+.cadd-top{
+	width: auto;
+	height: 35px;
+	padding: 0 20px;
+	line-height: 35px;
+	display: flex;
+    justify-content: space-between;
+}
+.cadd-top text{
+	
+}
+.cadd-top .address-managen{
+	color: #3399ff;
+}
+.cadd-content{
+	width: auto;
+	height: calc(100% - 35px);
+	padding: 0 20px;
+	overflow: auto;
+}
+.cadd-content .layui-form-radio>i{
+	font-size: 18px;
+}
+
 
 /*物流服务*/
 .server{
