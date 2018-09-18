@@ -71,7 +71,7 @@
 	    <div class="layui-form-item">
 	        <label class="layui-form-label">邮编：</label>
 	        <div class="layui-input-inline">
-	            <input type="number" name="postcode" required lay-verify="required" placeholder="邮编"
+	            <input type="number" name="postcode" placeholder="邮编"
 	            autocomplete="off" class="layui-input" value="{{addressInfo['postcode']}}">
 	        </div>
 	    </div>

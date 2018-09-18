@@ -110,7 +110,6 @@
     	
     	<h3 data-v-814df97a="" class="out-title-first">2.确认发货信息</h3>
     	<div class="confirm-addr">
-    		<!-- <span>专致服饰, 18926108998, 广东广州市番禺区城区桥南南新大街2号绣品创意园405</span> -->
     		<span class="fhaddress-show">{% if samr %}
     			{{ samr['fhname'] }}, {{ samr['tel'] }}, {{ samr['aname'] }}&nbsp;{{ samr['address'] }}
     			{% else %}暂无{% endif %}</span>

@@ -1,17 +1,17 @@
-var table, form, isDown=0; 
+var table, form, laydate, isDown=0;
+var qstatus='all', qtime, qorder;
 $(document).ready(function(){
 	layui.use('element', function(){
 		var $ = layui.jquery, element = layui.element;
 	});
 	
-	layui.use(['form', 'table'], function(){
-		table = layui.table;
-		form = layui.form;
+	layui.use(['form', 'table', 'laydate'], function(){
+		table = layui.table; form = layui.form; laydate = layui.laydate;
 		table.render({
 			elem: '#order-table',	page: true,
-			id:'order', 			toolbar: '#orderTableToolbar',
+			id:'order', 			//toolbar: '#orderTableToolbar',
 			title: '在售商品',	loading: true,
-			height:'full-60',	limit: 30,
+			height:'full-142',	limit: 30,
 			url: '../Order/orderList',
 			defaultToolbar: ['filter', 'print'],
 			where: {},
@@ -44,10 +44,12 @@ $(document).ready(function(){
 				openEdit('备注', $('#noteGrade').html(), 520, 280, 1);
 				form.render();
 				
-				$('.renote').on('click', function(){
-					renote(obj);
-				});
+				$('.renote').on('click', function(){ renote(obj); });
 			}
+		});
+		
+		laydate.render({
+		    elem: '#qpaytime', range: '~'
 		});
 	});
 });
@@ -56,7 +58,8 @@ $(document).ready(function(){
  * 商品列表重新加载
  */
 function reloadProList(){
-	reloadTable('order', '../Order/orderList', {});
+	qtime = $('.qtime').val(); qorder = $('.qorder').val();
+	reloadTable('order', '../Order/orderList', {'qstatus':qstatus, 'qtime':qtime, 'qorder':qorder});
 }
 
 function renote(obj){
@@ -81,11 +84,11 @@ function renote(obj){
 	layer.closeAll();
 }
 
-/*订单删除方法*/
-function del_id_url(ids){
-    if(confirm("确认删除吗？")){
-        location='{:U("del")}?did='+id;
-    }
+function rqStatus(obj, status){
+	qstatus = status;
+	$('.ostatus').removeClass('layui-btn-warm');
+	$(obj).addClass('layui-btn-warm');
+	reloadProList();
 }
 
 

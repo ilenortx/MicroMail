@@ -133,13 +133,29 @@ class OrderController extends AdminBase{
 		//获取页面参数
 		$page = (isset($_GET['page'])&&intval($_GET['page'])) ? intval($_GET['page']) : 0;
 		$limit = (isset($_GET['limit'])&&intval($_GET['limit'])) ? intval($_GET['limit']) : 0;
+		$qtime = isset($_GET['qtime']) ? explode('~', $_GET['qtime']) : '';
+		$qorder = isset($_GET['qorder']) ? trim($_GET['qorder'], ',') : '';
+		$qstatus = isset($_GET['qstatus']) ? trim($_GET['qstatus'], ',') : '';
 		
 		$sid = $this->session->get('sid');
-		$orderArr = Order::orderList(array(
+		$conditions = array(
 				'conditions'=> "shop_id=$sid and del=0",
 				'order'		=> "addtime desc",
 				'limit'		=> array("number" => $limit, "offset" => $limit*($page-1))
-		));
+		);
+		if (!empty($qorder)){
+			$conditions['conditions'] .= " and order_sn='{$qorder}'";
+		}else if (!empty($qtime) && count($qtime)==2){
+			$stime = strtotime($qtime[0].' 00:00:00');
+			$xx = date('Y-m-d H:i:s', $stime);
+			$etime = strtotime($qtime[1].' 23:59:59');
+			$conditions['conditions'] .= " and paytime>=$stime and paytime<=$etime";
+		}
+		if (!empty($qstatus) && empty($qorder) && $qstatus!='all'){
+			$conditions['conditions'] .= " and status='{$qstatus}'";
+		}
+		
+		$orderArr = Order::orderList($conditions);
 		
 		$count = Order::getCount("shop_id=$sid and del=0");
 		

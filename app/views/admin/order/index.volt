@@ -25,55 +25,25 @@
 <body style="min-height:auto">
 <nav class="navb"><div class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span class="c-gray en">&gt;</span> 全部订单 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></div></nav>
 <div class="page-container">
-    <!--<div>-->
-        <!--<div class="aaa_pts_4"><a href="{:U('order_count')}?shop_id={$shop_id}" class="btn btn-success">销售统计</a></div>-->
-
-    <!--</div>-->
-    <!--<br>-->
-    <!--<div style="border-bottom:1px solid #333;"></div>-->
-    <!--<br>-->
-    <!-- <form name='form' action="{:U('index')}" method='get'>
-        <div class="pro_4 bord_1">
-            <div class="pro_5">
-                支付类型：
-                <select class="inp_1 inp_6" name="pay_type" id="type">
-                    <option value="">全部类型</option>
-                    <option value="weixin" <?php echo $pay_type=='weixin' ? 'selected="selected"' : NULL ?>>微信支付</option>
-                    <option value="cash" <?php echo $pay_type=='cash' ? 'selected="selected"' : NULL ?>>现金支付</option>
-                </select>
-            </div>
-
-            <div class="pro_5">
-                订单状态：
-                <select class="inp_1 inp_6" name="pay_status" id="status">
-                    <option value="">全部状态</option>
-                    <?php foreach ($order_status as $key => $val) { ?>
-                    <option value="<?php echo $key; ?>" <?php if ($pay_status==$key) { ?>selected="selected"<?php } ?> ><?php echo $val; ?></option>
-                    <?php } ?>
-                    <option value="1" <?php if ($pay_status==1) { ?>selected="selected"<?php } ?> >退款中</option>
-                    <option value="2" <?php if ($pay_status==2) { ?>selected="selected"<?php } ?> >已退款</option>
-                </select>
-            </div>
-
-            <div class="pro_5">
-                购买时间：
-                <input class="inp_1 inp_6" id="start_time" name="start_time" value="<?php echo $start_time ?>" onfocus="MyCalendar.SetDate(this)">
-                <input class="inp_1 inp_6" id="end_time" name="end_time" value="<?php echo $end_time ?>" onfocus="MyCalendar.SetDate(this)">
-                <input class="btn btn-success" type="button"  value="搜 索" style="margin-left: 20px;" onclick="product_option();">
-            </div>
-            <div class="pro_6">
-
-
-            </div>
-        </div>
-    </form>
-    <br>
--->
-    <script type="text/html" id="orderTableToolbar">
-		<div class="toolbar">
-			<!--<a class="btna" onclick="openEditFull('添加商品','../Product/paPage')">
-			    <i class="layui-icon">&#xe654;</i>添加
-			 </a>-->
+    <div type="text/html" id="orderTableToolbar">
+		<div class="layui-form toolbar">
+			<div class="layui-input-block">
+				付款时间：
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input qtime" readonly id="qpaytime" placeholder=" - " />
+				</div>
+				&nbsp;&nbsp;&nbsp;&nbsp;订单号：
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input qorder" id="qorderSn" placeholder="订单号" />
+				</div>
+				<button class="layui-btn btna" onclick="reloadProList();" data-type="reload">查询</button>
+			</div>
+			<a class="layui-btn-warm btna ostatus" onclick="rqStatus(this, 'all')">全部</a>
+			<a class="btna ostatus" onclick="rqStatus(this, 10)">待付款</a>
+			<a class="btna ostatus" onclick="rqStatus(this, 20)">待发货</a>
+			<a class="btna ostatus" onclick="rqStatus(this, 30)">待收货</a>
+			<a class="btna ostatus" onclick="rqStatus(this, 50)">完成</a>
+			<a class="btna ostatus" onclick="rqStatus(this, 'all')">售后</a>
 		</div>
 	</script>
 	<div class="layui-row" id="noteGrade" style="display: none;">

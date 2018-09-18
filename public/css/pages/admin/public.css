@@ -11,7 +11,10 @@ html,body{ height:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-s
 .toolbar{}
 .toolbar .search-input{height:30px;}
 .toolbar .search-btn{height:30px;margin-left:10px;}
-.toolbar .btna{ height:25px;line-height:25px;display:inline-block;border:1px solid #e6e6e6;border-radius:5px;padding:0 5px;margin:5px;text-decoration:none; }
+.toolbar .btna{ height:30px;line-height:30px;display:inline-block;border:1px solid #e6e6e6;border-radius:5px;padding:0 8px;margin:5px;text-decoration:none; }
 .toolbar .btna:hover{ border:1px solid #e6e6e6;text-decoration:none;border-radius:5px; }
+.toolbar .layui-input, .layui-select, .layui-textarea{ height:30px; }
+.toolbar .layui-input-block{ margin:0; }
+.layui-table-tool-self{ top:inherit; bottom:15px; }
 
 .col-center{ display: flex;align-items: center;align-content: center;justify-content: center; }
