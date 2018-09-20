@@ -1,6 +1,6 @@
 <?php
 
-class LogisticsCompany extends \Phalcon\Mvc\Model
+class LogisticsShop extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -95,14 +95,14 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'logistics_company';
+        return 'logistics_shop';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return LogisticsCompany[]|LogisticsCompany|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return LogisticsShop[]|LogisticsShop|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -113,7 +113,7 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return LogisticsCompany|\Phalcon\Mvc\Model\ResultInterface
+     * @return LogisticsShop|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
@@ -130,7 +130,7 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
     public static function shopAllWl($sid=0){
     	if (empty($sid)) return 'DATAERR';
     	
-    	$lcs = LogisticsCompany::find("shop_id=$sid and status='S1'");
+    	$lcs = LogisticsShop::find("shop_id=$sid and status='S1'");
     	
     	if ($lcs) return $lcs->toArray();
     	else return 'DATAEXCEPTION';
@@ -141,9 +141,9 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      */
     public static function saveLogistics($params, $id){
     	if ($id){
-    		$wl = LogisticsCompany::findFirst($id);
+    		$wl = LogisticsShop::findFirst($id);
     	}else {
-    		$wl= new LogisticsCompany();
+    		$wl= new LogisticsShop();
     	}
     	
     	if ($params['default']){
@@ -167,7 +167,7 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      * 取消所有默认
      */
     public static function cancelDefault($sid){
-    	$sas = LogisticsCompany::find("shop_id=$sid");
+    	$sas = LogisticsShop::find("shop_id=$sid");
     	if ($sas){
     		foreach ($sas as $k=>$v){
     			$v->default = 'D0'; if (!$v->save()) return false;
@@ -181,7 +181,7 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      * 删除
      */
     public static function delLogistics($id, $sid){
-    	$lc = LogisticsCompany::findFirst("id=$id and shop_id=$sid");
+    	$lc = LogisticsShop::findFirst("id=$id and shop_id=$sid");
     	
     	if ($lc){
     		if ($lc->delete()) return 'SUCCESS';
@@ -193,7 +193,7 @@ class LogisticsCompany extends \Phalcon\Mvc\Model
      * 获取物流公司信息
      */
     public static function lcInfo($id, $sid, $shopInfo=false){
-    	$lc = LogisticsCompany::findFirst("id=$id and shop_id=$sid");
+    	$lc = LogisticsShop::findFirst("id=$id and shop_id=$sid");
     	
     	if ($lc) {
     		if ($shopInfo){

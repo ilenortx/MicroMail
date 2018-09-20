@@ -93,7 +93,7 @@ class OrderController extends AdminBase{
     	$sas = ShipAddress::getSAs('sid', $this->session->get('sid'), array('order'=>"default desc,sort desc"));
     	$sas = is_array($sas) ? $sas : array();
     	//物流公司
-    	$lcs = LogisticsCompany::shopAllWl($this->session->get('sid'));
+    	$lcs = LogisticsShop::shopAllWl($this->session->get('sid'));
     	
     	$this->view->prolist = $orderPros;
     	$this->view->postInfo = $this->postInfoAction($oi['post']);

@@ -34,7 +34,7 @@
         <div class="page-container">
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
-					<a href="javascript:;" onclick="attrAdd('添加属性','../ProductAttr/proAttrAddPage','800','650')" class="btn btn-primary radius">
+					<a href="javascript:;" onclick="openEdit('添加属性','../ProductAttr/proAttrAddPage','800','650')" class="btn btn-primary radius">
 						<i class="Hui-iconfont">&#xe600;</i>添加属性
 					</a>
 				</span>
@@ -68,7 +68,7 @@
 		                	{% elseif list['audit_result']=='R3' %}<label style="color:green;">通过</label>
 		                	{% endif %}</td>
                         <td class="td-manage">
-                            <a title="编辑" onclick="attrAdd('添加属性','../ProductAttr/proAttrAddPage?id={{list['id']}}','800','650')" href="javascript:;" class="ml-5" style="text-decoration:none">
+                            <a title="编辑" onclick="openEdit('修改属性','../ProductAttr/proAttrAddPage?id={{list['id']}}','800','650')" href="javascript:;" class="ml-5" style="text-decoration:none">
                                 <i class="Hui-iconfont">&#xe6df;</i>
                             </a>
                             <a title="删除" href="javascript:;" onclick="admin_del(this,{{ list['id'] }})" class="ml-5" style="text-decoration:none">

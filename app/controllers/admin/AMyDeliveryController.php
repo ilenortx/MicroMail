@@ -40,7 +40,7 @@ class AMyDeliveryController extends AdminBase{
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		
 		//获取物流公司信息
-		$lcInfo = LogisticsCompany::lcInfo($id, $this->session->get('sid'));
+		$lcInfo = LogisticsShop::lcInfo($id, $this->session->get('sid'));
 		
 		//读取物流公司json数据
 		$cccid = -1;
@@ -87,7 +87,7 @@ class AMyDeliveryController extends AdminBase{
 	 * 获取店铺物流
 	 */
 	public function shopwlgsListAction(){
-		$lcs = LogisticsCompany::shopAllWl($this->session->get('sid'));
+		$lcs = LogisticsShop::shopAllWl($this->session->get('sid'));
 		
 		if ($lcs=='DATAERR' || $lcs=='DATAEXCEPTION') $lcs = array();
 		
@@ -123,7 +123,7 @@ class AMyDeliveryController extends AdminBase{
 				}
 			}
 			if (!isset($wlgsArr[$wlgs])) { $this->err('数据异常'); exit(); }
-			$result = LogisticsCompany::saveLogistics(array(
+			$result = LogisticsShop::saveLogistics(array(
 					'shop_id'=>$this->session->get('sid'), 'name'=>$wlgsArr[$wlgs]['name'],
 					'description'=>$wlgsArr[$wlgs]['name'], 'printkd'=>'S1', 'code'=>$wlgs,
 					'remark'=>$remark, 'sort'=>$sort, 'default'=>$default
@@ -143,7 +143,7 @@ class AMyDeliveryController extends AdminBase{
 			
 			if (!$id) { $this->err('数据错误'); exit(); }
 			
-			$result = LogisticsCompany::delLogistics($id, $this->session->get('sid'));
+			$result = LogisticsShop::delLogistics($id, $this->session->get('sid'));
 			if ($result == 'SUCCESS') $this->msg('success');
 			else if ($result == 'OPEFILE') $this->err('操作失败');
 			else if ($result == 'DATAEXCEPTION') $this->err('数据异常');

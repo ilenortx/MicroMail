@@ -19,11 +19,15 @@ class ProductAttrController extends AdminBase{
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
 	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
-	    	 ->addCss("css/static/h-ui.admin/style.css")
+	    	 //->addCss("css/static/h-ui.admin/style.css")
+	    	 ->addCss("css/layui/layui.css")
+	    	 ->addCss("css/pages/admin/public.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("lib/layer/layer.js")
-	    	 ->addJs("js/static/h-ui/H-ui.min.js")
-	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
+	    	 ->addJs("lib/layui/layui.js")
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+// 	    	 ->addJs("js/static/h-ui/H-ui.min.js")
+// 	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
 	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js");
     	
     	$this->view->proAttrs = $this->proAttrs();
