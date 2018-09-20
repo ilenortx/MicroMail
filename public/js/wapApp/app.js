@@ -2,13 +2,13 @@ var app = {
 	d: {
 		//hostUrl: 'http://x.viphk.ngrok.org/MicroMail/',
 		//hostUrl: 'http://localhost/MicroMail/',
-		hostUrl: 'https://wx.yingyuncn.com/',
-		//hostUrl: 'http://localhost/MicroMail/',
+		//hostUrl: 'https://wx.yingyuncn.com/',
+		hostUrl: 'http://localhost/MicroMail/',
 
 		//hostImg: 'http://x.viphk.ngrok.org/MicroMail/public/files/uploadFiles/',
 		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
-		hostImg: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
-		//hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
+		//hostImg: 'https://wx.yingyuncn.com/public/files/uploadFiles/',
+		hostImg: 'http://localhost/MicroMail/public/files/uploadFiles/',
 
 		imgPath: 'https://wx.yingyuncn.com/public/img/',
 
