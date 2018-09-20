@@ -10,7 +10,7 @@ $(document).ready(function(){
 		table.render({
 			elem: '#shipAddress-table', id:'shipAddress',
 			toolbar: '#shipAddressTableToolbar', height:'full-60',
-			title: '在售商品',	loading: true,
+			title: '发货地址',	loading: true,
 			url: '../AMyDelivery/getSAList',
 			defaultToolbar: ['filter', 'print'],
 			where: {},

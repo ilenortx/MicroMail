@@ -2,7 +2,153 @@
 
 class AMyDeliveryController extends AdminBase{
 	
+	//---------
+	// 物流公司
+	//---------
+	public function wlgsListPageAction(){
+		$this->assets
+			 ->addCss("css/static/h-ui/H-ui.min.css")
+			 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
+			 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+			 ->addCss("css/layui/layui.css")
+			 ->addCss("css/pages/admin/public.css")
+			 ->addCss("css/pages/admin/myDelivery/wlgslist.css")
+			 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+			 ->addJs("lib/layui/layui.js")
+			 ->addJs("js/pages/admin/pageOpe.js")
+			 ->addJs("js/pages/admin/myDelivery/wlgslist.js");
+		
+		$this->view->pick("admin/myDelivery/wlgslist");
+	}
 	
+	/**
+	 * 添加物流公司
+	 */
+	public function wlgsAddPageAction(){
+		$this->assets
+			 ->addCss("css/static/h-ui/H-ui.min.css")
+			 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
+			 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+			 ->addCss("css/layui/layui.css")
+			 ->addCss("css/pages/admin/public.css")
+			 ->addCss("css/pages/admin/myDelivery/wlgsAdd.css")
+			 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+			 ->addJs("lib/layui/layui.js")
+			 ->addJs("js/pages/admin/pageOpe.js")
+			 ->addJs("js/pages/admin/myDelivery/wlgsAdd.js");
+		
+		$id = isset($_GET['id']) ? $_GET['id'] : 0;
+		
+		//获取物流公司信息
+		$lcInfo = LogisticsCompany::lcInfo($id, $this->session->get('sid'));
+		
+		//读取物流公司json数据
+		$cccid = -1;
+		$lcjson = file_get_contents(APP_PATH.'/data/logistics.json');
+		$lcArr = $lcjson ? json_decode($lcjson, true) : array();
+		$cysArr = array(); $wlgsArr = array();	
+		foreach ($lcArr as $k=>$v){
+			if (!isset($cysArr[$v['ccid']])){
+				array_push($cysArr, array('ccid'=>$v['ccid'], 'ccname'=>$v['ccname']));
+				$wlgsArr[$v['ccid']] = $v['lcs'];
+				
+				if ($cccid == -1){
+					foreach ($v['lcs'] as $k1=>$v1){
+						if (is_array($lcInfo) && $lcInfo['code']==$v1['code']) {
+							$cccid = $v['ccid']; break;
+						}
+					}
+				}
+			}
+		}
+		
+		if (!is_array($lcInfo)) {
+			$this->view->id = 0;
+			$this->view->ccys= 0;
+			$this->view->cwlgs = array();
+			$this->view->lcifno = array(
+					'shop_id'=>'', 'name'=>'', 'description'=>'',
+					'printkd'=>'', 'remark'=>'', 'sort'=>'', 'default'=>''
+			);
+		}else {
+			$this->view->id = $id;
+			$this->view->ccys = $cccid;
+			$this->view->cwlgs = $wlgsArr[$cccid];
+			$this->view->lcifno = $lcInfo;
+		}
+		
+		$this->view->cys = $cysArr;
+		$this->view->wlgs = json_encode($wlgsArr);
+		
+		$this->view->pick("admin/myDelivery/wlgsAdd");
+	}
+	
+	/**
+	 * 获取店铺物流
+	 */
+	public function shopwlgsListAction(){
+		$lcs = LogisticsCompany::shopAllWl($this->session->get('sid'));
+		
+		if ($lcs=='DATAERR' || $lcs=='DATAEXCEPTION') $lcs = array();
+		
+		foreach ($lcs as $k=>$v){
+			if ($v['default']=='D1') $lcs[$k]['default'] = '是';
+			else $lcs[$k]['default'] = '';
+		}
+		
+		$this->tableData($lcs, 0, '加载成功!');
+	}
+	
+	public function saveLcAction(){
+		if ($this->request->isPost()){
+			$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+			$cys = isset($_POST['cys']) ? $_POST['cys'] : null;
+			$wlgs = isset($_POST['wlgs']) ? $_POST['wlgs'] : null;
+			$remark = isset($_POST['remark']) ? $_POST['remark'] : '';
+			$sort = isset($_POST['sort']) ? intval($_POST['sort']) : 0;
+			$default = isset($_POST['default']) ? $_POST['default'] : false;
+			
+			if (!$cys || !$wlgs){ $this->err('数据错误'); exit(); }
+			
+			//读取物流公司json数据
+			$lcjson = file_get_contents(APP_PATH.'/data/logistics.json');
+			$lcArr = $lcjson ? json_decode($lcjson, true) : array();
+			$cysArr = array(); $wlgsArr = array();
+			foreach ($lcArr as $k=>$v){
+				if (!isset($cysArr[$v['ccid']])){
+					array_push($cysArr, array('ccid'=>$v['ccid'], 'ccname'=>$v['ccname']));
+					foreach ($v['lcs'] as $k1=>$v1){
+						$wlgsArr[$v1['code']] = $v1;
+					}
+				}
+			}
+			if (!isset($wlgsArr[$wlgs])) { $this->err('数据异常'); exit(); }
+			$result = LogisticsCompany::saveLogistics(array(
+					'shop_id'=>$this->session->get('sid'), 'name'=>$wlgsArr[$wlgs]['name'],
+					'description'=>$wlgsArr[$wlgs]['name'], 'printkd'=>'S1', 'code'=>$wlgs,
+					'remark'=>$remark, 'sort'=>$sort, 'default'=>$default
+			), $id);
+			
+			if ($result == 'SUCCESS') $this->msg('success');
+			else $this->err('操作失败');
+		}else $this->err('请求方式错误');
+	}
+	
+	/**
+	 * 删除店铺物流
+	 */
+	public function delShopWlgsAction(){
+		if ($this->request->isPost()){
+			$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+			
+			if (!$id) { $this->err('数据错误'); exit(); }
+			
+			$result = LogisticsCompany::delLogistics($id, $this->session->get('sid'));
+			if ($result == 'SUCCESS') $this->msg('success');
+			else if ($result == 'OPEFILE') $this->err('操作失败');
+			else if ($result == 'DATAEXCEPTION') $this->err('数据异常');
+		}else $this->err('请求方式错误');
+	}
 	
 	//---------
 	// 发货地址

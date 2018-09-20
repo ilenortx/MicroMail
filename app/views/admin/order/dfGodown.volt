@@ -142,9 +142,10 @@
 			  		<label class="layui-form-label">物流公司</label>
 			    	<div class="layui-input-inline">
 			      		<select name="city" style="width:100px">
-							<option value="010">北京</option>
-							<option value="021">上海</option>
-							<option value="0571">杭州</option>
+							<option value="0">请选择</option>
+							{% for lc in lcarr %}
+							<option value="{{lc['id']}}" {% if lc['default']=='D1' %}selected="selected"{% endif %}>{{lc['name']}}</option>
+							{% endfor %}
 						</select>
 			    	</div>
 			    	<label class="layui-form-label">物流单号</label>

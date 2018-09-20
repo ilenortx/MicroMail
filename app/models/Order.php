@@ -288,6 +288,7 @@ class Order extends \Phalcon\Mvc\Model
         $this->hasMany('id', "OrderProduct", 'order_id');
         $this->hasOne('receiver', 'Address', 'id');
         $this->hasOne('vid', 'UserVoucher', 'id');
+        $this->hasOne('shop_id', 'Shangchang', 'id');
         
         $this->useDynamicUpdate(true);
     }

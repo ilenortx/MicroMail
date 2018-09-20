@@ -883,7 +883,6 @@ class ApiPaymentController extends ApiBase{
     	//订单号错误
 	   	if (!$pay_sn) { echo json_encode(array('status'=>0,'err'=>'支付信息错误！')); exit(); }
     	
-    	//$order_info = Order::find("order_sn in({$pay_sn})");
 	   	$order_info = Order::findFirstByOrderSn($pay_sn);
     	//订单不存在
     	if (!$order_info) { echo json_encode(array('status'=>0,'err'=>'没有找到支付订单！')); exit(); }
@@ -892,16 +891,18 @@ class ApiPaymentController extends ApiBase{
     		$ab = new ActivityBase();
     		$ab->gblIsPd($order_info->hd_id);
     	}
-    	$orderinfo = $order_info->toArray();
     	
     	//订单状态异常
     	if (intval($order_info->status)!=10) { echo json_encode(array('status'=>0,'err'=>'订单状态异常！')); exit(); }
-    	//if (empty($v->order)) $v->order = $ordernew;
-    	//$v->order = $ordernew;
-    	//$v->paytime = time();
-    	//$v->save();
     	
-    	//$amount += $v->amount;
+    	$orderinfo = $order_info->toArray();
+    	$shopInfo = $order_info->Shangchang;//店铺名
+    	$pros = $order_info->OrderProduct;
+    	
+    	//商品名称
+    	$strPros = '';
+    	foreach ($pros as $k=>$v){ $strPros .= $v->name.'/'; }
+    	
     	$amount = $order_info->price_h;
     	$uid = $order_info->uid;
     	
@@ -916,9 +917,9 @@ class ApiPaymentController extends ApiBase{
     	//②、统一下单
     	$orderSn = $order_info->order_sn;
     	$datas = array(
-    			'body'=>"专致贸易_".$orderSn, 'attach'=>"专致贸易_".$orderSn, 
-    			'order_no'=>$orderSn, 'total_fee'=>floatval($amount)*100,
-    			'indate'=>1, 'goods_tag'=>"专致贸易_".$orderSn, 'open_id'=>$openId
+    			'body'=>trim($strPros, '/'), 'attach'=>'专致优货--'.$shopInfo->name, 
+    			'order_no'=>$orderSn, 'total_fee'=>floatval($amount)*100, 'indate'=>1,
+    			'goods_tag'=>"专致优货--更多优惠等你来拿", 'open_id'=>$openId
     	);
     	$order = $tools->jsApi($datas);
     	

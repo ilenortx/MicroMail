@@ -89,8 +89,11 @@ class OrderController extends AdminBase{
     	foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
     	$oi['proTF'] = $this->numberFormat($proTF);
     	
+    	//发货地址
     	$sas = ShipAddress::getSAs('sid', $this->session->get('sid'), array('order'=>"default desc,sort desc"));
     	$sas = is_array($sas) ? $sas : array();
+    	//物流公司
+    	$lcs = LogisticsCompany::shopAllWl($this->session->get('sid'));
     	
     	$this->view->prolist = $orderPros;
     	$this->view->postInfo = $this->postInfoAction($oi['post']);
@@ -99,6 +102,8 @@ class OrderController extends AdminBase{
     	//发货地址
     	$this->view->samr = count($sas) ? current($sas) : false;
     	$this->view->saarr = json_encode($sas);
+    	//物流公司
+    	$this->view->lcarr = is_array($lcs) ? $lcs : array();
     	
     	
     	$this->view->pick("admin/order/dfGodown");
