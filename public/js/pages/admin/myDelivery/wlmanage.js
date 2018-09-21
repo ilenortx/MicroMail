@@ -10,20 +10,23 @@ $(document).ready(function(){
 		table.render({
 			elem: '#logistics-table', id:'logistics',
 			toolbar: '#logisticsTableToolbar', height:'full-60',
-			title: '物流公司',	loading: true,
-			url: '../AMyDelivery/shopwlgsList',
+			title: '物流管理',	loading: true,
+			url: '../AMyDelivery/wlgsList',
 			defaultToolbar: ['filter', 'print'],
 			where: {},
 			cols: [[
 				{type:'checkbox', fixed:'left'},
-				{field:'name', width:200, title:'物流公司名称'},
-				{field:'nickname', width:200, title:'简称'},
-				{field:'description', 'title':'物流公司描述'},
-				{field:'printkd', width:100, align:'center', title:'打印快递单'},
+				{field:'cys', width:150, title:'承运商'},
+				{field:'name', width:150, title:'物流公司'},
+				{field:'code', 'title':'编码'},
+				{field:'tel', width:150, title:'电话'},
 				{field:'remark', title:'备注'},
-				{field:'sort', width:80, align:'center', title:'排序'},
-				{field:'default', width:100, align:'center', title:'默认快递'},
-				{field:'operate', toolbar:'#bar-opcode', title:'操作'}
+				{field:'isjscx', width:80, align:'center', title:'即时查询'},
+				{field:'iswlgz', width:80, align:'center', title:'物流跟踪'},
+				{field:'isdzmd', width:80, align:'center', title:'电子面单'},
+				{field:'isqj', width:80, align:'center', title:'取件'},
+				{field:'sort', width:60, align:'center', title:'排序'},
+				{width:160, fixed:'right', toolbar:'#bar-opcode', title:'操作'}
 			]],
 		});
 		
@@ -33,10 +36,10 @@ $(document).ready(function(){
 			var tr = obj.tr;
 			
 			if(layEvent === 'edit'){
-				openEditFull('物流编辑','../AMyDelivery/wlgsAddPage?id='+data.id)
+				openEditFull('物流编辑','../AMyDelivery/wlgsmAddPage?id='+data.id)
 			}else if (layEvent === 'del'){
 				layer.confirm('确认要删除?', function(index) {
-					$.post('../AMyDelivery/delShopWlgs', {'id':data.id}, function(data){
+					$.post('../AMyDelivery/delWlgs', {'id':data.id}, function(data){
 		            	var datas = jQuery.parseJSON(data);
 		              	if (datas.status == 1){
 		              		layer.msg('已删除!', { icon: 6, time: 1000 });
@@ -54,8 +57,8 @@ $(document).ready(function(){
 /**
  * 发货地址列表重新加载
  */
-function reloadLCList(){
-	reloadTable('logistics', '../AMyDelivery/shopwlgsList', {});
+function reloadWlmList(){
+	reloadTable('logistics', '../AMyDelivery/wlgsList', {});
 }
 
 

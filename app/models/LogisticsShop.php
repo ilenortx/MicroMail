@@ -10,7 +10,15 @@ class LogisticsShop extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="id", type="integer", length=255, nullable=false)
      */
-    public $id;
+	public $id;
+	
+	/**
+	 *
+	 * @var integer
+	 * @Column(column="ccid", type="integer", length=255, nullable=true)
+	 */
+	public $ccid;
+	
 
     /**
      *
@@ -18,21 +26,28 @@ class LogisticsShop extends \Phalcon\Mvc\Model
      * @Column(column="shop_id", type="integer", length=255, nullable=true)
      */
     public $shop_id;
-    
+
     /**
      *
      * @var string
      * @Column(column="code", type="string", length=10, nullable=true)
      */
     public $code;
-    
+
     /**
      *
      * @var string
      * @Column(column="name", type="string", length=32, nullable=true)
      */
     public $name;
-
+    
+    /**
+     *
+     * @var string
+     * @Column(column="nickname", type="string", length=32, nullable=true)
+     */
+    public $nickname;
+    
     /**
      *
      * @var string
@@ -46,6 +61,34 @@ class LogisticsShop extends \Phalcon\Mvc\Model
      * @Column(column="printkd", type="string", nullable=true)
      */
     public $printkd;
+
+    /**
+     *
+     * @var string
+     * @Column(column="customer_name", type="string", length=64, nullable=true)
+     */
+    public $customer_name;
+
+    /**
+     *
+     * @var string
+     * @Column(column="customer_pwd", type="string", length=64, nullable=true)
+     */
+    public $customer_pwd;
+
+    /**
+     *
+     * @var string
+     * @Column(column=" send_site", type="string", length=64, nullable=true)
+     */
+    public $send_site;
+
+    /**
+     *
+     * @var string
+     * @Column(column="month_code", type="string", length=64, nullable=true)
+     */
+    public $month_code;
 
     /**
      *
@@ -67,7 +110,7 @@ class LogisticsShop extends \Phalcon\Mvc\Model
      * @Column(column="default", type="string", nullable=true)
      */
     public $default;
-
+    
     /**
      *
      * @var string
@@ -81,7 +124,7 @@ class LogisticsShop extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("micro_mail");
-        $this->setSource("logistics_company");
+        $this->setSource("logistics_shop");
         
         $this->hasOne('shop_id', 'Shangchang', 'id');
         
@@ -119,7 +162,8 @@ class LogisticsShop extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
-
+    
+    
     
     //---------
     // 自定义
@@ -150,11 +194,19 @@ class LogisticsShop extends \Phalcon\Mvc\Model
     		if (!self::cancelDefault($params['shop_id'])) return 'OPEFILE';
     	}
     	
+    	$wl->ccid = $params['cys'];
     	$wl->shop_id = $params['shop_id'];
     	$wl->code = $params['code'];
+    	$wl->nickname = empty($params['nickname'])?$params['name']:$params['nickname'];
     	$wl->name = $params['name'];
     	$wl->description = $params['description'];
     	$wl->printkd = $params['printkd'];
+    	
+    	$wl->customer_name = $params['customer_name'];
+    	$wl->customer_pwd = $params['customer_pwd'];
+    	$wl->send_site = $params['send_site'];
+    	$wl->month_code = $params['month_code'];
+    	
     	$wl->remark = $params['remark'];
     	$wl->sort = $params['sort'];
     	$wl->default =  $params['default']?'D1':'D0';

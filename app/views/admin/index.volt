@@ -237,7 +237,8 @@
                     <dd>
                         <ul>
                             <li>
-                                <a data-href="../AMyDelivery/wlgsListPage" data-title="物流公司" href="javascript:void(0)">物流公司</a>
+                                <a data-href="../AMyDelivery/wlmanagePage" data-title="物流管理" href="javascript:void(0)">物流管理</a>
+								<a data-href="../AMyDelivery/wlgsListPage" data-title="物流公司" href="javascript:void(0)">物流公司</a>
 								<a data-href="../AMyDelivery/shipAddressPage" data-title="发货地址" href="javascript:void(0)">发货地址</a>
 							</li>
                         </ul>

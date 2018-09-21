@@ -15,6 +15,16 @@ $(function(){
         	$('#wlgs').removeAttr("disabled");
             form.render('select');
 	    });
+	    form.on('select(wlgs)', function(data){
+	    	var citem = wlgsarr[$('#cys').val()][data.value];
+	    	if (citem.isaccount){
+	    		$('.ismust').attr({'required':'required', 'lay-verify':'required'});
+	    	}else {
+	    		$('.ismust').removeAttr('required');
+	    		$('.ismust').removeAttr('lay-verify');
+	    	}
+            form.render('select');
+	    });
 
 	    //监听提交
 	    form.on('submit(formSub)', function(data){

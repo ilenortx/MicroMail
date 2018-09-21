@@ -40,10 +40,45 @@
 				<select id="wlgs" name="wlgs" lay-verify="required" lay-skin="select" lay-filter="wlgs" {% if id==0 %}disabled="disabled"{% endif %}>
 					<option value="0">请选择</option>
 					{% for c in cwlgs %}
-					<option value="{{c['code']}}" {% if c['code']==lcifno['code'] %}selected="selected"{% endif %}>{{c['name']}}</option>
+					<option value="{{c['code']}}" ismust="{{c['isaccount']}}" {% if c['code']==lcifno['code'] %}selected="selected"{% endif %}>{{c['name']}}</option>
 					{% endfor %}
 				</select>
 			</div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">简称：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="nickname" required lay-verify="required" placeholder="简称"
+	            autocomplete="off" class="layui-input" value="{{lcifno['nickname']}}">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">客户号：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="customer_name" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="客户号"
+	            autocomplete="off" class="layui-input ismust" value="{{lcifno['customer_name']}}">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">客户密码：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="customer_pwd" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="客户密码"
+	            autocomplete="off" class="layui-input ismust" value="{{lcifno['customer_pwd']}}">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">网点名称/编码：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="send_site" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="网点名称/编码"
+	            autocomplete="off" class="layui-input ismust" value="{{lcifno['send_site']}}">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">月结编码：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="month_code" placeholder="月结编码"
+	            autocomplete="off" class="layui-input" value="{{lcifno['month_code']}}">
+	        </div>
 	    </div>
 	    
 	    <div class="layui-form-item">
@@ -56,7 +91,7 @@
 	        <label class="layui-form-label">排序：</label>
 	        <div class="layui-input-inline">
 	            <input type="number" name="sort" placeholder="排序"
-	            autocomplete="off" class="layui-input" value="lcifno['sort']">
+	            autocomplete="off" class="layui-input" value="{{lcifno['sort']}}">
 	        </div>
 	        <label></label>
 	    </div>
