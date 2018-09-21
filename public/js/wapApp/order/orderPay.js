@@ -73,7 +73,8 @@ var page = {
 
 	initAddress: function() { //初始化地址
 		if(this.data.addrId == 0) {
-			$('.chooseAddress').show();
+			/*$('.chooseAddress').show();*/
+			$('.chooseAddress').css({'display':'flex'});
 			$('.address-info').hide();
 			return;
 		}
