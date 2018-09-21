@@ -125,6 +125,7 @@
 	background:#fff;
 	margin-bottom:10px;
 	padding-bottom:15px;
+	overflow:hidden;
 }
 .flitems-div{
 	overflow:auto;
@@ -137,6 +138,8 @@
 	margin-bottom: 5px;
 }
 .flitems-div::-webkit-scrollbar{
+	width: 0;
+    height: 0;
 	display: none;
 }
 .fl-item{
