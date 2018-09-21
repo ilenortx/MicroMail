@@ -17,7 +17,7 @@ $(function(){
 	    });
 	    form.on('select(wlgs)', function(data){
 	    	var citem = wlgsarr[$('#cys').val()][data.value];
-	    	if (citem.isaccount){
+	    	if (citem.isaccount=='1'){
 	    		$('.ismust').attr({'required':'required', 'lay-verify':'required'});
 	    	}else {
 	    		$('.ismust').removeAttr('required');
