@@ -128,12 +128,14 @@
 	overflow:hidden;
 }
 .flitems-div{
-	overflow:auto;
+	overflow-x:scroll;
 	white-space:nowrap;
-	width: 70%;
+	width: 100%;
 	overflow-y:hidden;
-	height:40px;
-	/* padding:15px 10px 0 10px; */
+	/*height:32px;*/
+	/*display:flex;
+	align-items:center;*/
+	padding:15px 10px 0 10px;
 	margin-bottom: 5px;
 }
 .flitems-div::-webkit-scrollbar{
