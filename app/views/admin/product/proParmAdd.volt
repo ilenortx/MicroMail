@@ -39,18 +39,15 @@
     	<article class="page-container">
         	<form id="parm_form" class="form form-horizontal" enctype="multipart/form-data" method="post">
                 <div class="row cl">
-                    <label class="form-label col-xs-3 col-sm-3">
-                        <span class="c-red">*</span>类型名称：
-                    </label>
+                    <label class="form-label col-xs-2 col-sm-2">
+                        <span class="c-red">*</span>类型名称：</label>
                     <div class="formControls col-xs-9 col-sm-3">
                         <input type="text" class="input-text" placeholder="选项名称" name="t_name" id="name" value="{{parmInfo['t_name']}}">
                         <input type="hidden" name="t_id" value="{{parmInfo['id']}}">
                     </div>
                 </div>
                 <div class="row cl">
-                	<label class="form-label col-xs-3 col-sm-3">
-                        选项值：
-                    </label>
+                	<label class="form-label col-xs-2 col-sm-2">选项值：</label>
                     <div class="formControls col-xs-9">
                     	<input class="addItemBtn faiButton" type="button" value="添加值" onclick="addValItem()">
                     	<table class="val-table val-table-title">
