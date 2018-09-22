@@ -368,7 +368,7 @@ class Product extends \Phalcon\Mvc\Model
      * 获取商品列表
      */
     public static function proList($params=array()){
-    	if (isset($param['conditions'])) $conditions['conditions'] = $params['conditions'];
+    	if (isset($params['conditions'])) $conditions['conditions'] = $params['conditions'];
     	if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
     	if (isset($params['order'])) $conditions['order'] = $params['order'];
 
