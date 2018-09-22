@@ -144,21 +144,7 @@ class ProductController extends AdminBase{
 
                 $cat_info = $cg->toArray();
                 if($cat_info['parm_id'] > 0){
-                    $parm_data = $cg->ProductParm->toArray();
-
-                    if($parm_data['disabled'] == 0){
-                        $parm_value_data = ProductParmValue::find("id in ({$parm_data['vid']})")->toArray();
-
-                        $parm_value_keys = array_column($parm_value_data, 'id');
-                        $parm_data['vid'] = explode(',', $parm_data['vid']);
-                        foreach ($parm_data['vid'] as $k => $v) {
-                            $key = array_search($v, $parm_value_keys);
-                            if($parm_value_data[$key]['type']=='select'){
-                                $parm_value_data[$key]['value'] = json_decode($parm_value_data[$key]['value']);
-                            }
-                            array_push($new_array, $parm_value_data[$key]);
-                        }
-                    }
+                    $this->getProParms($cg, $new_array);
                 }
 
     		}else $proArr['tid'] = 0;
@@ -1082,6 +1068,54 @@ class ProductController extends AdminBase{
     			echo json_encode(array('status'=>0, 'err'=>'不存在'));exit();
     		}
     	}
+    }
+
+    /**
+     * 后台异步获取商品参数格式
+     * @return [json]
+     */
+    public function ajaxGetParmsAction(){
+        if($this->request->isPost()){
+            $cat_id = (isset($_POST['cid']) && $_POST['cid'])? $_POST['cid']:0;
+            if($cat_id){
+                $cg = Category::findFirstById($cat_id);
+                if($cg->parm_id > 0){
+                    $new_array = array();
+                    $this->getProParms($cg, $new_array);
+                    echo json_encode(array('status'=>1, 'data'=>$new_array, 'msg'=>'success'));exit();
+                }else{
+                    echo json_encode(array('status'=>1, 'data'=>array(),'msg'=>'success'));exit();
+                }
+            }else{
+                echo json_encode(array('status'=>0, 'msg'=>'参数错误'));exit();
+            }
+        }else{
+            echo json_encode(array('status'=>0, 'msg'=>'请求方法错误!'));exit();
+        }
+    }
+
+    /**
+     * 获取商品参数格式
+     * @param  [mix] $cg         [商品分类结果集]
+     * @param  [array] &$new_array [结果]
+     * @return [null]
+     */
+    public function getProParms($cg, &$new_array){
+        $parm_data = $cg->ProductParm->toArray();
+
+        if($parm_data['disabled'] == 0){
+            $parm_value_data = ProductParmValue::find("id in ({$parm_data['vid']})")->toArray();
+
+            $parm_value_keys = array_column($parm_value_data, 'id');
+            $parm_data['vid'] = explode(',', $parm_data['vid']);
+            foreach ($parm_data['vid'] as $k => $v) {
+                $key = array_search($v, $parm_value_keys);
+                if($parm_value_data[$key]['type']=='select'){
+                    $parm_value_data[$key]['value'] = json_decode($parm_value_data[$key]['value']);
+                }
+                array_push($new_array, $parm_value_data[$key]);
+            }
+        }
     }
 
     /**
