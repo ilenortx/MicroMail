@@ -518,6 +518,8 @@
                     $('#cid').html('<option value="">二级分类</option>');
                     $('#catedesc').html('&nbsp;&nbsp; * 该分类下还没有二级分类，请先添加');
                 }
+
+                $('.layui-tab-item:last').html('');
             }
 
             /* 图片删除 */
@@ -611,6 +613,41 @@
 	    		}
 	    		return url;
 	    	}
+
+            $(document).on('change', '#cid', function(){
+                var cid = $(this).val();
+                if(cid=='' || cid==0){
+                    $('.layui-tab-item:last').html('');
+                }else{
+                    $.post('../product/ajaxGetParms', {cid: $(this).val()}, function(data) {
+                        if(data.status==1){
+                            var html_text = '';
+
+                            for (var i in data.data) {
+                                var item = data.data[i];
+
+                                html_text += '<div class="row cl">';
+                                html_text += '<label class="form-label col-xs-4 col-sm-3">'+ item['name'] +'：</label>';
+                                html_text += '<div class="formControls col-xs-8 col-sm-3">';
+                                if(item['type']=='text'){
+                                    html_text += '<input type="text" class="input-text" name="parm['+ item['id'] +']" id="name" value="">';
+                                }else if(item['type']=='select'){
+                                    html_text += '<select name="parm['+ item['id'] +']">';
+                                    html_text += '<option value="">请选择</option>';
+                                    for (var j in item['value']) {
+                                        html_text += '<option value="'+ j +'">'+ item['value'][j] +'</option>';
+                                    };
+                                    html_text += '</select>';
+                                }
+                                html_text += '</div></div>';
+                            };
+                            $('.layui-tab-item:last').html(html_text);
+                        }else{
+                            alert(data.msg);
+                        }
+                    },'json');
+                }
+            });
 
     	</script>
     </body>
