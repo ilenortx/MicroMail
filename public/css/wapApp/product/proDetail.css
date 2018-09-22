@@ -20,10 +20,11 @@
 	width: 100%;
 	height: auto;
 	position: absolute;
-	top: 0px;
+	/* top: 0px; */
 	left: 0px;
 	z-index: 100;
 	display: none;
+	background: #000000;
 }
 .video{
 	width: 100%;
@@ -31,7 +32,51 @@
 }
 .video-js{
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 50px);
+}
+.video-div .video-js .vjs-big-play-butto{
+	width: 50px;
+	height: 50px;
+	top: calc(50% - 25px);
+	left: calc(50% - 25px);
+}
+.pay-video-div{
+	width: 50px;
+	height: 50px;
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	position: absolute;
+	border-radius: 50%;
+	border: 1px solid #fff;
+	left: 50%;
+	top: 50%;
+	margin: -25px;
+	font-size: 11px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+.play-sjx{
+	height:0px;
+	width:0px;
+	border-top: 9px solid transparent;
+	border-left: 14px solid #fff;
+	border-bottom: 9px solid transparent;
+	margin: 0 auto;
+}
+.quitPlay{
+	width: 80px;
+	height: 25px;
+	background: gray;
+	font-size: 12px;
+	position: absolute;
+	bottom: 22px;
+	left: calc(50% - 40px);
+	text-align: center;
+	line-height: 26px;
+	margin-bottom: -12px;
+	border-radius: 15px;
 }
 
 

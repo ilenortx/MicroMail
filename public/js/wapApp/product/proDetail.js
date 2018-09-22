@@ -1,3 +1,4 @@
+var videoObj, swiper, payVideoDiv;
 mui.ready(function() {
 	page.initWinWH();
 	$('.pro-swiper').height($('.pro-swiper').width());
@@ -7,11 +8,14 @@ mui.ready(function() {
 	$('#syg').click(function() {
 		swiper.slidePrev();
 	});
-
-	var myPlayer = videojs('video');
+	
+	videoObj = videojs('video');
 	videojs("video").ready(function() {
-		var myPlayer = this;
-		/*myPlayer.play();*/
+		var videoObj = this;
+	});
+	$('.quitPlay').click(function(){
+		videoObj.pause();
+		$('.video-div').hide();
 	});
 
 	//加载数据
@@ -76,6 +80,38 @@ var page = {
 		var sc = $('.pro-swiper');
 		var sw = $('<div class="swiper-wrapper"></div>');
 		var sp = $('<div class="swiper-pagination"></div>');
+		//视频
+		if (this.data.itemData.video && bi.length>0){
+			var div = $('<div class="swiper-slide"></div>');
+			var img = $('<img src="' + bi[0] + '" />');
+			payVideoDiv = $('<div class="pay-video-div"></div>');
+			payVideoDiv.append('<text class="play-sjx"></text>')
+			div.append(img);
+			div.append(payVideoDiv);
+			sw.append(div);
+			
+			payVideoDiv.on('click', function(){
+				$('.video-div').show();videoObj.play();
+			});
+			$('.video-div').on('touchstart', function (e) {
+				e = e || window.event;
+			    var $tb = $(this);
+			    var startX = e.originalEvent.changedTouches[0].pageX, pullDeltaX = 0;
+			    $tb.on('touchend', function (e) {
+					e = e || window.event;
+			        $tb.off('touchmove touchend');
+			        videoObj.pause();
+			        $('.video-div').hide();
+
+			        pullDeltaX = e.originalEvent.changedTouches[0].pageX-startX;
+			        if (pullDeltaX > 30){//右滑，往前翻所执行的代码
+			        	if (bi.length>1) swiper.slideTo(1, 1000, false);
+			        }else if (pullDeltaX < -30){//左滑，往后翻所执行的代码
+			        	if (bi.length>1) swiper.slideTo(2, 1000, false);
+			        }
+			    });
+			});
+		}
 
 		for(var i = 0; i < bi.length; ++i) {
 			var div = $('<div class="swiper-slide"></div>');
@@ -86,7 +122,7 @@ var page = {
 		sc.append(sw);
 		sc.append(sp);
 
-		var swiper = new Swiper('.swiper-container', {
+		swiper = new Swiper('.swiper-container', {
 			slidesPerView: 1,
 			spaceBetween: 0,
 			loop: true,

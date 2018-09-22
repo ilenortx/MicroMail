@@ -3,8 +3,9 @@
 	<div class="video-div">
 		<video id="video" class="video-js" controls preload="auto" poster="" data-setup="{}">
 			<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-			<p class="vjs-no-js"></p>
+			<!-- <p class="vjs-no-js"></p> -->
 		</video>
+		<div class="quitPlay">退出播放</div>
 	</div>
 	<div class="pro-swiper swiper-container">
 	</div>
