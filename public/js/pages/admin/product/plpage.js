@@ -47,12 +47,12 @@ $(document).ready(function(){
 		              			var xx = $(_this).attr('tjstatus');
 		              			$(_this).html('<i class="Hui-iconfont">&#xe615;</i>');
 		              			$(_this).attr({'tjstatus':'1', 'title':'推荐'});
-		              			$(obj.tr[0].children[7]).html('');
+		              			$(obj.tr[2].children[0]).html('');
 		              		}else {
 			                	layer.msg('推荐成功!', { icon: 6, time: 1000 });
 		              			$(_this).html('<i class="Hui-iconfont">&#xe631;</i>');
 		              			$(_this).attr({'tjstatus':'0', 'title':'取消推荐'});
-		              			$(obj.tr[0].children[7]).html('<label style="color:green;">推荐</label>');
+		              			$(obj.tr[2].children[0]).html('<label style="color:green;">推荐</label>');
 		              		}
 		            	}else layer.msg(datas.msg, { icon: 5, time: 1000 });
 		        	});

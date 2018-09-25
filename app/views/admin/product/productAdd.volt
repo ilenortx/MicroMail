@@ -507,7 +507,7 @@
 
                 var cateid = $('#cateid').val();
                 var option = jsonArr[cateid];
-                if (option.length > 0) {
+                if (option && option.length > 0) {
                     var htmls = '<option value="">二级分类</option>';
                     for (var i = 0; i < option.length; i++) {
                         htmls += '<option value="' + option[i]['id'] + '">-- ' + option[i]['name'] + '</option>';

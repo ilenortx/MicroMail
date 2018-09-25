@@ -151,4 +151,18 @@ class Category extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取所有分类 (不包括 tid为0)
+     */
+    public static function categoryListNT0(){
+    	$cls = Category::find(array("tid!=0 and status='S1'"));
+    	
+    	if ($cls) return $cls->toArray();
+    	else return 'DATAEXCEPTION';
+    }
+    
 }

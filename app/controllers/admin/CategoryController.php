@@ -16,26 +16,18 @@ class CategoryController extends AdminBase{
      */
     public function cgLPageAction(){
     	$this->assets
-	    	 ->collection('css1')
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
-	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css");
-    	$this->assets
-	    	 ->collection('css2')
-	    	 ->addCss("css/static/h-ui.admin/style.css");
-    	$this->assets
-	    	 ->collection('js1')
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
+	    	 ->addCss("css/layui/layui.css")
+	    	 ->addCss("css/pages/admin/public.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("lib/layer/layer.js")
-	    	 ->addJs("js/static/h-ui/H-ui.min.js")
-	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js");
-	    $this->assets
-	    	 ->collection('js2')
-	    	 ->addJs("lib/My97DatePicker/4.8/WdatePicker.js")
-	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
-	    	 ->addJs("lib/laypage/1.2/laypage.js");
+	    	 ->addJs("lib/layui/layui.js")
+	    	 ->addJs("js/pages/admin/pageOpe.js")
+	    	 ->addJs("js/pages/admin/product/category.js");
 
-	    $this->view->categoryLists = $this->categoryListAction();
+	    //$this->view->categoryLists = $this->categoryListAction();
 
     	$this->view->pick("admin/product/category");
     }
@@ -138,7 +130,33 @@ class CategoryController extends AdminBase{
 
     	return $clists;
     }
-
+    public function categoryJsonAction(){
+    	$clarr = Category::categoryListNT0();
+    	
+    	if (!is_array($clarr)) $clarr = array();
+    	
+    	foreach ($clarr as $k=>$v){
+    		$clarr[$k]['pId'] = $v['tid'];
+    		
+    		
+    		$clarr[$k]['operate'] = "";
+    		if ($v['bz_2']=='1'){
+    			$clarr[$k]['isTj'] = '<font style="color:#090">推荐</font>';
+    			$clarr[$k]['operate'] .= "<a style=\"text-decoration:none\" lay-event=\"tjset\" tjstatus='0' href=\"javascript:;\" title=\"取消推荐\"><i class=\"Hui-iconfont\">&#xe631;</i></a>";
+    		}else {
+    			$clarr[$k]['isTj'] = '';
+    			$clarr[$k]['operate'] .= "<a style=\"text-decoration:none\" lay-event=\"tjset\" tjstatus='1' href=\"javascript:;\" title=\"推荐\"><i class=\"Hui-iconfont\">&#xe615;</i></a>";
+    		}
+    		$clarr[$k]['operate'] .= "
+    		<a title=\"编辑\" href=\"../Category/cgAPage?cgid={$v['id']}&edit=true\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>
+    		<a title=\"删除\" lay-event=\"del\" href=\"javascript:;\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>
+    		";
+    		
+    	}
+    	
+    	$this->tableData($clarr);
+    }
+    
     /**
      * 获取所有分类
      */
