@@ -129,6 +129,7 @@
 	right: 0;
 	background: #fff;
 	display: none;
+    z-index: 2;
 }
 .triangle_border_up{
     width:0;

@@ -79,10 +79,17 @@ class LogisticsShop extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(column=" send_site", type="string", length=64, nullable=true)
+     * @Column(column="station_code", type="string", length=64, nullable=true)
      */
-    public $send_site;
-
+    public $station_code;
+    
+    /**
+     *
+     * @var string
+     * @Column(column="station_name", type="string", length=64, nullable=true)
+     */
+    public $station_name;
+    
     /**
      *
      * @var string
@@ -204,7 +211,8 @@ class LogisticsShop extends \Phalcon\Mvc\Model
     	
     	$wl->customer_name = $params['customer_name'];
     	$wl->customer_pwd = $params['customer_pwd'];
-    	$wl->send_site = $params['send_site'];
+    	$wl->station_code= $params['station_code'];
+    	$wl->station_name= $params['station_name'];
     	$wl->month_code = $params['month_code'];
     	
     	$wl->remark = $params['remark'];

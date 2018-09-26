@@ -179,8 +179,8 @@ class AMyDeliveryController extends AdminBase{
 			$this->view->lcifno = array(
 					'shop_id'=>'', 'name'=>'', 'description'=>'',
 					'printkd'=>'', 'remark'=>'', 'sort'=>'', 'default'=>'',
-					'customer_name'=>'', 'customer_pwd'=>'',
-					'send_site'=>'', 'month_code'=>'', 'nickname'=>''
+					'customer_name'=>'', 'customer_pwd'=>'', 'station_code'=>'',
+					'station_name'=>'', 'month_code'=>'', 'nickname'=>''
 			);
 			$this->view->isaccount = '0';
 		}else {
@@ -226,7 +226,8 @@ class AMyDeliveryController extends AdminBase{
 			
 			$cname = isset($_POST['customer_name']) ? $_POST['customer_name'] : '';
 			$cpwd = isset($_POST['customer_pwd']) ? $_POST['customer_pwd'] : '';
-			$sendSite= isset($_POST['send_site']) ? $_POST['send_site'] : '';
+			$stationCode = isset($_POST['station_code']) ? $_POST['station_code'] : '';
+			$stationName = isset($_POST['station_name']) ? $_POST['station_name'] : '';
 			$monthCode= isset($_POST['month_code']) ? $_POST['month_code'] : '';
 			
 			if (!$cys || !$wlgs){ $this->err('数据错误'); exit(); }
@@ -238,8 +239,8 @@ class AMyDeliveryController extends AdminBase{
 					'shop_id'=>$this->session->get('sid'), 'name'=>$wl['name'],
 					'description'=>$wl['name'], 'printkd'=>'S1', 'code'=>$wlgs,
 					'remark'=>$remark, 'sort'=>$sort, 'default'=>$default, 'cys'=>$cys,
-					'customer_name'=>$cname, 'customer_pwd'=>$cpwd, 'send_site'=>$sendSite,
-					'month_code'=>$monthCode, 'nickname'=>$nickname
+					'customer_name'=>$cname, 'customer_pwd'=>$cpwd, 'station_code'=>$stationCode,
+					'station_name'=>$stationName, 'month_code'=>$monthCode, 'nickname'=>$nickname
 			), $id);
 			
 			if ($result == 'SUCCESS') $this->msg('success');

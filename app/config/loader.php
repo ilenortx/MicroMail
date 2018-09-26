@@ -16,6 +16,7 @@ $loader->registerDirs(
     	$config->application->adminBaseDir,
     	$config->application->baseClassDir,
     	$config->application->wapAppDir,
+    	$config->application->timedTask,
     	//$config->application->wxpayDir
     		
     	$config->application->wechatDir,

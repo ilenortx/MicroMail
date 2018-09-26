@@ -8,15 +8,15 @@ class IniFileOpe extends ControllerBase{
 	 * @param string $sections
 	 * @return array|array|boolean
 	 */
-	public static function getIniFile($path, $sections=''){
+	public static function getIniFile($path, $sections='', $processSections=true){
 		if (is_file($path)){
 			
 			if (!empty($sections)){
-				$data = parse_ini_file($path, true);
+				$data = parse_ini_file($path, $processSections);
 				if (isset($data[$sections])) $data = $data[$sections];
 				else return array();
 			}else {
-				$data = parse_ini_file($path, false);
+				$data = parse_ini_file($path, $processSections);
 			}
 			
 			return $data;

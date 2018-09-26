@@ -67,10 +67,17 @@
 	        </div>
 	    </div>
 	    <div class="layui-form-item">
-	        <label class="layui-form-label">网点名称/编码：</label>
+	        <label class="layui-form-label">网点编码：</label>
 	        <div class="layui-input-inline">
-	            <input type="text" name="send_site" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="网点名称/编码"
-	            autocomplete="off" class="layui-input ismust" value="{{lcifno['send_site']}}">
+	            <input type="text" name="station_code" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="网点编码"
+	            autocomplete="off" class="layui-input ismust" value="{{lcifno['station_code']}}">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">网点名称：</label>
+	        <div class="layui-input-inline">
+	            <input type="text" name="station_name" {% if isaccount==1 %}required lay-verify="required"{% endif %} placeholder="网点名称"
+	            autocomplete="off" class="layui-input ismust" value="{{lcifno['station_name']}}">
 	        </div>
 	    </div>
 	    <div class="layui-form-item">

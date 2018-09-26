@@ -24,7 +24,7 @@ $(document).ready(function(){
 				{field:'price_yh', width:100, align:'center', sort:true, title:'价格/元'},
 				{field:'renqi', width:80, align:'center', sort:true, title:'人气'},
 				{field:'attrs', width:130, align:'center', title:'属性(点击修改)'},
-				{field:'stype', width:80, align:'center', fixed:'right', title:'推荐'},
+				{field:'stype', width:80, align:'center', fixed:'right', style:'height:91px', title:'推荐'},
 				{field:'operate', width:160, fixed:'right', style:'height:91px', title:'操作'},
 			]],
 		});
