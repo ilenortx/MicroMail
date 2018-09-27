@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class TimedTask{
+class TimedTask extends ControllerBase{
 	
 	private static $ttpath = APP_PATH.'/controllers/timedTask/config.ini';
 	
@@ -54,6 +54,40 @@ class TimedTask{
 		$ttinfo = IniFileOpe::getIniFile(self::$ttpath, $sections);
 		
 		return $ttinfo;
+	}
+	
+	
+	/**
+	 * 执行定时任务
+	 */
+	public static function runTask($sections){
+		$status = 0;
+		$tti = self::timedTaskInfo($sections);
+		if ($tti && is_array($tti)){
+			$taskName = ucfirst($sections).'Task';
+			if (parent::systype() == 'win'){//window系统
+				exec("schtasks /run /tn $taskName", $out, $status);
+			}else {//linux系统
+				
+			}
+		}
+		
+		return $status==0;
+	}
+	
+	public static function endTask($sections){
+		$status = 0;
+		$tti = self::timedTaskInfo($sections);
+		if ($tti && is_array($tti)){
+			$taskName = ucfirst($sections).'Task';
+			if (parent::systype() == 'win'){//window系统
+				exec("schtasks /end /tn $taskName", $out, $status);
+			}else {//linux系统
+				
+			}
+		}
+		
+		return $status==0;
 	}
 	
 }

@@ -84,7 +84,7 @@
 		
 		        <div class="row cl">
 		            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-		                <input id="etsubmit" class="btn btn-primary radius" type="buttom" name="submit" value="&nbsp;&nbsp;提&nbsp;交&nbsp;&nbsp;">
+		                <input id="etsubmit" class="btn btn-primary radius" type="button" name="submit" value="&nbsp;&nbsp;提&nbsp;交&nbsp;&nbsp;">
 		            </div>
 		        </div>
 		    </form>

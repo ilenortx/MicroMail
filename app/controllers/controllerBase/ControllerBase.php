@@ -309,4 +309,11 @@ class ControllerBase extends Controller{
 		return number_format($num, $decimal);
 	}
 	
+	/**
+	 * 服务器系统类型获取
+	 */
+	protected static function systype(){
+		return strtoupper(substr(PHP_OS,0,3))==='WIN'?'win':'linux';
+	}
+	
 }

@@ -68,6 +68,10 @@ class ASysManageController extends AdminBase{
 			$ttinfo = TimedTask::timedTaskInfo($id);
 			
 			if ($ttinfo && count($ttinfo)) {
+				if ($ttinfo['status'] != $status){//状态发生改变
+					if ($status == 'S0') TimedTask::endTask($id);
+					else TimedTask::runTask($id);
+				}
 				$ttinfo['rule'] = $rule;
 				$ttinfo['status'] = $status;
 				

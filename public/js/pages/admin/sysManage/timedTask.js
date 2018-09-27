@@ -50,7 +50,13 @@ $(document).ready(function(){
 		        	}else layer.msg(datas.msg, { icon: 5, time: 1000 });
 		        });
 			}else if (layEvent === 'excute') {
-				
+				$.post('../TaskOpe/execute', {'id':data.id}, function(data){
+    		    	var datas = jQuery.parseJSON(data);
+    		    	if (datas.status == 1){
+    		    		reloadList();
+    		    		layer.msg('执行成功', { icon: 6, time: 1000 });
+    		    	}else layer.msg(datas.err, { icon: 5, time: 1000 });
+    		    });
 			}
 		});
 	});
