@@ -420,4 +420,21 @@ class Order extends \Phalcon\Mvc\Model
     	}else return 'DATAEXCEPTION';
     }
     
+    /**
+     * 自动收货
+     */
+    public static function autoReceiving($days=7){
+    	$time = strtotime($days . ' day');
+    	$orders = Order::find("fhtime>$time and status=30 and type='weixin'");
+    	
+    	if ($orders) {
+    		$result = 'SUCCESS';
+    		foreach ($orders as $k=>$v){
+    			$v->status = 50;
+    			if (!$v->save()) $result = 'OPEFILE';
+    		}
+    		return $result;
+    	}else return 'DATAEXCEPTION';
+    }
+    
 }

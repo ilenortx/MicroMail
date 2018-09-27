@@ -82,6 +82,8 @@ var page = {
 		var sp = $('<div class="swiper-pagination"></div>');
 		//视频
 		if (this.data.itemData.video && bi.length>0){
+			videoObj.src(app.d.hostVideo+this.data.itemData.video);
+
 			var div = $('<div class="swiper-slide"></div>');
 			var img = $('<img src="' + bi[0] + '" />');
 			payVideoDiv = $('<div class="pay-video-div"></div>');
