@@ -184,7 +184,7 @@ class TaskQueue extends \Phalcon\Mvc\Model
      * @param：integer $takeNum  获取任务个数
      * @return: array | boolean
      */
-    public static function getTaskQueue($takeNum=50){
+    public static function getweTaskQueue($takeNum=50){
     	$tqs = TaskQueue::find(array(
     			'conditions'=> "status='S1'",
     			'order'		=> "level desc, intime desc",
