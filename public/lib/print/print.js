@@ -11,7 +11,7 @@ var print = {
 		//获取客户内网ip
 		//this.getIPs(function(ip){ _this.d.ip = ip; });
 		//加载js
-		this.loadJs("http://192.168.1.101:8000/CLodopfuncs.js");
+		//this.loadJs("http://192.168.1.101:8000/CLodopfuncs.js");
 	},
 	driverSelectList: function (node) {
       	CLODOP.Create_Printer_List(node, true);
