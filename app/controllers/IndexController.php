@@ -5,52 +5,15 @@ class IndexController extends ControllerBase
 {
 
 	public function tttAction(){
-		$this->view->disable();
+		//$this->view->disable();
 		$this->assets
 			 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 			 ->addJs("lib/print/print.js");
 		
-		/* $this->view->ip = $this->get_ip();
-		$this->view->pick("index/index"); */
-			 echo $this->get_client_ip();
+		$this->view->ip = 0;
+		$this->view->pick("index/index");
 	}
 	
-	
-	/**
-	 * 判断是否为内网IP
-	 * @param ip IP
-	 * @return 是否内网IP
-	 */
-	function is_private_ip($ip) {
-	    return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-	}
-	
-	/*** 获取真实IP* @param int $type* @param bool $client* @return mixed*/
-	function get_client_ip($type = 0,$client=true) {
-		$type       =  $type ? 1 : 0;        
-		static $ip  =   NULL;        
-		if ($ip !== NULL) return $ip[$type];        
-		if($client){            
-			if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {                
-				$arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);                
-				$pos    =   array_search('unknown',$arr);                
-				if(false !== $pos) unset($arr[$pos]);                
-				$ip     =   trim($arr[0]);            
-			}elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {                
-				$ip     =   $_SERVER['HTTP_CLIENT_IP'];            
-			}elseif (isset($_SERVER['REMOTE_ADDR'])) {                
-				$ip     =   $_SERVER['REMOTE_ADDR'];            
-			}        
-		}elseif (isset($_SERVER['REMOTE_ADDR'])) {            
-			$ip     =   $_SERVER['REMOTE_ADDR'];        
-		}        
-		// 防止IP伪造        
-		$long = sprintf("%u",ip2long($ip));        
-		$ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);        
-		return $ip[$type];    
-	}
-
-
 	
 	
 	
