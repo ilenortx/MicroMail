@@ -4,6 +4,58 @@
 class IndexController extends ControllerBase
 {
 
+	public function tttAction(){
+		$this->view->disable();
+		$this->assets
+			 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+			 ->addJs("lib/print/print.js");
+		
+		/* $this->view->ip = $this->get_ip();
+		$this->view->pick("index/index"); */
+			 echo $this->get_ip();
+	}
+	
+	/**
+	 * 判断是否为内网IP
+	 * @param ip IP
+	 * @return 是否内网IP
+	 */
+	function is_private_ip($ip) {
+		return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+	}
+	
+	/**
+	 * 获取客户端IP(非用户服务器IP)
+	 * @return 客户端IP
+	 */
+	//不同环境下获取真实的IP
+	function get_ip(){
+		//判断服务器是否允许$_SERVER
+		if(isset($_SERVER)){
+			if(isset($_SERVER[HTTP_X_FORWARDED_FOR])){
+				$realip = $_SERVER[HTTP_X_FORWARDED_FOR];
+			}elseif(isset($_SERVER[HTTP_CLIENT_IP])) {
+				$realip = $_SERVER[HTTP_CLIENT_IP];
+			}else{
+				$realip = $_SERVER[REMOTE_ADDR];
+			}
+		}else{
+			//不允许就使用getenv获取
+			if(getenv("HTTP_X_FORWARDED_FOR")){
+				$realip = getenv( "HTTP_X_FORWARDED_FOR");
+			}elseif(getenv("HTTP_CLIENT_IP")) {
+				$realip = getenv("HTTP_CLIENT_IP");
+			}else{
+				$realip = getenv("REMOTE_ADDR");
+			}
+		}
+		
+		return $realip;
+	}
+	
+	
+	
+	
     public function indexAction(){
     	$this->view->disable();
 		
