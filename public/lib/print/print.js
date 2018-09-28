@@ -16,16 +16,14 @@ var print = {
 	driverSelectList: function (node) {
       	CLODOP.Create_Printer_List(node, true);
 	},
-	print: function(){
+	print: function(content){
 		var iDriverIndex=document.getElementById("test").value;
 		
 		LODOP.PRINT_INIT("测试端桥AO打印");
 		LODOP.SET_PRINTER_INDEX(iDriverIndex);
 		//LODOP.SET_PRINTER_INDEX("\\USER-20170412MC\HP LaserJet 1022");
-		LODOP.SET_PRINT_PAGESIZE(0,0,0,"sdfsdf");
-		LODOP.ADD_PRINT_TEXT(10,10,300,200,"这是纯文本行");
-		LODOP.ADD_PRINT_HTM(30,10,"100%","80%","超文本横线:<hr>下面是二维码:");
-		LODOP.ADD_PRINT_BARCODE(85,10,79,69,"QRCode","123456789012");
+		LODOP.SET_PRINT_PAGESIZE(0,0,0,"A4");
+		LODOP.ADD_PRINT_HTM(30,10,"100%","80%", content);
 		LODOP.On_Return=function(TaskID,Value){ alert("打印结果:"+Value); };
 		LODOP.PRINT();
 	},

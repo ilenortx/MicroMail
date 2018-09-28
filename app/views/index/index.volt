@@ -3,7 +3,7 @@
 <select name="" id="test">
 </select>
 <div onclick="xxxx();">打印</div>
-<div>
+<div id="content">
 	dsafhjkhsdf<hr />asdfasjkdfhas <br />
 	<text>sadfasdfasd</text>
 	<h1>sdfasdfasd</h1>
@@ -15,7 +15,7 @@
 	print.driverSelectList($('#test')[0]);
 	
 	function xxxx(){
-		print.print();
+		print.print($('#content').html());
 
 	}
 </script>
