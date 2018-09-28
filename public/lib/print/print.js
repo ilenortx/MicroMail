@@ -20,8 +20,8 @@ var print = {
 		var iDriverIndex=document.getElementById("test").value;
 		
 		LODOP.PRINT_INIT("测试端桥AO打印");
-		//LODOP.SET_PRINTER_INDEX(iDriverIndex);
-		LODOP.SET_PRINTER_INDEX("Microsoft XPS Document Writer");
+		LODOP.SET_PRINTER_INDEX(iDriverIndex);
+		//LODOP.SET_PRINTER_INDEX("\\USER-20170412MC\HP LaserJet 1022");
 		LODOP.SET_PRINT_PAGESIZE(0,0,0,"sdfsdf");
 		LODOP.ADD_PRINT_TEXT(10,10,300,200,"这是纯文本行");
 		LODOP.ADD_PRINT_HTM(30,10,"100%","80%","超文本横线:<hr>下面是二维码:");
