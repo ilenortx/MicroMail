@@ -15,43 +15,44 @@ class IndexController extends ControllerBase
 			 echo $this->get_ip();
 	}
 	
+	
 	/**
 	 * 判断是否为内网IP
 	 * @param ip IP
 	 * @return 是否内网IP
 	 */
 	function is_private_ip($ip) {
-		return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+	    return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}
 	
 	/**
 	 * 获取客户端IP(非用户服务器IP)
 	 * @return 客户端IP
 	 */
-	//不同环境下获取真实的IP
-	function get_ip(){
-		//判断服务器是否允许$_SERVER
-		if(isset($_SERVER)){
-			if(isset($_SERVER[HTTP_X_FORWARDED_FOR])){
-				$realip = $_SERVER[HTTP_X_FORWARDED_FOR];
-			}elseif(isset($_SERVER[HTTP_CLIENT_IP])) {
-				$realip = $_SERVER[HTTP_CLIENT_IP];
-			}else{
-				$realip = $_SERVER[REMOTE_ADDR];
-			}
-		}else{
-			//不允许就使用getenv获取
-			if(getenv("HTTP_X_FORWARDED_FOR")){
-				$realip = getenv( "HTTP_X_FORWARDED_FOR");
-			}elseif(getenv("HTTP_CLIENT_IP")) {
-				$realip = getenv("HTTP_CLIENT_IP");
-			}else{
-				$realip = getenv("REMOTE_ADDR");
-			}
+	function get_ip() {
+		//获取客户端IP
+		if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+	        $ip = getenv('HTTP_CLIENT_IP');
+	    } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+	        $ip = getenv('HTTP_X_FORWARDED_FOR');
+	    } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+	        $ip = getenv('REMOTE_ADDR');
+	    } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+	        $ip = $_SERVER['REMOTE_ADDR'];
+	    }
+	
+		if(!$ip || is_private_ip($ip)) {
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, IP_SERVICE_URL);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$output = curl_exec($ch);
+			return $output;
 		}
-		
-		return $realip;
+		else{
+			return $res;
+		}
 	}
+
 	
 	
 	
