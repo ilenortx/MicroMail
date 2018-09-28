@@ -1,7 +1,7 @@
 <?php
 
 //require_once PAYMENT."/wechat/lib/WxPay.Config.php";
-class IndexController extends ControllerBase
+class IndexController extends AdminBase
 {
 
 	public function tttAction(){
