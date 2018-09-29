@@ -9,7 +9,7 @@ class UploadController extends AdminBase{
 
 	public function xheditorAction(){
 		$inputName = 'filedata';//表单文件域name
-		$attachDir = UPLOAD_FILE.'/product';//上传文件保存路径，结尾不要带/
+		$attachDir = UPLOAD_FILE.'product/'.date("YmdHis");//上传文件保存路径，结尾不要带/
 		$dirType = 1;//1:按天存入目录 2:按月存入目录 3:按扩展名存目录  建议使用按天存
 		$maxAttachSize = 1097152;//最大上传大小，默认是2M
 		$upExt = 'txt,rar,zip,jpg,jpeg,gif,png,swf,wmv,avi,wma,mp3,mid';//上传扩展名
@@ -21,11 +21,14 @@ class UploadController extends AdminBase{
 		$tempPath = $attachDir.'/'.date("YmdHis").mt_rand(10000,99999).'.tmp';
 		$localName = '';
 		
+		if (!file_exists($attachDir)){
+			if (!$this->mkdir($attachDir)) { $this->err('目录创建失败'); exit(); }
+		}
+		
 		if(isset($_SERVER['HTTP_CONTENT_DISPOSITION'])&&preg_match('/attachment;\s+name="(.+?)";\s+filename="(.+?)"/i',$_SERVER['HTTP_CONTENT_DISPOSITION'],$info)){//HTML5上传
 			file_put_contents($tempPath, file_get_contents("php://input"));
 			$localName=urldecode($info[2]);
-		}
-		else{//标准表单式上传
+		}else{//标准表单式上传
 			$upfile=@$_FILES[$inputName];
 			if(!isset($upfile))$err='文件域的name错误';
 			elseif(!empty($upfile['error'])){
@@ -119,6 +122,24 @@ class UploadController extends AdminBase{
 		}
 		return $bytes;
 	}
-
+	
+	/**
+	 * 递归创建目录
+	 * @param $dir
+	 * @return bool
+	 */
+	protected function mkdir($dir){
+		if(!is_dir($dir)){
+			if(!$this->mkdir(dirname($dir))){
+				return false;
+			}
+			if(!mkdir($dir, 0777)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }
+
 

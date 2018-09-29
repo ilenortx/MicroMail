@@ -549,6 +549,7 @@
             }
 
             function ac_from() {
+            	
             	var skuvals = getSkuVals();
             	var proAttrs = getProAttrs();
             	if (!skuvals) return false;
@@ -568,6 +569,8 @@
                     return false;
                 }
                 $('#tjpro').val(choosePros);
+                
+                $('#content').val($('#content').val());
                 
                 var uploadFormData = new FormData($('#productAddForm')[0]);
 	    		uploadFormData.append('proids', choosePros);
