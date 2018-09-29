@@ -72,13 +72,12 @@ class ApiUserController extends ApiBase{
     		$uid 		= isset($_POST['user_id']) ? $_POST['user_id'] : '';
     		$receiver	= isset($_POST['receiver']) ? $_POST['receiver'] : '';
     		$tel		= isset($_POST['tel']) ? $_POST['tel'] : '';
-    		$region		= isset($_POST['region']) ? $_POST['region'] : '';
+    		$region		= isset($_POST['region']) ? str_replace(' ', ',', $_POST['region']) : '';
     		$adds		= isset($_POST['adds']) ? $_POST['adds'] : '';
     		$code		= isset($_POST['code']) ? $_POST['code'] : '';
     		
     		if (!$uid || !$receiver || !$tel|| !$region|| !$adds){
-    			echo json_encode(array('status'=>0,'err'=>'请填写地址信息.'));
-    			exit();
+    			echo json_encode(array('status'=>0,'err'=>'请填写地址信息.')); exit();
     		}
     		
     		$isAddr = Address::findFirst(array(
@@ -161,7 +160,10 @@ class ApiUserController extends ApiBase{
     			'bind'=>array(1=>intval($user_id), 2=>1),
     			'order'		=> 'is_default desc,id desc'
     	));
-    	$adds_list= $addressModel->toArray();
+    	$adds_list = $addressModel->toArray();
+    	foreach ($adds_list as $k=>$v){
+    		$adds_list[$k]['address'] = str_replace(',', ' ', $v['address']);
+    	}
     	
     	echo json_encode(array('status'=>1,'adds'=>$adds_list));
     	exit();

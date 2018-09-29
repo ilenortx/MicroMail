@@ -328,9 +328,9 @@
                         <!-- 商品轮播图 end -->
 
                         <!-- 产品介绍 start -->
-                        <div class="layui-tab-item">
-                            <div class="cl">
-                                <textarea class="inp_1 inp_2" style="width:100%;height:600px" name="content" id="content" />{{ proInfo['content'] }}</textarea>
+                        <div class="layui-tab-item" style="height:100%;">
+                            <div class="cl" style="height:100%;">
+                                <textarea class="inp_1 inp_2" style="width:100%;height:550px;" name="content" id="content" />{{ proInfo['content'] }}</textarea>
                             </div>
                         </div>
                         <!-- 产品介绍 end -->

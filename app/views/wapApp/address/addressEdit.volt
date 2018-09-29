@@ -5,7 +5,7 @@
 	</div>
 	<div class="info-div">
 		<div class="left">省/市/区</div>
-		<input id="ssq" class="input" value="{{ainfo['address']}}" type="text" placeholder="------" readonly />
+		<input id="ssq" class="input" value="{{ainfo['address']}}" type="text" placeholder="------" data-key="1-36-37" readonly />
 	</div>
 	<div class="info-div">
 		<div class="left">详细地址</div>

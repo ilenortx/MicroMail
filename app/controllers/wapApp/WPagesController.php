@@ -337,7 +337,10 @@ class WPagesController extends ControllerBase{
 	    $aArr = array('id'=>'', 'name'=>'', 'address'=>'', 'address_xq'=>'', 'tel'=>'');
 	    if ($id){
 	    	$ainfo = Address::findFirstById($id);
-	    	if ($ainfo) $aArr = $ainfo->toArray();
+	    	if ($ainfo) {
+	    		$aArr = $ainfo->toArray();
+	    		$aArr['address'] = str_replace(',', ' ', $aArr['address']);
+	    	}
 	    }
 	    $this->view->ainfo = $aArr;
     	$this->view->pick("wapApp/address/addressEdit");

@@ -49,8 +49,7 @@ $(function() {
 			});
 		});
 		var $input = $(this),
-			dataKey = $input
-			.attr("data-key"),
+			dataKey = $input.attr("data-key"),
 			provKey = 1,
 			cityKey = 36,
 			distKey = 37,
@@ -71,12 +70,9 @@ $(function() {
 			}
 			startCities = getAddrsArrayById(provKey);
 			startDists = getAddrsArrayById(cityKey);
-			provStartIndex = getStartIndexByKeyFromStartArr(
-				PROVINCES, provKey);
-			cityStartIndex = getStartIndexByKeyFromStartArr(
-				startCities, cityKey);
-			distStartIndex = getStartIndexByKeyFromStartArr(
-				startDists, distKey);
+			provStartIndex = getStartIndexByKeyFromStartArr(PROVINCES, provKey);
+			cityStartIndex = getStartIndexByKeyFromStartArr(startCities, cityKey);
+			distStartIndex = getStartIndexByKeyFromStartArr(startDists, distKey);
 		}
 		var navArr = [{
 			title: "省",
@@ -91,8 +87,7 @@ $(function() {
 		SCS.init({
 			navArr: navArr,
 			onOk: function(selectedKey, selectedValue) {
-				$input.val(selectedValue).attr("data-key",
-					selectedKey);
+				$input.val(selectedValue).attr("data-key", selectedKey);
 			}
 		});
 		var distScroller = new SCS.scrollCascadeSelect({
@@ -104,8 +99,7 @@ $(function() {
 			el: "#" + navArr[1].id,
 			dataArr: startCities,
 			startIndex: cityStartIndex,
-			onChange: function(selectedItem,
-				selectedIndex) {
+			onChange: function(selectedItem, selectedIndex) {
 				distScroller.render(getAddrsArrayById(selectedItem.key), 0);
 			}
 		});
@@ -113,8 +107,7 @@ $(function() {
 			el: "#" + navArr[0].id,
 			dataArr: PROVINCES,
 			startIndex: provStartIndex,
-			onChange: function(selectedItem,
-				selectedIndex) {
+			onChange: function(selectedItem, selectedIndex) {
 				cityScroller.render(getAddrsArrayById(selectedItem.key), 0);
 				distScroller.render(getAddrsArrayById(cityScroller.getSelectedItem().key), 0);
 			}
