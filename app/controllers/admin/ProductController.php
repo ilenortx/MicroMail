@@ -22,6 +22,7 @@ class ProductController extends AdminBase{
 	    	 ->addCss("css/layui/layui.css")
 	    	 ->addCss("css/pages/admin/public.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
+	    	 ->addJs("lib/jquery/jquery.cookie.js")
 	    	 ->addJs("lib/layui/layui.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/product/plpage.js");
@@ -44,16 +45,12 @@ class ProductController extends AdminBase{
      */
     public function paPageAction(){
     	$this->assets
-	    	 ->collection('css1')
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
 	    	 ->addCss("css/static/h-ui.admin/H-ui.admin.css")
-	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css");
-	    $this->assets
-	    	 ->collection('css2')
+	    	 ->addCss("lib/Hui-iconfont/1.0.8/iconfont.css")
 	    	 ->addCss("css/static/h-ui.admin/style.css")
              ->addCss("css/layui/layui.css")
-	    	 ->addCss("css/sku/sku_style.css");
-	    $this->assets
+	    	 ->addCss("css/sku/sku_style.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
 	    	 ->addJs("js/squire-raw.js")
 	    	 ->addJs("lib/layer/layer.js")
@@ -182,11 +179,15 @@ class ProductController extends AdminBase{
     		}else {
     			$proArr[$k]['operate'] .= "<a style=\"text-decoration:none\" lay-event=\"tjset\" tjstatus='1' href=\"javascript:;\" title=\"推荐\"><i class=\"Hui-iconfont\">&#xe615;</i></a>";
     		}
-    		$proArr[$k]['operate'] .= "
+    		/* $proArr[$k]['operate'] .= "
 				<a title=\"编辑\" href=\"../Product/paPage?pid={$v['id']}\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>
 				<a title=\"删除\" href=\"javascript:;\" onclick=\"existProDel({$v['id']},this)\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>
-			";
-
+			"; */
+    		$proArr[$k]['operate'] .= "
+	    		<a title=\"编辑\" onclick=\"openEditFull('产品编辑', '../Product/paPage?pid={$v['id']}')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>
+	    		<a title=\"删除\" href=\"javascript:;\" onclick=\"existProDel({$v['id']},this)\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>
+    		";
+    		
     		$proArr[$k]['photo_x'] = '<img src="../files/uploadFiles/'.$v['photo_x'].'" width="80px" height="80px" />';
     		if ($v['stype']==1) $proArr[$k]['stype'] = '<label style="color:green;">推荐</label>';
     		else $proArr[$k]['stype'] = '';
@@ -484,12 +485,16 @@ class ProductController extends AdminBase{
     				$sku->reProAttrs($product->id, $proAttrs);//修改产品属性
 
     				if ($id){
-    					echo "<script>window.location.href='../Product/plPage'; </script>";
+    					//echo "<script>window.location.href='../Product/plPage'; </script>";
+    					//echo "<script>layer.msg('保存成功!', { icon: 6, time: 1000 });window.parent.reloadProList();</script>";
+    					$this->msg('succsss');
     				}else{
-    					echo "<!doctype html><html lang='en'><head><meta charset='UTF-8'></head><body style='background-color:rgba(0,0,0,0.5)'><div style='width:200px;height:100px;background:#000;border:1px solid #f3f3f3;border-radius:5px;position:absolute;left:50%;top:50%;margin:-50px -100px;'><div style='width:100%;height:50px;color:#fff;font-size:16px;line-height:40px;padding-left:30px;'>添加成功!</div><button id='btn' style='width:70px;height:30px;background:#000;color:#fff;font-size:16px;margin:5px 65px;border:1px solid #f3f3f3;border-radius:5px;'>确定</button></div></body></html><script>function jump(){ window.location.href='../Product/paPage'; }window.setTimeout('jump()', 1000);var i=5;var btn = document.getElementById('btn'); btn.onclick = function(){ jump(); } </script>";
+    					//echo "<!doctype html><html lang='en'><head><meta charset='UTF-8'></head><body style='background-color:rgba(0,0,0,0.5)'><div style='width:200px;height:100px;background:#000;border:1px solid #f3f3f3;border-radius:5px;position:absolute;left:50%;top:50%;margin:-50px -100px;'><div style='width:100%;height:50px;color:#fff;font-size:16px;line-height:40px;padding-left:30px;'>添加成功!</div><button id='btn' style='width:70px;height:30px;background:#000;color:#fff;font-size:16px;margin:5px 65px;border:1px solid #f3f3f3;border-radius:5px;'>确定</button></div></body></html><script>function jump(){ window.location.href='../Product/paPage'; }window.setTimeout('jump()', 1000);var i=5;var btn = document.getElementById('btn'); btn.onclick = function(){ jump(); } </script>";
+    					$this->msg('succsss');
     				}
     			}else{
-    				echo "<!doctype html><html lang='en'><head><meta charset='UTF-8'></head><body style='background-color:rgba(0,0,0,0.5)'><div style='width:200px;height:100px;background:#000;border:1px solid #f3f3f3;border-radius:5px;position:absolute;left:50%;top:50%;margin:-50px -100px;'><div style='width:100%;height:50px;color:#fff;font-size:16px;line-height:40px;padding-left:30px;'>操作失败!</div><button id='btn' style='width:70px;height:30px;background:#000;color:#fff;font-size:16px;margin:5px 65px;border:1px solid #f3f3f3;border-radius:5px;'>确定</button></div></body></html><script>function jump(){ window.location.href='../Product/paPage?pid={$id}'; }window.setTimeout('jump()', 1000);var i=5;var btn = document.getElementById('btn'); btn.onclick = function(){ jump(); } </script>";
+    				//echo "<!doctype html><html lang='en'><head><meta charset='UTF-8'></head><body style='background-color:rgba(0,0,0,0.5)'><div style='width:200px;height:100px;background:#000;border:1px solid #f3f3f3;border-radius:5px;position:absolute;left:50%;top:50%;margin:-50px -100px;'><div style='width:100%;height:50px;color:#fff;font-size:16px;line-height:40px;padding-left:30px;'>操作失败!</div><button id='btn' style='width:70px;height:30px;background:#000;color:#fff;font-size:16px;margin:5px 65px;border:1px solid #f3f3f3;border-radius:5px;'>确定</button></div></body></html><script>function jump(){ window.location.href='../Product/paPage?pid={$id}'; }window.setTimeout('jump()', 1000);var i=5;var btn = document.getElementById('btn'); btn.onclick = function(){ jump(); } </script>";
+    				$this->err('操作失败!');
     			}
 
     		}catch(\Exception $e){

@@ -14,16 +14,13 @@
             <script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
         <![endif]-->
 
-        {{ assets.outputCss('css1') }}
-        <link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
-        {{ assets.outputCss('css2') }}
+        {{ assets.outputCss() }}
+        {{ assets.outputJs() }}
 
         <!--[if IE 6]>
             <script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js"></script>
             <script>DD_belatedPNG.fix('*');</script>
         <![endif]-->
-
-        {{ assets.outputJs() }}
 
         <style>
             body,.page-container{height: calc(100% - 40px);}
@@ -94,7 +91,7 @@
 	            <i class="Hui-iconfont">&#xe67f;</i>首页
 	            <span class="c-gray en">&gt;</span>产品管理
 	            {% if pid %}
-	            <span class="c-gray en">&gt;</span><a href="../Product/plPage">全部产品</a>
+	            <!-- <span class="c-gray en">&gt;</span><a href="../Product/plPage">全部产品</a> -->
 	            <span class="c-gray en">&gt;</span>产品编辑
 	            {% else %}
 	            <span class="c-gray en">&gt;</span>添加产品
@@ -105,7 +102,8 @@
 	        </div>
         </nav>
         <div class="page-container">
-            <form class="form form-horizontal" action="../Product/addProduct" onsubmit="return ac_from();" enctype="multipart/form-data" method="post">
+            <!-- <form id="productAddForm" class="form form-horizontal" action="../Product/addProduct" onsubmit="return ac_from();" enctype="multipart/form-data" method="post"> -->
+            <form id="productAddForm" class="form form-horizontal" enctype="multipart/form-data" method="post">
                 <div class="layui-tab layui-tab-brief">
                     <ul class="layui-tab-title">
                         <li class="layui-this">基本信息</li>
@@ -242,8 +240,8 @@
                                     {% endif %}
                                     <input type="file" name="photo_x" id="photo_x" /> -->
 
-                                    <img onclick="cppvw('photo_x','photoxPvw');" id="photoxPvw" src="{% if proInfo['photo_x'] %}../files/uploadFiles/{{ proInfo['photo_x'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg" style="margin-bottom: 3px;width:80px;height:80px"  >
-                                    <input id="photo_x" class="choosePhotoIpt" name="photo_x" accept="image/*" type="file" />
+                                    <img onclick="cppvw('photo_x','photoxPvw');" id="photoxPvw" src="{% if proInfo['photo_x'] %}../files/uploadFiles/{{ proInfo['photo_x'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg photoImg" style="margin-bottom: 3px;width:80px;height:80px"  >
+                                    <input id="photo_x" class="choosePhotoIpt photoIpt" name="photo_x" accept="image/*" type="file" />
                                 </div>
                             </div>
                             <div class="row cl">
@@ -257,8 +255,8 @@
                                     {% endif %}
                                     <input type="file" name="photo_d" id="photo_d" /> -->
 
-                                    <img onclick="cppvw('photo_d','photodPvw');" id="photodPvw" src="{% if proInfo['photo_d'] %}../files/uploadFiles/{{ proInfo['photo_d'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg" style="margin-bottom: 3px;width:125px;height:125px"  >
-                                    <input id="photo_d" class="choosePhotoIpt" name="photo_d" accept="image/*" type="file" />
+                                    <img onclick="cppvw('photo_d','photodPvw');" id="photodPvw" src="{% if proInfo['photo_d'] %}../files/uploadFiles/{{ proInfo['photo_d'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg photoImg" style="margin-bottom: 3px;width:125px;height:125px"  >
+                                    <input id="photo_d" class="choosePhotoIpt photoIpt" name="photo_d" accept="image/*" type="file" />
                                 </div>
                             </div>
                             <div class="row cl">
@@ -266,8 +264,8 @@
                                     <span class="c-red">*</span>商品推荐小图100*100
                                 </label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    <img onclick="cppvw('photo_tjx','phototjxPvw');" id="phototjxPvw" src="{% if proInfo['photo_tjx'] %}../files/uploadFiles/{{ proInfo['photo_tjx'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg" style="margin-bottom: 3px;width:100px;height:100px"  >
-                                    <input id="photo_tjx" class="choosePhotoIpt" name="photo_tjx" accept="image/*" type="file" />
+                                    <img onclick="cppvw('photo_tjx','phototjxPvw');" id="phototjxPvw" src="{% if proInfo['photo_tjx'] %}../files/uploadFiles/{{ proInfo['photo_tjx'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg photoImg" style="margin-bottom: 3px;width:100px;height:100px"  >
+                                    <input id="photo_tjx" class="choosePhotoIpt photoIpt" name="photo_tjx" accept="image/*" type="file" />
                                 </div>
                             </div>
                             <div class="row cl">
@@ -275,8 +273,8 @@
                                     <span class="c-red">*</span>商品推荐图3 : 2
                                 </label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    <img onclick="cppvw('photo_tj','phototjPvw');" id="phototjPvw" src="{% if proInfo['photo_tj'] %}../files/uploadFiles/{{ proInfo['photo_tj'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg" style="margin-bottom: 3px;width:180px;height:120px"  >
-                                    <input id="photo_tj" class="choosePhotoIpt" name="photo_tj" accept="image/*" type="file" />
+                                    <img onclick="cppvw('photo_tj','phototjPvw');" id="phototjPvw" src="{% if proInfo['photo_tj'] %}../files/uploadFiles/{{ proInfo['photo_tj'] }}{% else %}../img/coustom/click.png{% endif %}" class="choosePhotoImg photoImg" style="margin-bottom: 3px;width:180px;height:120px"  >
+                                    <input id="photo_tj" class="choosePhotoIpt photoIpt" name="photo_tj" accept="image/*" type="file" />
                                 </div>
                             </div>
                             <div class="row cl">
@@ -465,7 +463,8 @@
 
                 <div class="row cl">
                     <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                        <input class="btnp btn-primary radius" type="submit" name="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                        <!-- <input class="btnp btn-primary radius" type="submit" name="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"> -->
+                        <input onclick="ac_from();" class="btnp btn-primary radius" type="button" name="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
                         {% if proInfo['id'] %}<input type="hidden" name="pro_id" id='pro_id' value="{{ proInfo['id'] }}">{% endif %}
                         <input type="hidden" name="sku" id="sku" />
                         <input type="hidden" name="proAttrs" id="proAttrs" />
@@ -474,7 +473,6 @@
                 </div>
             </form>
         </div>
-        <!--_footer 作为公共模版分离出去-->
         <script>
 	        $(document).ready(function(){
 	        	getSetPrice($('#price_yh'));
@@ -570,6 +568,29 @@
                     return false;
                 }
                 $('#tjpro').val(choosePros);
+                
+                var uploadFormData = new FormData($('#productAddForm')[0]);
+	    		uploadFormData.append('proids', choosePros);
+	    		$.ajax({
+        	        url:'../Product/addProduct',
+        	        type:"POST",
+        	        contentType: false,
+                    processData: false,
+        	        data:uploadFormData,
+        	        success: function(data) {
+        	        	data = JSON.parse(data);
+        	        	if (data.status == 1){
+        	        		{% if proInfo['id'] %}
+        	        			layer.msg('保存成功!', { icon: 6, time: 1000 });window.parent.reloadProList();
+        	        		{% else %}
+	        					layer.msg('添加成功!', { icon: 6, time: 1000 });$('#productAddForm')[0].reset();
+	        					$('.photoImg').attr('src', '../img/coustom/click.png');
+	        				{% endif %}
+        	        	}else {
+	        				layer.msg(data.err, { icon: 5, time: 1000 });
+	        			}
+        	        }
+        	    });
 
             }
 

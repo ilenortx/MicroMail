@@ -3,20 +3,20 @@
  */
 var print = {
 	d: {
-		ip: 0,
+		printersId: '',
 	},
 	init: function(data){
 		var _this = this;
-		//jQuery.extend(this.d, obj);
-		//获取客户内网ip
-		//this.getIPs(function(ip){ _this.d.ip = ip; });
-		//加载js
-		//this.loadJs("http://192.168.1.101:8000/CLodopfuncs.js");
+		jQuery.extend(this.d, data);
+		
+		$.getScript("https://localhost:8443/CLodopfuncs.js", function(){
+			if (_this.d.printersId != '') _this.driverSelectList();
+		});
 	},
-	driverSelectList: function (node) {
-      	CLODOP.Create_Printer_List(node, true);
+	driverSelectList: function () {
+      	CLODOP.Create_Printer_List(this.d.printersId, true);
 	},
-	print: function(content){
+	print: function(content, callback){
 		var iDriverIndex=document.getElementById("test").value;
 		
 		LODOP.PRINT_INIT("测试端桥AO打印");
@@ -24,7 +24,7 @@ var print = {
 		//LODOP.SET_PRINTER_INDEX("\\USER-20170412MC\HP LaserJet 1022");
 		LODOP.SET_PRINT_PAGESIZE(0,0,0,"A4");
 		LODOP.ADD_PRINT_HTM(30,10,"100%","80%", content);
-		LODOP.On_Return=function(TaskID,Value){ alert("打印结果:"+Value); };
+		if (typeof(callback) != 'undefined') LODOP.On_Return=callback;
 		LODOP.PRINT();
 	},
 	getIPs: function () {
@@ -69,24 +69,5 @@ var print = {
 
 	    }, function () {});
 	},
-	/**
-     * 动态加载JS
-     * @param {string} url 脚本地址
-     * @param {function} callback  回调函数
-     */
-	loadJs: function (url, callback) {
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = url;
-        if(typeof(callback)=='function'){
-            script.onload = script.onreadystatechange = function () {
-                if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete"){
-                    callback();
-                    script.onload = script.onreadystatechange = null;
-                }
-            };
-        }
-        head.appendChild(script);
-    }
+
 };
