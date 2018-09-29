@@ -93,7 +93,7 @@ class ApiProductController extends ApiBase{
                                     'value'=>$value,
                                     'option'=>json_decode($value_data[$search_key]['value'], true),
                                 );
-                                if($value_data[$search_key]['type']=='select'){
+                                if($value_data[$search_key]['type']=='select' && isset($append_data['option'][$append_data['value']])){
                                     $append_data['value'] = $append_data['option'][$append_data['value']];
                                 }
 
