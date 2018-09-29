@@ -22,7 +22,6 @@ class ProductController extends AdminBase{
 	    	 ->addCss("css/layui/layui.css")
 	    	 ->addCss("css/pages/admin/public.css")
 	    	 ->addJs("lib/jquery/1.9.1/jquery.min.js")
-	    	 ->addJs("lib/jquery/jquery.cookie.js")
 	    	 ->addJs("lib/layui/layui.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/product/plpage.js");
