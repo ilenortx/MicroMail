@@ -49,6 +49,12 @@ class OrderLogistics extends \Phalcon\Mvc\Model
      *
      * @var string
      */
+    public $logistics_info;
+
+    /**
+     *
+     * @var string
+     */
     public $addtime;
 
     /**
