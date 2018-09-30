@@ -52,7 +52,7 @@
     				<button id="addNote" class="layui-btn layui-btn-primary layui-btn-sm">添加备注</button>
     			</div>
     		</div>
-    		
+
     		<div class="bottom-div">
     			<div class="note-info-div">备注等级：
 					{% if orderInfo['note_grade']==1 %}<img id="ngImg" src="../img/common/note/note_red.png" title='等级一' />
@@ -67,8 +67,8 @@
     			</div>
     		</div>
     	</div>
-    	
-    	
+
+
     	<!-- 物流信息 -->
     	<div class="logistics-info-div">
     		<div class="lid-left-div">
@@ -79,7 +79,7 @@
     			<div class="lld-info-div">承运人电话：</div>
     		</div>
     	</div>
-    	
+
     	<!-- 订单信息 -->
     	<div class="order-info-div">
     		<div class="oid-info-div">
@@ -117,8 +117,8 @@
     			<div class="info-item-item"><text class="oidid-title">发票内容:	</text>商品明细</div> -->
     		</div>
     	</div>
-    	
-    	
+
+
         <table class="table table-border table-bordered table-bg" style="margin-top:20px;">
             <thead>
                 <tr class="text-c">
@@ -143,7 +143,7 @@
         </table>
 
         <br>
-<!-- 
+<!--
         <div style="border-bottom:1px solid #b9c9d6;">
             <ul style="margin-top:15px;  padding-bottom:5px; width:500px; float:left;">
                 <li style="font-size:15px; color:#000;">收货地址信息：</li>
@@ -236,7 +236,7 @@
             /*是否显示基本信息*/
             iDisplayLength: 25,
         });
-        
+
         /*订单状态字体颜色设置*/
         $('.font_color').each(function (index, element) {
             var obj = $(this);

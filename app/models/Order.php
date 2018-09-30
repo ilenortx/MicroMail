@@ -11,7 +11,7 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="id", type="integer", length=11, nullable=false)
      */
     public $id;
-    
+
     /**
      *
      * @var integer
@@ -20,7 +20,7 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="fxs_id", type="integer", length=255, nullable=false)
      */
     public $fxs_id;
-    
+
     /**
      *
      * @var integer
@@ -29,14 +29,14 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="fxtc", type="double", length=0, nullable=true)
      */
     public $fxtc;
-    
+
     /**
      *
      * @var string
      * @Column(column="order_sn", type="string", length=20, nullable=false)
      */
     public $order;
-    
+
     /**
      *
      * @var string
@@ -78,49 +78,49 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="amount", type="double", length=9, nullable=true)
      */
     public $amount;
-    
+
     /**
      *
      * @var double
      * @Column(column="price_h", type="double", length=9, nullable=false)
      */
     public $price_h;
-    
+
     /**
      *
      * @var double
      * @Column(column="total_fee", type="double", length=9, nullable=false)
      */
     public $total_fee;
-    
+
     /**
      *
      * @var string
      * @Column(column="addtime", type="string", length=16, nullable=false)
      */
     public $addtime;
-    
+
     /**
      *
      * @var string
      * @Column(column="addtime", type="string", length=16, nullable=true)
      */
     public $paytime;
-    
+
     /**
      *
      * @var string
      * @Column(column="addtime", type="string", length=16, nullable=true)
      */
     public $fhtime;
-    
+
     /**
      *
      * @var string
      * @Column(column="addtime", type="string", length=16, nullable=true)
      */
     public $finishtime;
-    
+
     /**
      *
      * @var integer
@@ -253,28 +253,28 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="order_type", type="integer", length=2, nullable=true)
      */
     public $order_type;
-    
+
     /**
      *
      * @var integer
      * @Column(column="hd_id", type="integer", length=255, nullable=true)
      */
     public $hd_id;
-    
+
     /**
      *
      * @var integer
      * @Column(column="note_grade", type="integer", length=255, nullable=true)
      */
     public $note_grade;
-    
+
     /**
      *
      * @var string
      * @Column(column="note", type="string", length=255, nullable=true)
      */
     public $note;
-    
+
     /**
      * Initialize method for model.
      */
@@ -282,14 +282,16 @@ class Order extends \Phalcon\Mvc\Model
     {
         $this->setSchema("micro_mail");
         $this->setSource("order");
-        
+
         $this->hasOne("uid", "User", "id");
         //$this->hasOne("post", "Post", "id");
         $this->hasMany('id', "OrderProduct", 'order_id');
         $this->hasOne('receiver', 'Address', 'id');
         $this->hasOne('vid', 'UserVoucher', 'id');
         $this->hasOne('shop_id', 'Shangchang', 'id');
-        
+
+        $this->hasOne('order_sn', 'OrderLogistics', 'order_sn');
+
         $this->useDynamicUpdate(true);
     }
 
@@ -325,7 +327,7 @@ class Order extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
-    
+
     //----------
     // 自定义
     //----------
@@ -335,43 +337,43 @@ class Order extends \Phalcon\Mvc\Model
     public static function orderInfo($type='id', $params){
     	if (!$params) return 'DATAERR';
     	if ($type == 'id'){
-    		
+
     	}else if ($type == 'osn'){//order_sn
     		if (!isset($params['orderSn']) || empty($params['orderSn'])) return 'DATAERR';
     		$conditions = array( 'conditions'=> "order_sn='{$params['orderSn']}'" );
-    		
+
     		if (isset($params['columns'])) $conditions['columns'] = $params['columns'];
     		if (isset($params['order'])) $conditions['order'] = $params['order'];
     		if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
-    		
+
     		$order = Order::findFirst($conditions);
-    		
+
     		if ($order && count($order)) return $order->toArray();
     	}
-    	
+
     	return 'NULL';
     }
-    
+
     /**
      * 修改订单状态
      */
     public static function reOrderStatus($type='id', $data, $status=10){
     	if (!$data) return 'DATAERR';
     	if ($type == 'id'){
-    		
+
     	}else if ($type == 'osn'){
     		if (!isset($data['orderSn']) || empty($data['orderSn'])) return 'DATAERR';
-    		
+
     		$order = Order::findFirst("order_sn='{$data['orderSn']}'");
     		$order->status = $status;
-    		
+
     		if ($order->save()) return 'SUCCESS';
     		else return 'OPEFILE';
     	}
-    	
+
     	return 'NULL';
     }
-    
+
     /**
      * 订单列表
      */
@@ -379,11 +381,11 @@ class Order extends \Phalcon\Mvc\Model
     	if (isset($params['conditions'])) $conditions['conditions'] = $params['conditions'];
     	if (isset($params['limit'])) $conditions['limit'] = $params['limit'];
     	if (isset($params['order'])) $conditions['order'] = $params['order'];
-    	
+
     	if (isset($conditions) && count($conditions)) $orders = Order::find($conditions);
     	else $orders = Order::find();
     	$orderArr = array();
-    	
+
     	if ($orders) {
     		foreach ($orders as $k=>$v){
     			$user = $v->User;
@@ -391,27 +393,27 @@ class Order extends \Phalcon\Mvc\Model
     			$orderArr[$k]['uname'] = $user->uname;
     		}
     	}
-    	
+
     	return $orderArr;
     }
-    
+
     /**
      * 查询总数
      */
     public static function getCount($conditions){
     	$count = $conditions?Order::count($conditions):Order::count();
-    	
+
     	return $count;
     }
-    
+
     /**
      * 修改备注
      */
     public static function renote($oid, $sid, $ong=0, $onc=''){
     	if (!$oid || !$sid) return 'DATAERR';
-    	
+
     	$order = Order::findFirst("id=$oid and shop_id=$sid");
-    	
+
     	if ($order) {
     		$order->note_grade = $ong;
     		$order->note = $onc;

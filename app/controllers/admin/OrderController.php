@@ -14,13 +14,13 @@ class OrderController extends AdminBase{
 	    	 ->addJs("lib/layui/layui.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/order/orderList.js");
-    	
+
 // 	    $this->view->orderlist = $this->allOrderAction();
 // 	    $this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
-    	
+
     	$this->view->pick("admin/order/index");
     }
-    
+
     /**
      * 详情页面
      */
@@ -51,21 +51,21 @@ class OrderController extends AdminBase{
 	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/order/orderShow.js");
-    	
+
 	    $oi = $this->orderInfoAction(intval($this->request->get('oid')));
 	    $orderPros = $this->orderProsAction();
 	    $proTF = 0.00;
 	    foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
 	    $oi['proTF'] = $this->numberFormat($proTF);
-	    
+
 	    $this->view->prolist = $orderPros;
 	    $this->view->postInfo = $this->postInfoAction($oi['post']);
 	    $this->view->orderInfo = $oi;
     	$this->view->order_status = array('0'=>'已取消','10'=>'待付款','20'=>'待发货','30'=>'待收货','40'=>'已收货','50'=>'交易完成');
-    	
+
     	$this->view->pick("admin/order/show");
     }
-    
+
     public function dfGodownPageAction(){
     	$this->assets
 	    	 ->addCss("css/static/h-ui/H-ui.min.css")
@@ -82,19 +82,19 @@ class OrderController extends AdminBase{
 	    	 ->addJs("js/pages/admin/pageOpe.js")
 	    	 ->addJs("js/pages/admin/order/orderShow.js")
 	    	 ->addJs("js/pages/admin/order/dfGodown.js");
-    	
+
     	$oi = $this->orderInfoAction(intval($this->request->get('oid')));
     	$orderPros = $this->orderProsAction();
     	$proTF = 0.00;
     	foreach ($orderPros as $k=>$v){ $proTF += $v['price']; }
     	$oi['proTF'] = $this->numberFormat($proTF);
-    	
+
     	//发货地址
     	$sas = ShipAddress::getSAs('sid', $this->session->get('sid'), array('order'=>"default desc,sort desc"));
     	$sas = is_array($sas) ? $sas : array();
     	//物流公司
     	$lcs = LogisticsShop::shopAllWl($this->session->get('sid'));
-    	
+
     	$this->view->prolist = $orderPros;
     	$this->view->postInfo = $this->postInfoAction($oi['post']);
     	$this->view->orderInfo = $oi;
@@ -104,23 +104,23 @@ class OrderController extends AdminBase{
     	$this->view->saarr = json_encode($sas);
     	//物流公司
     	$this->view->lcarr = is_array($lcs) ? $lcs : array();
-    	
-    	
+
+
     	$this->view->pick("admin/order/dfGodown");
     }
-    
+
     /**
      * 获取所有订单
      */
     public function allOrderAction(){
     	$sid = $this->session->get('sid');
-    	
+
     	$orders = Order::find(array(
     			'conditions'=> "shop_id=?1 and del=?2",
     			'bind'		=> array(1=>$sid, 2=>0),
     			'order'		=> "addtime desc"
     	));
-    	
+
     	$orderArr = array();
     	if ($orders){
     		foreach ($orders as $k=>$v){
@@ -131,7 +131,7 @@ class OrderController extends AdminBase{
     		}
     		//$orderArr= $orders->toArray();
     	}
-    	
+
     	return $orderArr;
     }
 	public function orderListAction(){
@@ -141,7 +141,7 @@ class OrderController extends AdminBase{
 		$qtime = isset($_GET['qtime']) ? explode('~', $_GET['qtime']) : '';
 		$qorder = isset($_GET['qorder']) ? trim($_GET['qorder'], ',') : '';
 		$qstatus = isset($_GET['qstatus']) ? trim($_GET['qstatus'], ',') : '';
-		
+
 		$sid = $this->session->get('sid');
 		$conditions = array(
 				'conditions'=> "shop_id=$sid and del=0",
@@ -159,18 +159,18 @@ class OrderController extends AdminBase{
 		if (!empty($qstatus) && empty($qorder) && $qstatus!='all'){
 			$conditions['conditions'] .= " and status='{$qstatus}'";
 		}
-		
+
 		$orderArr = Order::orderList($conditions);
-		
+
 		$count = Order::getCount("shop_id=$sid and del=0");
-		
+
 		$ptype = array('weixin'=>'微信支付', 'cash'=>'货到付款');
 		$status = array('0'=>'<text style="">取消订单</text>',
 				'10'=>'<text style="">待付款</text>', '20'=>'<text style="color:red">待发货</text>',
 				'30'=>'<text style="">待收货</text>', '40'=>'<text style="color:green">完成</text>',
 				'50'=>'<text style="color:green">完成</text>','51'=>'<text style="color:green">完成</text>'
 		);
-		
+
 		$noteG = array(
 				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_gray.png" />',
 				'<img lay-event="openNote" class="gradeImg" style="cursor:pointer;" src="../img/common/note/note_red.png" />',
@@ -182,9 +182,9 @@ class OrderController extends AdminBase{
 		foreach ($orderArr as $k=>$v){
 			$orderArr[$k]['addtime'] = date('Y-m-d H:i:s', $orderArr[$k]['addtime']);
 			$orderArr[$k]['paytime'] = date('Y-m-d H:i:s', $orderArr[$k]['paytime']);
-			
+
 			$orderArr[$k]['type'] = $ptype[$orderArr[$k]['type']];
-			
+
 			$orderArr[$k]['operate'] = "<a title=\"查看订单详情\" onclick=\"openEditFull('订单详情','../Order/showPage?oid={$orderArr[$k]['id']}')\" class=\"ml-5\" style=\"text-decoration:none\">详情</a> | ";
 			$x = $orderArr[$k]['status'];
 			if ($orderArr[$k]['status']==20) {
@@ -192,15 +192,15 @@ class OrderController extends AdminBase{
 			}
 			$ng = empty($orderArr[$k]['note_grade']) ? 0 : $orderArr[$k]['note_grade'];
 			$orderArr[$k]['operate'] .= $noteG[$ng];
-			
-			
+
+
 			$orderArr[$k]['status'] = $status[$orderArr[$k]['status']];
-			
+
 		}
-		
+
 		$this->tableData1($count, $orderArr, 0, '加载成功!');
 	}
-    
+
     /**
      * 获取订单信息
      */
@@ -212,7 +212,7 @@ class OrderController extends AdminBase{
     		$address = $order->Address;
     		//优惠券
     		$uvoucher = $order->UserVoucher;
-    		
+
     		$oArr = $order->toArray();
     		if ($address) $oArr['address'] = $address->toArray();
     		else{
@@ -221,7 +221,7 @@ class OrderController extends AdminBase{
     					'quyu'=>'', 'address'=>'', 'address_xq'=>'', 'code'=>'','uid'=>'',
     			);
     		}
-    		
+
     		$oArr['voucher'] = array(
     				'id'=>'', 'title'=>'', 'full_money'=>'0.00', 'amount'=>'0.00'
     		);
@@ -232,7 +232,7 @@ class OrderController extends AdminBase{
     			$oArr['voucher']['full_money'] = $this->numberFormat($voucher->full_money);
     			$oArr['voucher']['amount'] = $this->numberFormat($voucher->amount);
     		}
-    		
+
     		$payType = array('weixin'=>'微信支付', 'cash'=>'货到付款');
     		$oArr['addtime'] = date('Y-m-d H:i:s', $oArr['addtime']);
     		$oArr['paytime'] = date('Y-m-d H:i:s', $oArr['paytime']);
@@ -240,36 +240,36 @@ class OrderController extends AdminBase{
     	}
     	return $oArr;
     }
-    
+
     /**
      * 邮费
      */
     public function postInfoAction($postId){
     	$post = Post::findFirstById($postId);
-    	
+
     	$postArr = array();
     	if ($post) $postArr= $post->toArray();
-    	
+
     	if (count($postArr) == 0) $postArr = false;
-    	
+
     	return $postArr;
     }
-    
+
     /**
      * 获取订单商品
      */
     public function orderProsAction(){
     	$oid = isset($_GET['oid']) ? intval($this->request->get('oid')) : '';
-    	
+
     	$proArr = array();
     	if ($oid){
     		$pros = OrderProduct::find(array(
     				'conditions'=> "order_id=?1",
     				'bind'		=> array(1=>$oid)
     		));
-    		
+
     		if ($pros) $proArr = $pros->toArray();
-    		
+
     		$sb = new SkuBase();
     		foreach ($proArr as $k=>$v){
     			if (trim($v['skuid'])){
@@ -284,7 +284,7 @@ class OrderController extends AdminBase{
     	}
     	return $proArr;
     }
-    
+
     /**
      * 保存订单
      */
@@ -295,13 +295,13 @@ class OrderController extends AdminBase{
     		$kuaidiName = isset($_POST['kuaidi_name']) ? $_POST['kuaidi_name'] : '';
     		$kuaidiNum = isset($_POST['kuaidi_num']) ? $_POST['kuaidi_num'] : '';
     		$note = isset($_POST['note']) ? $_POST['note'] : '';
-    		
+
     		//if (!$oid || empty($orderStatus) || !$kuaidiName || !$kuaidiNum){
     		if (!$oid || empty($orderStatus)){
     			echo json_encode(array('status'=>0, 'msg'=>"数据错误"));
     			exit();
     		}
-    		
+
     		$order = Order::findFirstById($oid);
     		if ($order){
     			$order->kuaidi_name = $kuaidiName;
@@ -313,7 +313,7 @@ class OrderController extends AdminBase{
     		}else echo json_encode(array('status'=>0, 'msg'=>"订单不存在"));
     	}else echo json_encode(array('status'=>0, 'msg'=>"请求方式错误"));
     }
-    
+
     /**
      * 修改备注
      */
@@ -322,17 +322,64 @@ class OrderController extends AdminBase{
     		$ong = isset($_POST['ong']) ? intval($_POST['ong']) : 0;
     		$onc = isset($_POST['onc']) ? $_POST['onc'] : '';
     		$oid = isset($_POST['oid']) ? intval($_POST['oid']) : 0;
-    		
+
     		if (!$oid) { $this->err('数据错误'); exit(); }
-    		
+
     		$result = Order::renote($oid, $this->session->get('sid'), $ong, $onc);
-    		
+
     		if ($result == 'SUCCESS') $this->msg('success');
     		else if ($result == 'DATAERR') $this->err('数据错误');
     		else if ($result == 'OPEFILE') $this->err('操作失败');
     		else if ($result == 'DATAEXCEPTION') $this->err('数据异常');
     	}else $this->err('请求方式错误');
     }
-    
+
+    public function updateOrderStatusAction(){
+        if($this->request->isPost()){
+            $order_sn = isset($_POST['orders'])? $_POST['orders']:0;
+            $status = isset($_POST['status'])? $_POST['status']:0;
+
+            if(!$order_sn) {$this->err('缺少参数'); exit();}
+            if(!$status) {$this->err('缺少参数'); exit();}
+
+            $type = '';
+            switch ($status) {
+                case 30:
+                    $type = 'delivery';
+                    break;
+            }
+
+            $this->updateStatus($order_sn, $status, $type);
+
+            $this->result(1, 'success', array());
+        }else{
+            $this->err('请求方式错误');
+            exit();
+        }
+    }
+
+    private function updateStatus($order_sn, $status, $type=''){
+        if(is_array($order_sn)){
+            foreach ($order_sn as $k => $v) {
+                $this->updateStatus($v, $status);
+            }
+        }else if($order_sn){
+            if($type=='delivery'){
+                $res = Order::findFirst("order_sn = $order_sn");
+                $res->status = $status;
+                $res->fhtime = time();
+                if(!$res->save()){
+                    $this->err('出货失败');
+                    exit();
+                }
+            }else{
+                $res = Order::reOrderStatus('osn', array('orderSn'=>$order_sn), $status);
+                if($res!='SUCCESS'){
+                    $this->err('修改失败');
+                    exit();
+                }
+            }
+        }
+    }
 }
 

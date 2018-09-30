@@ -4,7 +4,7 @@ $(document).ready(function(){
 	layui.use('element', function(){
 		var $ = layui.jquery, element = layui.element;
 	});
-	
+
 	layui.use(['form', 'table', 'laydate'], function(){
 		table = layui.table; form = layui.form; laydate = layui.laydate;
 		table.render({
@@ -31,27 +31,38 @@ $(document).ready(function(){
 				{field:'operate', width:160, fixed:'right', title:'操作'},
 			]],
 		});
-		
+
 		table.on('tool(order)', function(obj){
 			var data = obj.data;
 			var layEvent = obj.event;
 			var tr = obj.tr;
-			
+
 			if (layEvent === 'openNote'){
 				var grade = data.note_grade==null?0:data.note_grade;
-				$("input[name='grade']:eq("+grade+")").attr("checked",'checked'); 
+				$("input[name='grade']:eq("+grade+")").attr("checked",'checked');
 				$('.order_note_context').text(data.note==null?'':data.note);
 				openEdit('备注', $('#noteGrade').html(), 520, 280, 1);
 				form.render();
-				
+
 				$('.renote').on('click', function(){ renote(obj); });
 			}
 		});
-		
+
 		laydate.render({
 		    elem: '#qpaytime', range: '~'
 		});
 	});
+
+    $(document).on('click', '.print_logistics', function(){
+        // var check_data = getCheckData('order');
+        openEditFull('打印快递单','../Logistics/index');
+    });
+
+    $(document).on('click', '.print_order', function(){
+        // var check_data = getCheckData('order');
+        openEdit('打印出货单','../Logistics/printPage', 500, 400);
+        // openEditFull('打印出货单','../Logistics/index');
+    });
 });
 
 /**
@@ -65,10 +76,10 @@ function reloadProList(){
 function renote(obj){
 	var tr = obj.tr;
 	var gradeImg = $(tr).find('.gradeImg');
-	
+
 	var ong = $('input[name="grade"]:checked').val()
 	var onc = $('.order_note_context').eq(1).val();
-	
+
 	$.post('../Order/renote', {'oid':obj.data.id, 'ong':ong, onc:onc}, function(data){
     	var datas = jQuery.parseJSON(data);
     	if (datas.status == 1){
@@ -80,7 +91,7 @@ function renote(obj){
     		obj.update({ note_grade: ong, note: onc });
     	}else layer.msg(datas.msg, { icon: 5, time: 1000 });
     });
-	
+
 	layer.closeAll();
 }
 

@@ -24,7 +24,7 @@
     padding: 0 20px;
 }
 .top-base-info-div .top-div .td-left{
-	
+
 }
 .top-base-info-div .top-div .td-left .order_sn-text{
 	font-size: 18px;
@@ -35,7 +35,7 @@
 	color: #99ffcc;
 }
 .top-base-info-div .top-div .dt-right{
-	
+
 }
 
 .bottom-div{
@@ -49,7 +49,7 @@
 
 .note-info-div{
 	widht: 100%;
-	
+
 }
 .note-info-div .note-text{
 	font-size: 13px;
@@ -129,3 +129,42 @@
 	height: 20px;
 }
 
+.order_extra_btn{
+	display: inline-block;
+	float: right;
+	line-height: 40px;
+}
+.order_extra_action{
+	display: inline-flex;
+	cursor: pointer;
+	margin-left: 5px;
+	border-radius: 6px;
+	background: #5a98de;
+	color: #fff;
+	padding: 0 8px;
+	height: 30px;
+	line-height: 30px;
+}
+.order_extra_action:hover{
+	background: #0a6999;
+}
+
+.log-info{
+	padding-top: 20px;
+}
+.log-info label{
+	padding-left: 0;
+	width: 95px;
+}
+.surplus{
+	font-style: normal;
+	color: #aaa;
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	   -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	     -o-transform: translateY(-50%);
+	        transform: translateY(-50%);
+}

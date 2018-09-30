@@ -10,15 +10,15 @@
     <script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
     <script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
     <![endif]-->
-    
+
 	{{ assets.outputCss() }}
 	{{ assets.outputJs() }}
-        
+
     <!--[if IE 6]>
     <script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    
+
 
     <title>全部订单</title>
 </head>
@@ -44,6 +44,11 @@
 			<a class="btna ostatus" onclick="rqStatus(this, 30)">待收货</a>
 			<a class="btna ostatus" onclick="rqStatus(this, 50)">完成</a>
 			<a class="btna ostatus" onclick="rqStatus(this, 'all')">售后</a>
+
+            <div class="order_extra_btn">
+                <div class="order_extra_action print_logistics">打印快递单</div>
+                <div class="order_extra_action print_order">打印出货单</div>
+            </div>
 		</div>
 	</script>
 	<div class="layui-row" id="noteGrade" style="display: none;">

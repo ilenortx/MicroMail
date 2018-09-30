@@ -18,9 +18,13 @@ $loader->registerDirs(
     	$config->application->wapAppDir,
     	$config->application->timedTask,
     	//$config->application->wxpayDir
-    		
+
     	$config->application->wechatDir,
     	$config->application->wechatLibDir,
     	$config->application->wechatUnitDir,
+
+        //快递配置
+        $config->application->logisticsDir,
+        $config->application->logisticsKdniaoDir,
     ]
 )->register();
