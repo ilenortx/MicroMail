@@ -161,9 +161,10 @@ class LogisticsController extends AdminBase{
                     $ship_res = ShipAddress::findFirstById($_POST['add_id']);
                     $area_res = Area::getNamesByIds($ship_res->area_ids, ' ');
 
-                    if(count($order_log) == 0){
+                    if(!$order_log){
                         $order_log = new OrderLogistics();
                     }
+
                     $order_log->order_sn = $v->order_sn;
                     $order_log->shipper = $ship_res->fhname;
                     $order_log->address = $area_res.$ship_res->address;
