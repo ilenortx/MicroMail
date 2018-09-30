@@ -25,7 +25,8 @@ var print = {
 		LODOP.SET_PRINT_PAGESIZE(0,0,0,"A4");
 		LODOP.ADD_PRINT_HTM(30,10,"100%","80%", content);
 		if (typeof(callback) != 'undefined') LODOP.On_Return=callback;
-		LODOP.PRINT();
+		//LODOP.PRINT();
+		LODOP.PREVIEW();
 	},
 	getIPs: function () {
 	    var ip_dups = {};
@@ -68,6 +69,6 @@ var print = {
 	        pc.setLocalDescription(result, function () {});
 
 	    }, function () {});
-	},
+	}
 
 };
