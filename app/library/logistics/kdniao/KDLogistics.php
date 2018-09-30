@@ -44,7 +44,7 @@ class KDLogistics extends LogisticsConf{
             }
             return $result;
         }else{
-            return array('status'=>0, 'msg'=>$result->Reason);
+            return $result->Reason;
         }
     }
 
