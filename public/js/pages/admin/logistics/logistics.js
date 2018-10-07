@@ -165,7 +165,7 @@ $(document).ready(function(){
 
         var post_orders = [];
         for (var i in sel_data) {
-            if(sel_data[i].logistics_num || sel_data[i].logistics_num==''){
+            if(!sel_data[i].logistics_num || sel_data[i].logistics_num==''){
                 layer.alert('选取的订单未生成快递单号，无法出库', {icon: 5});
                 return;
             }
@@ -184,6 +184,7 @@ $(document).ready(function(){
             },function(data) {
                 if(data.status==1){
                     layer.alert("批量出货已完成", {icon: 6}, function(){
+                        parent.table.reload('order');
                         layerClose();
                     });
                 }else{
