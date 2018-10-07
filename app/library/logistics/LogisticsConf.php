@@ -25,7 +25,12 @@ class LogisticsConf{
 
         $log_class = new $class_name;
         $result = $log_class->$method_name($data, $callback? $callback:$this);
-        return $result;
+
+        if(is_object($result)){
+            return array('status'=>1, 'msg'=>'success', 'data'=>$result);
+        }else{
+            return array('status'=>0, 'msg'=>$result);
+        }
     }
 
     public function doCallback($result){

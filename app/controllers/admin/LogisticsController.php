@@ -150,7 +150,7 @@ class LogisticsController extends AdminBase{
             $res_object = Order::find("order_sn in ($orders_text)");
             $log_obj = new LogisticsConf();
 
-            $api_result = false;
+            $return_data = array();
             foreach ($res_object as $k => $v) {
                 $order_log = $v->OrderLogistics;
 
@@ -178,12 +178,16 @@ class LogisticsController extends AdminBase{
                         'products'=>$v->OrderProduct->toArray(),
                         'logisticsShop'=>$logShop_res->toArray(),
                     );
-                    // $api_result =
-                    $log_obj->doLogAction('kdniao', $logistics_data);   // 调用快递接口
+
+                    $api_result = $log_obj->doLogAction('kdniao', $logistics_data);   // 调用快递接口
+                    if($api_result['status'] == 0){
+                        echo json_encode($api_result);
+                        exit();
+                    }
                 }
             }
 
-            echo json_encode(array('status'=>1, 'msg'=>"success", "data"=>$api_result));
+            echo json_encode(array('status'=>1, 'msg'=>"success", "data"=>$return_data));
             exit();
         }else{
             echo json_encode(array('status'=>0, 'msg'=>"请求方式错误"));
