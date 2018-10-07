@@ -82,7 +82,7 @@
     		
     		<!-- 收货地址 -->
     		<div class="shdz-div">
-    			<text class="shdzd-title">收货地址：</text>{{ orderInfo['address_xq'] }}
+    			<text class="shdzd-title">收货地址：</text>{{ orderInfo['address'] }}&nbsp;{{ orderInfo['address_xq'] }}
     		</div>
     		<div class="order-other">
     			<div class="other-left"">

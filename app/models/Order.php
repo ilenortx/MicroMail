@@ -155,14 +155,21 @@ class Order extends \Phalcon\Mvc\Model
      * @Column(column="receiver", type="string", length=15, nullable=false)
      */
     public $receiver;
-
+    
     /**
      *
      * @var string
      * @Column(column="tel", type="string", length=15, nullable=false)
      */
     public $tel;
-
+    
+    /**
+     *
+     * @var string
+     * @Column(column="address", type="string", length=50, nullable=false)
+     */
+    public $address;
+    
     /**
      *
      * @var string
@@ -286,7 +293,7 @@ class Order extends \Phalcon\Mvc\Model
         $this->hasOne("uid", "User", "id");
         //$this->hasOne("post", "Post", "id");
         $this->hasMany('id', "OrderProduct", 'order_id');
-        $this->hasOne('receiver', 'Address', 'id');
+        //$this->hasOne('receiver', 'Address', 'id');
         $this->hasOne('vid', 'UserVoucher', 'id');
         $this->hasOne('shop_id', 'Shangchang', 'id');
 

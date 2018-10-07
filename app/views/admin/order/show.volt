@@ -85,8 +85,8 @@
     		<div class="oid-info-div">
     			<div class="info-item-title">收货人信息</div>
     			<!-- <div class="info-item-item"><text class="oidid-title">联系买家：</text>似的发射点</div> -->
-    			<div class="info-item-item"><text class="oidid-title">收货人：</text>{{ orderInfo['address']['name'] }}</div>
-    			<div class="info-item-item"><text class="oidid-title">地址：</text>{{ orderInfo['address_xq'] }}</div>
+    			<div class="info-item-item"><text class="oidid-title">收货人：</text>{{ orderInfo['receiver'] }}</div>
+    			<div class="info-item-item"><text class="oidid-title">地址：</text>{{ orderInfo['address'] }}&nbsp;{{ orderInfo['address_xq'] }}</div>
     			<div class="info-item-item"><text class="oidid-title">手机号：</text>{{ orderInfo['tel'] }}</div>
     			<p class="state-contant">
                 	<span class="public-ftb">买家留言：{% if orderInfo['remark'] %} {{ orderInfo['remark'] }} {% endif %}</span>

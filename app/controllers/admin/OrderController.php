@@ -208,19 +208,11 @@ class OrderController extends AdminBase{
     	$order = Order::findFirstById($oid);
     	$oArr = array();
     	if ($order){
-    		//地址
-    		$address = $order->Address;
     		//优惠券
     		$uvoucher = $order->UserVoucher;
 
     		$oArr = $order->toArray();
-    		if ($address) $oArr['address'] = $address->toArray();
-    		else{
-    			$oArr['address'] = array(
-    					'id'=>'', 'name'=>'', 'tel'=>'', 'sheng'=>'', 'city'=>'',
-    					'quyu'=>'', 'address'=>'', 'address_xq'=>'', 'code'=>'','uid'=>'',
-    			);
-    		}
+    		$oArr['address'] = str_replace(',', ' ', $oArr['address']);
 
     		$oArr['voucher'] = array(
     				'id'=>'', 'title'=>'', 'full_money'=>'0.00', 'amount'=>'0.00'

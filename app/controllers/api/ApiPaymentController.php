@@ -850,8 +850,9 @@ class ApiPaymentController extends ApiBase{
     		}else $v->fxtc = 0;
     		
     		$v->fxs_id = $fxsId;
-    		$v->receiver = $address['id'];
+    		$v->receiver = $address['name'];
     		$v->tel = $address['tel'];
+    		$v->address = $address['address'];
     		$v->address_xq = $address['address_xq'];
     		$v->code= $address['code'];
     		$v->remark = $remark;
