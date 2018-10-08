@@ -30,7 +30,7 @@
             font-size: 12px;
         }
         .box-item{
-            line-height: 2.5;
+            line-height: 1.7;
             width: 100%;
             display: block;
             clear: both;
