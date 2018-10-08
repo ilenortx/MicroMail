@@ -55,7 +55,8 @@ class LogisticsController extends AdminBase{
              ->addJs("lib/jquery/1.9.1/jquery.min.js")
              ->addJs("lib/layer/layer.js")
              ->addJs("lib/layui/layui.js")
-             ->addJs("js/pages/admin/pageOpe.js");
+             ->addJs("js/pages/admin/pageOpe.js")
+             ->addJs("js/pages/admin/logistics/print.js");
 
         $this->view->pick("admin/logistics/print");
     }
@@ -205,17 +206,45 @@ class LogisticsController extends AdminBase{
             $orders_array = $_POST['data'];
             $orders_text = implode(',', $orders_array);
 
-            $res_object = Order::find("order_sn in ($order_text)");
+            $res_object = Order::find("order_sn in ($orders_text)");
             $orders = array();
+
             foreach ($res_object as $k => $v) {
                 if($v->status >= 20 && $v->status <= 30){
+
+                    $order_product = $v->OrderProduct->toArray();
+                    foreach ($order_product as $key => &$value) {
+                        $product_data = Product::findFirst("id = ".$value['pid'])->toArray();
+                        $attr_data = ProductAttrValue::find("id in (".$value['skuid'].")")->toArray();
+                        $attr = array_column($attr_data, 'name', 'pname');
+                        $attr_text = '';
+                        foreach ($attr as $a_k => $a_v) {
+                            $attr_text .= $a_k.':'.$a_v.'/';
+                        }
+
+                        $value['pro_number'] = $product_data['pro_number'];
+                        $value['pro_attr'] = substr($attr_text, 0, -1);
+                    }
+
+                    $order_data = $v->toArray();
+                    $order_data['address'] = str_replace(',','', $order_data['address']) | '';
+                    $order_data['remark'] = $order_data['remark'] | '';
+                    $order_data['note'] = $order_data['note']? $order_data['note']:'';
+
                     $push_data = array(
-                        'order'=>$v->toArray(),
-                        'product'=>$v->OrderProduct->toArray(),
+                        'order'=>$order_data,
+                        'product'=>$order_product,
                     );
 
+                    array_push($orders, $push_data);
                 }
             }
+
+            echo json_encode(array('status'=>1, 'msg'=>"success", "data"=>$orders));
+            exit();
+        }else{
+            echo json_encode(array('status'=>0, 'msg'=>"请求方式错误"));
+            exit();
         }
     }
 }

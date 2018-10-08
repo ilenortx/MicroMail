@@ -1,7 +1,6 @@
 var table, form;
 var checkbox_data = '';
 $(document).ready(function(){
-    $.getScript("https://localhost:8443/CLodopfuncs.js",function(){init()});
 
     var check_data = parent.getCheckData('order');
 
@@ -16,6 +15,8 @@ $(document).ready(function(){
 
     layui.use(['form', 'table'], function(){
         form = layui.form; table = layui.table;
+
+        $.getScript("https://localhost:8443/CLodopfuncs.js",function(){init()});
 
         table.render({
             elem: '#undeliveredData',
