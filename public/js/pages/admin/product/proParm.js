@@ -7,7 +7,6 @@ $(document).ready(function(){
             url: '../ProductParm/getAllParm',
             toolbar: true,
             defaultToolbar: [],
-            toolbar: '#proTableToolbar',
             title: '用户数据表',
             height:'full-70',
             cols: [[

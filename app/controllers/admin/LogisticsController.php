@@ -172,8 +172,11 @@ class LogisticsController extends AdminBase{
                     $order_log->mobile = $ship_res->tel;
                     $order_log->save();
 
+                    $order_data = $v->toArray();
+                    $order_data['address'] = explode(',', $order_data['address']);
+
                     $logistics_data = array(
-                        'order'=>$v->toArray(),
+                        'order'=>$order_data,
                         'shipAddress'=>$ship_res->toArray(),
                         'area'=>explode(' ', $area_res),
                         'products'=>$v->OrderProduct->toArray(),
