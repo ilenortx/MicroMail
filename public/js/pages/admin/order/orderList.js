@@ -60,7 +60,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.print_order', function(){
         // var check_data = getCheckData('order');
-        openEdit('打印出货单','../Logistics/printPage', 500, 400);
+        openEdit('打印出货单','../Logistics/printPage', 500, 200);
         // openEditFull('打印出货单','../Logistics/index');
     });
 });

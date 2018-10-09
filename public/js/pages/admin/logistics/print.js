@@ -6,7 +6,7 @@ $(document).ready(function(){
     var print_html = $("html").clone();
     print_html.find('head').html("");
     print_html.find('body').html("<div id='order-info'></div><div id='table_box'></div>");
-    print_html.find('#table_box').html("<table id='table_box' border='1' cellspacing='0' cellpadding='0'><thead><td width='24%'>商品编号</td><td width='8%'>数量</td><td width='16%'>属性</td><td width='28%'>商品名称</td><td width='12%'>价格</td><td width='12%'>小计</td></thead><tbody id='table_body'></tbody></table>");
+    print_html.find('#table_box').html("<table id='table_box' border='1' cellspacing='0' cellpadding='0'><thead><td width='24%'>商品编号</td><td width='8%'>数量</td><td width='16%'>属性</td><td width='28%'>商品名称</td><td width='12%'>价格</td><td width='12%'>小计</td></thead><tbody id='table_body'></tbody></table>").css('font-size', '12px');
 
     var style_html = $('html').html().match(/<style(([\s\S])*?)<\/style>/g);
     print_html.find('head').append(style_html);

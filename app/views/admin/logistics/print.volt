@@ -44,6 +44,10 @@
         #table_box{
             width: 100%;
             font-size: 12px;
+            border-color: rgba(0,0,0,0);
+        }
+        #table_box td{
+            border-color: #999;
         }
     </style>
 </head>
@@ -57,7 +61,7 @@
                     <select id="print_sel" lay-filter="print_control"></select>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" style="text-align: center;">
                 <div class="layui-btn submitAction">点击提交</div>
             </div>
         </form>
