@@ -442,7 +442,7 @@
                                     {{p_item['name']}}：
                                 </label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    {% set parm_value = proInfo['parm'][p_item['id']]|default('') %}
+                                    {% set parm_value = proInfo['parm'][p_item['id']]|paramDefault %}
                                     {% if p_item['type']=='text' %}
                                     <input type="text" class="input-text" name="parm[{{p_item['id']}}]" id="name" value="{{parm_value}}">
                                     {% else %}
@@ -549,7 +549,7 @@
             }
 
             function ac_from() {
-            	
+
             	var skuvals = getSkuVals();
             	var proAttrs = getProAttrs();
             	if (!skuvals) return false;
@@ -569,9 +569,9 @@
                     return false;
                 }
                 $('#tjpro').val(choosePros);
-                
+
                 $('#content').val($('#content').val());
-                
+
                 var uploadFormData = new FormData($('#productAddForm')[0]);
 	    		uploadFormData.append('proids', choosePros);
 	    		$.ajax({

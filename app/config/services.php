@@ -48,6 +48,15 @@ $di->setShared('view', function () {
                 'compiledSeparator' => '_'
             ]);
 
+            $compiler = $volt->getCompiler();       // 自定义过滤器
+            $compiler->addFilter('paramDefault', function($resolvedArgs, $exprArgs) {
+                if(isset($resolvedArgs)){
+                    return $resolvedArgs;
+                }else{
+                    return '';
+                }
+            });
+
             return $volt;
         },
         '.phtml' => PhpEngine::class
@@ -121,17 +130,17 @@ $di->set('crypt', function() {
 	return $crypt;
 });
 
-	
+
 $di->set('modelsCache', function (){
 	$config = $this->getConfig();
 	//默认缓存时间为一天
 	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
 		"lifetime" => 86400
 	));
-		
+
 	//Memcached连接配置 这里使用的是Memcache适配器
 	$cache = new \Phalcon\Cache\Backend\File($frontCache, array('cacheDir'=>$config->application->cacheDir.'models/'));
-		
+
 	return $cache;
 });
-		
+
