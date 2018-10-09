@@ -8,7 +8,6 @@
 class ApicategoryController extends ApiBase{
 
     public function indexAction(){
-
     }
     
     public function pcategorysAction(){
