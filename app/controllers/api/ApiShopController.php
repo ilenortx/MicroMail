@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiShopController extends ApiBase{
+class ApishopController extends ApiBase{
 
 	/**
 	 * 获取店铺信息

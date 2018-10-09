@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ASysManageController extends AdminBase{
+class AsysmanageController extends AdminBase{
 
 	//----------
 	// 定时任务

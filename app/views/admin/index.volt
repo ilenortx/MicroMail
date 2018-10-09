@@ -45,7 +45,7 @@
                                         <a href="#">切换账户</a>
 									</li>
                                     <li>
-                                        <a href="../AdminLogin/logout">退出</a>
+                                        <a href="../Adminlogin/logout">退出</a>
 									</li>
                                 </ul>
                             </li>
@@ -185,7 +185,7 @@
                     <dd>
                         <ul>
                             <li>
-                                <a data-href="../AdminUsers/adminUserList" data-title="管理员列表" href="javascript:void(0)">管理员列表</a>
+                                <a data-href="../Adminusers/adminUserList" data-title="管理员列表" href="javascript:void(0)">管理员列表</a>
 							</li>
                         </ul>
                     </dd>
@@ -237,9 +237,9 @@
                     <dd>
                         <ul>
                             <li>
-                                <a data-href="../AMyDelivery/wlmanagePage" data-title="物流管理" href="javascript:void(0)">物流管理</a>
-								<a data-href="../AMyDelivery/wlgsListPage" data-title="物流公司" href="javascript:void(0)">物流公司</a>
-								<a data-href="../AMyDelivery/shipAddressPage" data-title="发货地址" href="javascript:void(0)">发货地址</a>
+                                <a data-href="../Amydelivery/wlmanagePage" data-title="物流管理" href="javascript:void(0)">物流管理</a>
+								<a data-href="../Amydelivery/wlgsListPage" data-title="物流公司" href="javascript:void(0)">物流公司</a>
+								<a data-href="../Amydelivery/shipAddressPage" data-title="发货地址" href="javascript:void(0)">发货地址</a>
 							</li>
                         </ul>
                     </dd>
@@ -272,9 +272,10 @@
                     <dd>
                         <ul>
                             <li>
-                            	<a data-href="../ASysManage/timedTaskPage" data-title="定时任务" href="javascript:void(0)">定时任务</a>
-                                <a data-href="../ASysManage/taskListPage" data-title="任务列表" href="javascript:void(0)">任务列表</a>
-                                <a data-href="../ASysManage/tqRecycleBin" data-title="任务回收站" href="javascript:void(0)">任务回收站</a>
+                            	<a data-href="../Asysdeploy/moduleMaintailPage" data-title="模块维护" href="javascript:void(0)">模块维护</a>
+                            	<a data-href="../Asysmanage/timedTaskPage" data-title="定时任务" href="javascript:void(0)">定时任务</a>
+                                <a data-href="../Asysmanage/taskListPage" data-title="任务列表" href="javascript:void(0)">任务列表</a>
+                                <a data-href="../Asysmanage/tqRecycleBin" data-title="回收站" href="javascript:void(0)">回收站</a>
 							</li>
                         </ul>
                     </dd>

@@ -9,7 +9,7 @@ class AdminController extends AdminBase{
 	
 	public function initialize(){
 		if (!$this->session->has("uid") || $this->session->get("uid")==""){
-			header("Location: ../AdminLogin/index");
+			header("Location: ../Adminlogin/index");
 		}
 	}
 	

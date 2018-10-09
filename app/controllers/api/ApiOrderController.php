@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiOrderController extends ApiBase{
+class ApiorderController extends ApiBase{
 
 	/**
 	 * 获取订单记录

@@ -28,7 +28,7 @@
     
     <script type="text/html" id="logisticsTableToolbar">
 		<div class="toolbar">
-			<a class="btna" onclick="openEditFull('添加物流','../AMyDelivery/wlgsAddPage')">
+			<a class="btna" onclick="openEditFull('添加物流','../Amydelivery/wlgsAddPage')">
 			    <i class="layui-icon">&#xe654;</i>添加物流
 			</a>
 		</div>

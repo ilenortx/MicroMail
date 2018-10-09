@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class GroupBookingController extends AdminBase{
+class GroupbookingController extends AdminBase{
 
 	public function indexAction(){
 		$this->assets

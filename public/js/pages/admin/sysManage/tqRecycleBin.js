@@ -10,7 +10,7 @@ $(document).ready(function(){
 			id:'tqrb',		toolbar: '#tqTableToolbar',
 			title: '任务回收站',	loading: true,
 			height:'full-60',	limit: 30,
-			url: '../ASysManage/tqrbList',
+			url: '../Asysmanage/tqrbList',
 			defaultToolbar: ['filter', 'print'],
 			cols: [[
 				{type:'checkbox'},
@@ -39,7 +39,7 @@ $(document).ready(function(){
  * 商品列表重新加载
  */
 function reloadTqList(){
-	reloadTable('tqrb', '../ASysManage/tqrbList', {});
+	reloadTable('tqrb', '../Asysmanage/tqrbList', {});
 }
 
 /**
@@ -55,7 +55,7 @@ function restore(){
 	
 	layer.confirm('确定还原任务？',
 	function(index) {
-		$.post('../ASysManage/restoreTqs', {'ids':ids}, function(data){
+		$.post('../Asysmanage/restoreTqs', {'ids':ids}, function(data){
 			var datas = jQuery.parseJSON(data);
 		   	if (datas.status == 1){
 		    	if (typeof(obj) != 'undefined') $(obj).parents("tr").remove();
@@ -87,7 +87,7 @@ function getCheckData(){ //获取选中数据
 function executeDel(ids) {
     layer.confirm('确定删除任务？',
     function(index) {
-    	$.post('../ASysManage/deligTqs', {'ids':ids}, function(data){
+    	$.post('../Asysmanage/deligTqs', {'ids':ids}, function(data){
         	var datas = jQuery.parseJSON(data);
         	if (datas.status == 1){
         		reloadTqList();

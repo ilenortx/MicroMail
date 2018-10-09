@@ -121,7 +121,7 @@
 	    				<div class="cad-div">
 	    					<div class="cadd-top">
 	    						<text>发货地址选着</text>
-	    						<a class="address-managen" onclick='window.parent.creatIframe("../AMyDelivery/shipAddressPage", "发货地址")'>地址管理</a>
+	    						<a class="address-managen" onclick='window.parent.creatIframe("../Amydelivery/shipAddressPage", "发货地址")'>地址管理</a>
 	    					</div>
 	    					<div class="layui-form cadd-content"></div>
 	    				</div>

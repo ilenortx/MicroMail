@@ -1,6 +1,6 @@
 <?php
 
-class ApiDistributionController extends ApiBase{
+class ApidistributionController extends ApiBase{
 
 	/**
 	 * 获取分销商状态

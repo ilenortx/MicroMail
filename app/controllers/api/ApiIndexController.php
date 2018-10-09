@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiIndexController extends ApiBase{
+class ApiindexController extends ApiBase{
 	
 	/**
 	 * 广告和公告

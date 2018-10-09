@@ -112,5 +112,31 @@ class Adminuser extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
-
+    
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取用户列表
+     */
+    public static function ausersList($type='shop', $dataArr=array()){
+    	if ($type == 'all'){
+    		
+    	}else if ($type == 'shop'){//获取店铺管理员
+    		if (isset($dataArr['sid'])){
+    			$aus = self::find("sid={$dataArr['sid']} and status!='S2'");
+    			
+    			if ($aus) {
+    				$auarr = array();
+    				foreach ($aus as $k=>$v){
+    					$auarr[$k] = $v->toArray();
+    					$auarr[$k]['addtime'] = empty($v->addtime) ? '' : date('Y-m-d', $v->addtime);
+    				}
+    				return $auarr;
+    			}else return 'DATAEXCEPTION';
+    		}else return 'DATAERR';
+    	}
+    }
+    
 }

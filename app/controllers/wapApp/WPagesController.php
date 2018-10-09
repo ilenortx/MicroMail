@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class WPagesController extends ControllerBase{
+class WpagesController extends ControllerBase{
 
 	public function initialize(){
 		$_url = $_GET['_url'];

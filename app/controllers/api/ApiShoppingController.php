@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiShoppingController extends ApiBase{
+class ApishoppingController extends ApiBase{
 
 	/**
 	 * 购物车首页数据

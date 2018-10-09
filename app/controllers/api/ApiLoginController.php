@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiLoginController extends ApiBase{
+class ApiloginController extends ApiBase{
 
     public function indexAction(){
 

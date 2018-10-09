@@ -28,7 +28,7 @@
     
     <script type="text/html" id="shipAddressTableToolbar">
 		<div class="toolbar">
-			<a class="btna" onclick="openEdit('添加地址','../AMyDelivery/saaddPage',700,500)">
+			<a class="btna" onclick="openEdit('添加地址','../Amydelivery/saaddPage',700,500)">
 			    <i class="layui-icon">&#xe654;</i>添加地址
 			</a>
 		</div>

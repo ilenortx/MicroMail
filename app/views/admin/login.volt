@@ -23,7 +23,7 @@
         <input type="hidden" id="TenantId" name="TenantId" value="" />
         <div class="loginWraper">
             <div id="loginform" class="loginBox">
-                <form id="login_form" class="form form-horizontal" action="../AdminLogin/login" method="post">
+                <form id="login_form" class="form form-horizontal" action="../Adminlogin/login" method="post">
                     <div class="row cl">
                         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                         <div class="formControls col-xs-8">
@@ -66,7 +66,7 @@
 	        $(function(){     
 	            var options = { 
 	                type: 'POST',  
-	                url: '../adminLogin/login',
+	                url: '../Adminlogin/login',
 	                beforeSubmit: validateRegist, 
 	                success: showResponse,    
 	                dataType: 'json',  

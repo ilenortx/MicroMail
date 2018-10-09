@@ -41,7 +41,7 @@
 				</div>
 			</script>
 			<table id="tq-table" class="layui-hide" lay-filter='tqrb'></table>
-		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'tqrb', height:'full-120', loading:true, page:true, limit:30, url:'../ASysManage/tqrbList'}" lay-filter='tqrb'>
+		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'tqrb', height:'full-120', loading:true, page:true, limit:30, url:'../Asysmanage/tqrbList'}" lay-filter='tqrb'>
 				<thead>
 					<tr>
 						<th lay-data="{type:'checkbox'}"></th>

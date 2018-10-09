@@ -1,6 +1,6 @@
 <?php
 
-class TaskOpeController extends ControllerBase{
+class TaskopeController extends ControllerBase{
 	
 	public function executeAction(){
 		if ($this->request->isPost()){

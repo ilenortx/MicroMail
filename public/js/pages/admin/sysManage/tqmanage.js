@@ -11,7 +11,7 @@ $(document).ready(function(){
 			id:'taskQueue',		toolbar: '#tqTableToolbar',
 			title: '任务管理',	loading: true,
 			height:'full-60',	limit: 30,
-			url: '../ASysManage/getTqls',
+			url: '../Asysmanage/getTqls',
 			defaultToolbar: ['filter', 'print'],
 			cols: [[
 				{type:'checkbox'},
@@ -43,7 +43,7 @@ $(document).ready(function(){
  */
 function reloadTqList(){
 	//var mcode = $('#taskQueue').val();
-	reloadTable('taskQueue', '../ASysManage/getTqls', {});
+	reloadTable('taskQueue', '../Asysmanage/getTqls', {});
 }
 
 function del(){

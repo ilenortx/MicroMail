@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiJoinShopController extends ApiBase{
+class ApijoinshopController extends ApiBase{
 
     public function indexAction(){
 

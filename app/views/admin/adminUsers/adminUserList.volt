@@ -147,7 +147,7 @@
             function admin_del(obj, id) {
                 layer.confirm('确认要删除吗？',
                 function(index) {
-                	$.post('../AdminUsers/setAdminUserStatus', {'uid':id, 'status':'S2'}, function(data){
+                	$.post('../Adminusers/setAdminUserStatus', {'uid':id, 'status':'S2'}, function(data){
                     	var datas = jQuery.parseJSON(data);
                     	if (datas.status == 1){
                     		$(obj).parents("tr").remove();
@@ -165,7 +165,7 @@
             function admin_stop(obj, id) {
                 layer.confirm('确认要停用吗？',
                 function(index) {
-                    $.post('../AdminUsers/setAdminUserStatus', {'uid':id, 'status':'S0'}, function(data){
+                    $.post('../Adminusers/setAdminUserStatus', {'uid':id, 'status':'S0'}, function(data){
                     	var datas = jQuery.parseJSON(data);
                     	if (datas.status == 1){
                     		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
@@ -181,7 +181,7 @@
             function admin_start(obj, id) {
                 layer.confirm('确认要启用吗？',
                 function(index) {
-                	$.post('../AdminUsers/setAdminUserStatus', {'uid':id, 'status':'S1'}, function(data){
+                	$.post('../Adminusers/setAdminUserStatus', {'uid':id, 'status':'S1'}, function(data){
                     	var datas = jQuery.parseJSON(data);
                     	if (datas.status == 1){
                     		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,'+id+')" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');

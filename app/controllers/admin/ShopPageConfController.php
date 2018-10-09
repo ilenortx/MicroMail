@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ShopPageConfController extends AdminBase{
+class ShoppageConfController extends AdminBase{
 
 	/**
 	 * 热卖推荐

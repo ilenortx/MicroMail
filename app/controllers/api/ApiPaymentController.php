@@ -1,6 +1,6 @@
 <?php
 
-class ApiPaymentController extends ApiBase{
+class ApipaymentController extends ApiBase{
 
     public function indexAction(){
 

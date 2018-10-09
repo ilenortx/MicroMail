@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class CutPriceSpritesController extends AdminBase{
+class CutpricespritesController extends AdminBase{
 
     public function indexAction(){
     	$this->assets

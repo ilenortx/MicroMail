@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiProEvaluateController extends ApiBase{
+class ApiproevaluateController extends ApiBase{
 
     public function indexAction(){
 

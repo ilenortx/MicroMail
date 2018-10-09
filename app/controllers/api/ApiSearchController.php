@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiSearchController extends ApiBase{
+class ApisearchController extends ApiBase{
 
     public function indexAction(){
 		if ($this->request->isPost()){

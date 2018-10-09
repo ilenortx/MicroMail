@@ -2,7 +2,7 @@
 
 use Phalcon\Cache\Frontend\Data;
 
-class ShopManagementController extends AdminBase{
+class ShopmanagementController extends AdminBase{
 	/**
 	* 店铺列表页面
 	*/

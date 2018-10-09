@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiCategoryController extends ApiBase{
+class ApicategoryController extends ApiBase{
 
     public function indexAction(){
 

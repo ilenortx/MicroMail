@@ -5,14 +5,14 @@
  * @author xiao
  *
  */
-class AdminUsersController extends UserBaseController{
+class AdminusersController extends AdminBase{
 	
 	/**
 	 * 验证是否登陆或session有效
 	 */
 	public function initialize(){
 		if (!$this->session->has("uid") || $this->session->get("uid")==""){
-			header("Location: ../AdminLogin/index");
+			header("Location: ../Adminlogin/index");
 		}
 	}
 	
@@ -44,7 +44,10 @@ class AdminUsersController extends UserBaseController{
 	    	 ->addJs("lib/datatables/1.10.0/jquery.dataTables.min.js")
 	    	 ->addJs("lib/laypage/1.2/laypage.js");
 	    
-	    $this->view->userLists = $this->usersListAction();
+	    $aus = Adminuser::ausersList('shop', array('sid'=>$this->session->get('sid')));
+	    if (!is_array($aus)) $aus = array();
+	    
+	    $this->view->userLists = $aus;
 	    	 
     	$this->view->pick("admin/adminUsers/adminUserList");
     }
@@ -64,7 +67,6 @@ class AdminUsersController extends UserBaseController{
 		
 		echo json_encode($this->doUserStatusAction("au", $uid, $status));
 	}
-    
     
 }
 

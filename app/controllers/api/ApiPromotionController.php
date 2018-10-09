@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiPromotionController extends ApiBase{
+class ApipromotionController extends ApiBase{
 
 	/**
 	 * 获取秒杀列表

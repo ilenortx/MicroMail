@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ProductAttrController extends AdminBase{
+class ProductattrController extends AdminBase{
 
     public function indexAction(){
 

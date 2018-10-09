@@ -9,7 +9,7 @@ $(document).ready(function(){
 		table.render({
 			elem: '#tt-table',	loading: true,
 			id:'timedTask',		title: '定时任务',
-			height:'full-60',	url: '../ASysManage/timedTasks',
+			height:'full-60',	url: '../Asysmanage/timedTasks',
 			cols: [[
 				{toolbar:'#bar-opcode', align:'center', width:160, title:'操作'},
 				{field:'descript', 'title':'描述'},
@@ -25,7 +25,7 @@ $(document).ready(function(){
 			var tr = obj.tr;
 			
 			if(layEvent === 'edit') {
-				$.post('../ASysManage/timedTaskInfo', {'id':data.id}, function(data){
+				$.post('../Asysmanage/timedTaskInfo', {'id':data.id}, function(data){
 		        	var datas = jQuery.parseJSON(data);
 		        	if (datas.status == 1){
 		        		openEdit('编辑计划任务', $('#eidtTemp').html(), 550, 390, 1);
@@ -38,7 +38,7 @@ $(document).ready(function(){
 		        		$('#etstatus').val(rdata.status);
 		        		
 		        		$('#etsubmit').click(function(){
-		        			$.post('../ASysManage/reTimedTaskInfo', {'id':rdata.id, 'rule':$('#etrule').val(), 'status':$('#etstatus').val()}, function(data){
+		        			$.post('../Asysmanage/reTimedTaskInfo', {'id':rdata.id, 'rule':$('#etrule').val(), 'status':$('#etstatus').val()}, function(data){
 		        		    	var datas = jQuery.parseJSON(data);
 		        		    	if (datas.status == 1){
 		        		    		reloadList();
@@ -66,7 +66,7 @@ $(document).ready(function(){
  * 商品列表重新加载
  */
 function reloadList(){
-	reloadTable('timedTask', '../ASysManage/timedTasks', {});
+	reloadTable('timedTask', '../Asysmanage/timedTasks', {});
 }
 
 function reTimedTaskInfo(id, rule, status){

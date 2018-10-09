@@ -17,16 +17,16 @@ var print = {
       	CLODOP.Create_Printer_List(this.d.printersId, true);
 	},
 	print: function(content, callback){
-		var iDriverIndex=document.getElementById("test").value;
+		var iDriverIndex = document.getElementById("test").value;
 		
 		LODOP.PRINT_INIT("测试端桥AO打印");
-		LODOP.SET_PRINTER_INDEX(iDriverIndex);
+		LODOP.SET_PRINTER_INDEX(this.d.printersId.value);
 		//LODOP.SET_PRINTER_INDEX("\\USER-20170412MC\HP LaserJet 1022");
 		LODOP.SET_PRINT_PAGESIZE(0,0,0,"A4");
 		LODOP.ADD_PRINT_HTM(30,10,"100%","80%", content);
 		if (typeof(callback) != 'undefined') LODOP.On_Return=callback;
-		//LODOP.PRINT();
-		LODOP.PREVIEW();
+		LODOP.PRINT();
+		//LODOP.PREVIEW();
 	},
 	getIPs: function () {
 	    var ip_dups = {};

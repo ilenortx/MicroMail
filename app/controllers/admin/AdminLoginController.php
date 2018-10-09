@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class AdminLoginController extends AdminBase{
+class AdminloginController extends AdminBase{
 	
     public function indexAction(){
     	$this->assets
@@ -48,7 +48,7 @@ class AdminLoginController extends AdminBase{
      */
     public function logoutAction(){
     	$this->session->destroy();
-    	$this->dispatcher->forward(array("controller"=>"AdminLogin", "action"=>"index"));
+    	$this->dispatcher->forward(array("controller"=>"Adminlogin", "action"=>"index"));
     }
 
 }

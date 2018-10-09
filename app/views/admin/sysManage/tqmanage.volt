@@ -40,7 +40,7 @@
 				</div>
 			</script>
 			<table id="tq-table" class="layui-hide" lay-filter='taskQueue'></table>
-		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'taskQueue', height:'full-120', loading:true, page:true, limit:30, url:'../ASysManage/getTqls'}" lay-filter='taskQueue'>
+		    <!-- <table id="tq-table" class="layui-table" lay-data="{id:'taskQueue', height:'full-120', loading:true, page:true, limit:30, url:'../Asysmanage/getTqls'}" lay-filter='taskQueue'>
 				<thead>
 					<tr>
 						<th lay-data="{type:'checkbox'}"></th>

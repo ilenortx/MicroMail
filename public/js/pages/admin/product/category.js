@@ -1,9 +1,5 @@
 var table, treeGrid=null, tableId='treeTable', layer=null;
 $(document).ready(function(){
-	layui.use('element', function(){
-		
-	});
-	
 	layui.use(['jquery','treeGrid','layer'], function(){
 		var $ = layui.jquery;
 		treeGrid = layui.treeGrid; layer=layui.layer;

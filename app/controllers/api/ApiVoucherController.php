@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiVoucherController extends ApiBase{
+class ApivoucherController extends ApiBase{
 
     public function indexAction(){
 

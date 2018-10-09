@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiGroupBookingController extends ApiBase{
+class ApigroupbookingController extends ApiBase{
 
 	public function gbOrderInfoAction(){
 		if ($this->request->isPost()){

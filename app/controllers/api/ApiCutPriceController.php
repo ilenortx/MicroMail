@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiCutPriceController extends ApiBase{
+class ApicutpriceController extends ApiBase{
 
     public function indexAction() {
 

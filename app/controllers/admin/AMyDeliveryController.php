@@ -1,6 +1,6 @@
 <?php
 
-class AMyDeliveryController extends AdminBase{
+class AmydeliveryController extends AdminBase{
 	
 	public $cysarr = array('1'=>'快递承运商');
 	

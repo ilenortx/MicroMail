@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class ApiProductController extends ApiBase{
+class ApiproductController extends ApiBase{
 
 	/**
 	 * 商品详情

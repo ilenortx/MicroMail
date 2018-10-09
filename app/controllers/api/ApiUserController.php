@@ -7,7 +7,7 @@ use Phalcon\DI\Service;
  * @author xiao
  *
  */
-class ApiUserController extends ApiBase{
+class ApiuserController extends ApiBase{
 
     public function indexAction(){
 
