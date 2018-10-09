@@ -8,7 +8,6 @@
 class ApiloginController extends ApiBase{
 
     public function indexAction(){
-
     }
     
     //***************************
