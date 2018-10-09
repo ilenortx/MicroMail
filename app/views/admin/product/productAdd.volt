@@ -442,7 +442,13 @@
                                     {{p_item['name']}}：
                                 </label>
                                 <div class="formControls col-xs-8 col-sm-3">
-                                    {% set parm_value = proInfo['parm'][p_item['id']]|paramDefault %}
+                                    <?php if(isset($proInfo['parm'][$p_item['id']])){
+                                        $parm_value = $proInfo['parm'][$p_item['id']];
+                                    }else{
+                                        $parm_value = '';
+                                    }
+                                    ?>
+
                                     {% if p_item['type']=='text' %}
                                     <input type="text" class="input-text" name="parm[{{p_item['id']}}]" id="name" value="{{parm_value}}">
                                     {% else %}

@@ -48,14 +48,6 @@ $di->setShared('view', function () {
                 'compiledSeparator' => '_'
             ]);
 
-            $compiler = $volt->getCompiler();       // 自定义过滤器
-            $compiler->addFilter('paramDefault', function($resolvedArgs, $exprArgs) {
-                if(isset($resolvedArgs)){
-                    return $resolvedArgs;
-                }else{
-                    return '';
-                }
-            });
 
             return $volt;
         },
