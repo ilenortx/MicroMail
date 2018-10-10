@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     layui.use(['form', 'table'], function(){
         form = layui.form; table = layui.table;
-        $.getScript("https://localhost:8443/CLodopfuncs.js",function(){init()});
+        $.getScript("//localhost:8443/CLodopfuncs.js",function(){init()});
 
         $('.submitAction').click(function(){
             $.post('../Logistics/print', {
