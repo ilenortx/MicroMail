@@ -114,34 +114,36 @@ var page = {
 		var fllist = syflList[choosedCg];
 		var hi = app.d.hostImg;
 		$('.lxitems-div').html('');
-		if (typeof(fllist)!='undefined' && fllist.ctype == 'hst'){
-			var hst = $('<div id="hst" style="display:flex;"></div>');
+		if (typeof(fllist)!='undefined'){
+			if (fllist.ctype == 'hst'){
+				var hst = $('<div id="hst" style="display:flex;"></div>');
 
-			var ald = $('<a href="../WPages/proDetailPage?productId='+ fllist.zproid +'" class="av-left-div" ></a>');
-			ald.append('<img src="'+hi+fllist.zphoto+'" />');
-			ald.css({'width':(page.data.winWidth-20)/2-5,'height':page.data.winWidth/1.8,'margin-right':5});
+				var ald = $('<a href="../WPages/proDetailPage?productId='+ fllist.zproid +'" class="av-left-div" ></a>');
+				ald.append('<img src="'+hi+fllist.zphoto+'" />');
+				ald.css({'width':(page.data.winWidth-20)/2-5,'height':page.data.winWidth/1.8,'margin-right':5});
 
-			var ard = $('<div class="av-right-div"></div>');
-			ard.css({'width':(page.data.winWidth-20)/2-5,'height':page.data.winWidth/1.8,'margin-left':5});
-			var artd = $('<a href="../WPages/proDetailPage?productId='+ fllist.rtproid +'" class="avr-top-div"></a>');
-			artd.append('<img src="'+hi+fllist.rtphoto+'" />');
-			artd.css({'height':page.data.winWidth/3.6-5});
+				var ard = $('<div class="av-right-div"></div>');
+				ard.css({'width':(page.data.winWidth-20)/2-5,'height':page.data.winWidth/1.8,'margin-left':5});
+				var artd = $('<a href="../WPages/proDetailPage?productId='+ fllist.rtproid +'" class="avr-top-div"></a>');
+				artd.append('<img src="'+hi+fllist.rtphoto+'" />');
+				artd.css({'height':page.data.winWidth/3.6-5});
 
-			var arbd = $('<a href="../WPages/proDetailPage?productId='+ fllist.rbproid +'" class="avr-bottom-div"></div>');
-			arbd.append('<img src="'+hi+fllist.rbphoto+'" />');
-			arbd.css({'height':page.data.winWidth/3.6-5,'margin-top':10});
+				var arbd = $('<a href="../WPages/proDetailPage?productId='+ fllist.rbproid +'" class="avr-bottom-div"></div>');
+				arbd.append('<img src="'+hi+fllist.rbphoto+'" />');
+				arbd.css({'height':page.data.winWidth/3.6-5,'margin-top':10});
 
-			ard.append(artd); ard.append(arbd);
-			hst.append(ald); hst.append(ard);
-			$('.lxitems-div').append(hst);
-		}else {
-			for(var i in fllist.childs){
-				var lxItem = $('<a href="../WPages/categoryProsPages?cgid='+fllist.childs[i].id+'" class="lx-item"></a>');
-				var img = $('<img class="cgimg" src="'+hi+fllist.childs[i].bz_1+'" />');
-				img.css({'width':(page.data.winWidth-20)/5-12,'height':(page.data.winWidth-20)/5-10});
-				var text = $('<text>'+fllist.childs[i].name+'</text>');
-				lxItem.append(img); lxItem.append(text);
-				$('.lxitems-div').append(lxItem);
+				ard.append(artd); ard.append(arbd);
+				hst.append(ald); hst.append(ard);
+				$('.lxitems-div').append(hst);
+			}else {
+				for(var i in fllist.childs){
+					var lxItem = $('<a href="../WPages/categoryProsPages?cgid='+fllist.childs[i].id+'" class="lx-item"></a>');
+					var img = $('<img class="cgimg" src="'+hi+fllist.childs[i].bz_1+'" />');
+					img.css({'width':(page.data.winWidth-20)/5-12,'height':(page.data.winWidth-20)/5-10});
+					var text = $('<text>'+fllist.childs[i].name+'</text>');
+					lxItem.append(img); lxItem.append(text);
+					$('.lxitems-div').append(lxItem);
+				}
 			}
 		}
 	},
