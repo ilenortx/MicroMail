@@ -5,7 +5,7 @@ $(document).ready(function(){
         table.render({
             elem: '#userListDataTables',
             url: '../ProductParm/getAllParm',
-            toolbar: true,
+            toolbar: '#proTableToolbar',
             defaultToolbar: [],
             title: '用户数据表',
             height:'full-70',
