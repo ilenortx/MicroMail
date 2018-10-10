@@ -29,7 +29,7 @@
     padding: 0 20px;
 }
 .top-base-info-div .top-div .td-left{
-	
+
 }
 .top-base-info-div .top-div .td-left .order_sn-text{
 	font-size: 18px;
@@ -40,7 +40,7 @@
 	color: #99ffcc;
 }
 .top-base-info-div .top-div .dt-right{
-	
+
 }
 .bottom-div{
 	width: auto;
@@ -52,7 +52,7 @@
 }
 .note-info-div{
 	widht: 100%;
-	
+
 }
 .note-info-div .note-text{
 	font-size: 13px;
@@ -154,7 +154,7 @@
     justify-content: space-between;
 }
 .cadd-top text{
-	
+
 }
 .cadd-top .address-managen{
 	color: #3399ff;
@@ -229,4 +229,14 @@
     color: #fff;
     background-color: #f33;
     border-color: #f33;
+}
+.ivu-btn-create {
+    color: #fff;
+    background-color: #48d493;
+    border-color: #48d493;
+}
+.ivu-btn-print {
+    color: #fff;
+    background-color: #53a3e6;
+    border-color: #53a3e6;
 }

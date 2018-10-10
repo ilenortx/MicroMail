@@ -54,7 +54,7 @@
     				</<span>
     			</div>
     		</div>
-    		
+
 	        <table class="table table-border table-bordered table-bg" style="margin:10px 20px 0 20px;width:calc(100% - 40px);">
 	            <thead>
 	                <tr class="text-c">
@@ -66,7 +66,7 @@
 	                    <th width="60">产品属性</th>
 	                </tr>
 	            </thead>
-	
+
 	            {% for list in prolist %}
 	            <tr id="concent_tr_{{ list['id'] }}" class="text-c">
 	                <td><img src="../files/uploadFiles/{{ list['photo_x'] }}" style="width:50px;height:50px"></td>
@@ -79,7 +79,7 @@
 	            </tr>
 	            {% endfor %}
 	        </table>
-    		
+
     		<!-- 收货地址 -->
     		<div class="shdz-div">
     			<text class="shdzd-title">收货地址：</text>{{ orderInfo['address'] }}&nbsp;{{ orderInfo['address_xq'] }}
@@ -90,7 +90,7 @@
     				<p>无</p>
     			</div>
     			<div class="other-left other-right">
-    				<span>商家备注 
+    				<span>商家备注
     					{% if orderInfo['note_grade']==1 %}<img id="ngImg" src="../img/common/note/note_red.png" title='等级一' />
 						{% elseif orderInfo['note_grade']==2 %}<img id="ngImg" src="../img/common/note/note_yellow.png" title='等级二' />
 						{% elseif orderInfo['note_grade']==3 %}<img id="ngImg" src="../img/common/note/note_green.png" title='等级三' />
@@ -107,7 +107,7 @@
     			<p>{% if orderInfo['remark'] %} {{ orderInfo['remark'] }} {% else %} 无 {% endif %}</p>
     		</div>
     	</div>
-    	
+
     	<h3 data-v-814df97a="" class="out-title-first">2.确认发货信息</h3>
     	<div class="confirm-addr">
     		<span class="fhaddress-show">{% if samr %}
@@ -121,7 +121,7 @@
 	    				<div class="cad-div">
 	    					<div class="cadd-top">
 	    						<text>发货地址选着</text>
-	    						<a class="address-managen" onclick='window.parent.creatIframe("../Amydelivery/shipAddressPage", "发货地址")'>地址管理</a>
+	    						<a class="address-managen" onclick='window.parent.creatIframe("../AMyDelivery/shipAddressPage", "发货地址")'>地址管理</a>
 	    					</div>
 	    					<div class="layui-form cadd-content"></div>
 	    				</div>
@@ -136,7 +136,7 @@
 				<span data-v-814df97a="" style="margin: 0px;">配送方式：普通快递</span>
 				<span data-v-814df97a="">配送时间：只工作日送货(双休日、假日不用送)</span>
 			</p>
-			
+
 			<form class="layui-form">
 				<div class="layui-form-item set-express">
 			  		<label class="layui-form-label">物流公司</label>
@@ -150,13 +150,19 @@
 			    	</div>
 			    	<label class="layui-form-label">物流单号</label>
 			    	<div class="layui-input-inline">
-			    		<input type="text" name="title" required  lay-verify="required" placeholder="物流单号" autocomplete="off" class="layui-input">
+			    		<input type="text" name="logistics_num" required  lay-verify="required" placeholder="物流单号" readonly="readonly" autocomplete="off" class="layui-input">
 			    	</div>
 			  	</div>
 			</form>
 		</div>
-		
+
 		<p class="btn-box">
+            <button type="button" class="btn-so ivu-btn ivu-btn-create">
+                <span>生成电子面单</span>
+            </button>
+            <button type="button" class="btn-so ivu-btn ivu-btn-print">
+                <span>打印快递单</span>
+            </button>
 			<button type="button" class="btn-so ivu-btn ivu-btn-primary">
 				<span>出库</span>
 			</button>
@@ -164,23 +170,37 @@
 				<span>返回</span>
 			</button>
 		</p>
+        <div id="dialog_box" style="display:none;">
+            <form class="layui-form" action="" style="padding:30px 20px 10px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 85px;padding-left: 0;">选择打印机：</label>
+                    <div class="layui-input-block">
+                        <select id="print_sel" lay-filter="print_control"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align: center;">
+                    <div class="layui-btn submitAction">点击提交</div>
+                </div>
+            </form>
+        </div>
     </div>
     <script>
     	data = {
     			'id': {{ orderInfo['id'] }},
     			'note_grade': '{{ orderInfo['note_grade'] }}',
-    			'note': '{{ orderInfo['note'] }}'
+    			'note': '{{ orderInfo['note'] }}',
+                'order_sn': "{{ orderInfo['order_sn'] }}",
     	};
     	saarr = JSON.parse('{{saarr}}');
 
     	layui.use(['form'], function(){
     		form = layui.form;
-    		
+
     		form.on('radio(fhaddress)', function(data){
     			cfhaddress = data.value;
     			$('.fhaddress-show').html(data.elem.title);
     			form.render();
-    		}); 
+    		});
     	});
     </script>
 
