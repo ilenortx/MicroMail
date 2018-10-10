@@ -114,7 +114,7 @@ var page = {
 		var fllist = syflList[choosedCg];
 		var hi = app.d.hostImg;
 		$('.lxitems-div').html('');
-		if (fllist.ctype == 'hst'){
+		if (typeof(fllist)!='undefined' && fllist.ctype == 'hst'){
 			var hst = $('<div id="hst" style="display:flex;"></div>');
 
 			var ald = $('<a href="../WPages/proDetailPage?productId='+ fllist.zproid +'" class="av-left-div" ></a>');
