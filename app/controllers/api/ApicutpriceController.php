@@ -254,7 +254,7 @@ class ApicutpriceController extends ApiBase{
     
     //获取access_token
     public function getAccessToken(){
-    	$wxConfig = $this->getConfig()['weixin'];
+    	$wxConfig= IniFileOpe::getIniFile( WECHAT.'/config.ini', $this->esbEcode().'-xcx');
     	$appid = $wxConfig['appid'];
     	$secret = $wxConfig['secret'];
     	$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$secret}";

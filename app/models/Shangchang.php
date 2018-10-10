@@ -210,14 +210,14 @@ class Shangchang extends \Phalcon\Mvc\Model
      * @var string
      * @Column(column="wx_mch_id", type="string", length=32, nullable=true)
      */
-    public $wx_mch_id;
+    public $shh_mch_id;
 
     /**
      *
      * @var string
      * @Column(column="wx_key", type="string", length=100, nullable=true)
      */
-    public $wx_key;
+    public $shh_key;
 
     /**
      *
@@ -225,7 +225,21 @@ class Shangchang extends \Phalcon\Mvc\Model
      * @Column(column="wx_secret", type="string", length=64, nullable=true)
      */
     public $wx_secret;
-
+    
+    /**
+     *
+     * @var string
+     * @Column(column="xcx_appid", type="string", length=32, nullable=true)
+     */
+    public $xcx_appid;
+    
+    /**
+     *
+     * @var string
+     * @Column(column="xcx_secret", type="string", length=64, nullable=true)
+     */
+    public $xcx_secret;
+    
     /**
      * Initialize method for model.
      */

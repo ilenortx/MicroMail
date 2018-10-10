@@ -12,7 +12,6 @@
         <![endif]-->
 
         {{ assets.outputCss() }}
-        <link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
 
         <!--[if IE 6]>
             <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
@@ -90,9 +89,7 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						创建日期：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">创建日期：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         {{ sinfo['addtime'] }}
                     </div>
@@ -106,17 +103,13 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						等级评分：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">等级评分：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         {{ sinfo['grade'] }}
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						负责人电话：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">负责人电话：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         {{ sinfo['utel'] }}
                     </div>
@@ -138,51 +131,64 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-                        QQ号：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">QQ号：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         <input type="text" class="input-text" placeholder="QQ号" name="qq" id="qq" value="{{ sinfo['qq'] }}">
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						微信APPID：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">微信公众号APPID：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         <input type="text" class="input-text" placeholder="微信APPID" name="wx_appid" id="wx_appid" value="{{ sinfo['wx_appid'] }}">
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						微信MCH_ID：
-                    </label>
-                    <div class="formControls col-xs-8 col-sm-3">
-                        <input type="text" class="input-text" placeholder="微信MCH_ID" name="wx_mch_id" id="wx_mch_id" value="{{ sinfo['wx_mch_id'] }}">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						微信KEY：
-                    </label>
-                    <div class="formControls col-xs-8 col-sm-3">
-                        <input type="text" class="input-text" placeholder="微信KEY" name="wx_key" id="wx_key" value="{{ sinfo['wx_key'] }}">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-						微信SECRET：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">微信公众号SECRET：</label>
                     <div class="formControls col-xs-8 col-sm-3">
                         <input type="text" class="input-text" placeholder="微信SECRET" name="wx_secret" id="wx_secret" value="{{ sinfo['wx_secret'] }}">
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">
-                        店铺介绍：
-                    </label>
+                    <label class="form-label col-xs-4 col-sm-3">微信商户号MCH_ID：</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                        <input type="text" class="input-text" placeholder="微信MCH_ID" name="shh_mch_id" id="shh_mch_id" value="{{ sinfo['shh_mch_id'] }}">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">微信商户密钥KEY：</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                        <input type="text" class="input-text" placeholder="微信KEY" name="shh_key" id="shh_key" value="{{ sinfo['shh_key'] }}">
+                    </div>
+                </div>
+                <!-- 证书 -->
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">证书 cert</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                    	<input type="file" name="shh_cert" id="shh_cert" accept="*.pem" />
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">证书 key</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                    	<input type="file" name="shh_key" id="shh_key" accept="*.pem" />
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">小程序APPID：</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                        <input type="text" class="input-text" placeholder="微信APPID" name="xcx_appid" id="xcx_appid" value="{{ sinfo['xcx_appid'] }}">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">小程序SECRET：</label>
+                    <div class="formControls col-xs-8 col-sm-3">
+                        <input type="text" class="input-text" placeholder="微信SECRET" name="xcx_secret" id="xcx_secret" value="{{ sinfo['xcx_secret'] }}">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">店铺介绍：</label>
                     <div class="formControls col-xs-8">
-                        <textarea class="inp_1 inp_2" style="width:100%;height:600px" name="content" id="content" />{{sinfo['content']}}</textarea>
+                        <textarea class="inp_1 inp_2" style="width:100%;height:300px" name="content" id="content" />{{sinfo['content']}}</textarea>
                     </div>
                 </div>
 

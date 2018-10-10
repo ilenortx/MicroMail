@@ -376,9 +376,11 @@ class ShopmanagementController extends AdminBase{
     		$tel= isset($_POST['tel']) ? $_POST['tel'] : '';
     		$qq = isset($_POST['qq']) ? $_POST['qq'] : '';
     		$wx_appid= isset($_POST['wx_appid']) ? $_POST['wx_appid'] : '';
-    		$wx_mch_id= isset($_POST['wx_mch_id']) ? $_POST['wx_mch_id'] : '';
-    		$wx_key= isset($_POST['wx_key']) ? $_POST['wx_key'] : '';
     		$wx_secret= isset($_POST['wx_secret']) ? $_POST['wx_secret'] : '';
+    		$shh_mch_id= isset($_POST['shh_mch_id']) ? $_POST['shh_mch_id'] : '';
+    		$shh_key= isset($_POST['shh_key']) ? $_POST['shh_key'] : '';
+    		$xcx_appid= isset($_POST['xcx_appid']) ? $_POST['xcx_appid'] : '';
+    		$xcx_secret= isset($_POST['xcx_secret']) ? $_POST['xcx_secret'] : '';
     		$fxtc = isset($_POST['fxtc']) ? intval($_POST['fxtc']) : 0;
             $html_content = isset($_POST['content']) ? $_POST['content']:'';
 
@@ -397,17 +399,19 @@ class ShopmanagementController extends AdminBase{
     		$shop->tel = $tel;
     		$shop->qq = $qq;
     		$shop->wx_appid = $wx_appid;
-    		$shop->wx_mch_id = $wx_mch_id;
-    		$shop->wx_key = $wx_key;
     		$shop->wx_secret = $wx_secret;
-            $shop->content = $html_content;
+    		$shop->shh_mch_id = $shh_mch_id;
+    		$shop->shh_key = $shh_key;
+    		$shop->content = $html_content;
+    		$shop->xcx_appid = $xcx_appid;
+    		$shop->xcx_secret = $xcx_secret;
 
     		//上传商铺LOGO
     		if (!empty($_FILES["logo"]["tmp_name"])) {
     			//文件上传
     			$info = $this->upload_images($_FILES["logo"], "shop/logo/".date('Ymd').'/', array('jpg','png','jpeg'));
     			if(!is_array($info)) {
-    				$this->error($info);
+    				$this->err($info);
     				exit();
     			}else{
     				if ($shop->logo) {
@@ -424,7 +428,7 @@ class ShopmanagementController extends AdminBase{
     			//文件上传
     			$info = $this->upload_images($_FILES["vip_char"], "shop/".date('Ymd').'/', array('jpg','png','jpeg'));
     			if(!is_array($info)) {
-    				$this->error($info);
+    				$this->err($info);
     				exit();
     			}else{
     				if ($shop->vip_char) {
@@ -436,8 +440,45 @@ class ShopmanagementController extends AdminBase{
     				$shop->vip_char= $info['savepath'].$info['savename'];
     			}
     		}
-    		if ($shop->save()) echo json_encode(array('status'=>1, 'msg'=>'success'));
-    		else echo json_encode(array('status'=>0, 'msg'=>'操作失败!'));
+    		
+    		$shhCert = ''; $shhKey = '';
+    		//上传证书 cert
+    		if (!empty($_FILES["shh_cert"]["tmp_name"])) {
+    			//文件上传
+    			$info = $this->uploadFile($_FILES["shh_cert"], "cert", array('pem'), WECHAT.'/', false);
+    			if(!is_array($info)) {
+    				$this->err($info);exit();
+    			}else $shhCert = WECHAT.'/'.$info['savepath'].$info['savename'];
+    		}
+    		//上传证书密钥 key
+    		if (!empty($_FILES["shh_key"]["tmp_name"])) {
+    			//文件上传
+    			$info = $this->uploadFile($_FILES["shh_key"], "cert", array('pem'), WECHAT.'/', false);
+    			if(!is_array($info)) {
+    				$this->err($info);exit();
+    			}else $shhKey = WECHAT.'/'.$info['savepath'].$info['savename'];
+    		}
+    		
+    		if ($shop->save()) {
+    			$ecode = $this->esbEcode();
+    			//保存公众号信息
+    			$gzhd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-gzh');
+    			$gzhd['appid'] = $wx_appid; $gzhd['secret'] = $wx_secret;
+    			$gzhd['mchid'] = $shh_mch_id; $gzhd['key'] = $shh_key;
+    			if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert; 
+    			if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey; 
+    			IniFileOpe::reinitFile(WECHAT.'/config.ini', $gzhd, $ecode.'-gzh');
+    			
+    			//保存小程序信息
+    			$xcxd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-xcx');
+    			$xcxd['appid'] = $xcx_appid; $xcxd['secret'] = $xcx_secret;
+    			$xcxd['mchid'] = $shh_mch_id; $xcxd['key'] = $shh_key;
+    			if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert;
+    			if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey; 
+    			IniFileOpe::reinitFile(WECHAT.'/config.ini', $xcxd, $ecode.'-xcx');
+    			
+    			echo json_encode(array('status'=>1, 'msg'=>'success'));
+    		}else echo json_encode(array('status'=>0, 'msg'=>'操作失败!'));
     	}else echo json_encode(array('status'=>0, 'msg'=>'请求方式错误!'));
     }
 

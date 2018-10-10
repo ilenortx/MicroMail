@@ -11,6 +11,21 @@ class ControllerBase extends Controller{
 		$config = include APP_PATH . '/config/config.php';
 		return $config;
 	}
+	
+	/**
+	 * 获取平台信息
+	 */
+	public function esbInfo(){
+		$config = $this->getConfig();
+		if (isset($config['esbConf'])) return $config['esbConf'];
+		else return false;
+	}
+	public function esbEcode(){
+		$esb = $this->esbEcode();
+		if ($esb && isset($esb['ecode'])){
+			return $esb['ecode'];
+		}else return 'zzyh';
+	}
 
 	/**
 	 * 二维数组排序
@@ -41,9 +56,9 @@ class ControllerBase extends Controller{
 	 * 图片上传的公共方法
 	 *  $file 文件数据流 $exts 文件类型 $path 子目录名称
 	 */
-	public function upload_images($file, $path, $exts){
+	public function upload_images($file, $path, $exts, $rootDir='', $rand_name=true){
 		include_once APP_PATH.'/library/UploadFile.php';
-		$upload = new UploadFile(true, $path, $exts);
+		$upload = new UploadFile($rand_name, $path, $exts, $rootDir);
 		$upload->upload_file($file);
 
 		return $upload->get_msg();
@@ -52,9 +67,9 @@ class ControllerBase extends Controller{
 	/**
 	 * 文件上传
 	 */
-	public function uploadFile($file, $path, $exts){
+	public function uploadFile($file, $path, $exts, $rootDir='', $rand_name=true){
 		include_once APP_PATH.'/library/UploadFile.php';
-		$upload = new UploadFile(true, $path, $exts);
+		$upload = new UploadFile($rand_name, $path, $exts, $rootDir);
 		$upload->upload_file($file);
 
 		return $upload->get_msg();

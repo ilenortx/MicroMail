@@ -17,6 +17,7 @@ class UploadFile{
 	private $file_name  	= '';    //文件原名称
 	private $file_size   	= 0;     //文件大小
 	private $file_tmp_name 	= '';    //文件临时名称
+	private $rootDir 		= '';	 //自定义文件根目录
 	
 	/**
 	 * 构造函数，初始化
@@ -26,10 +27,11 @@ class UploadFile{
 	 $allow_type可为数组  array('jpg', 'jpeg', 'png', 'gif');
 	 $allow_type可为字符串 'jpg|jpeg|png|gif';中间可用' ', ',', ';', '|'分割
 	 */
-	public function __construct($rand_name=true, $save_path='./upload/', $allow_type=''){
+	public function __construct($rand_name=true, $save_path='./upload/', $allow_type='', $rootDir=''){
 		$this->rand_name = $rand_name;
 		$this->save_path = $save_path;
 		$this->allow_type = $this->get_allow_type($allow_type);
+		$this->rootDir = $rootDir;
 	}
 	
 	/**
@@ -73,7 +75,8 @@ class UploadFile{
 			}
 		}
 		$this->set_file_name();
-		$this->uploaded = UPLOAD_FILE.$this->save_path.'/'.$this->new_name;
+		if (empty($this->rootDir)) $this->uploaded = UPLOAD_FILE.$this->save_path.'/'.$this->new_name;
+		else $this->uploaded = $this->rootDir.$this->save_path.'/'.$this->new_name;
 		if(!is_dir(UPLOAD_FILE.$this->save_path)){
 			@mkdir(UPLOAD_FILE.$this->save_path, 0777);
 		}

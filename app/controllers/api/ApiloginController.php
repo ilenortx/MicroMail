@@ -64,8 +64,10 @@ class ApiloginController extends ApiBase{
     //  获取sessionkey 接口
     //***************************
     public function getsessionkeyAction(){
-    	$config = $this->getConfig();
-    	$wx_config = $config->weixin;
+    	//$config = $this->getConfig();
+    	//$wx_config = $config->weixin;
+    	
+    	$wx_config = IniFileOpe::getIniFile( WECHAT.'/config.ini', $this->esbEcode().'-xcx');
     	$appid = $wx_config['appid'];
     	$secret = $wx_config['secret'];
     	
