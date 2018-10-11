@@ -1,7 +1,5 @@
 <?php
 
-const TTPATH = APP_PATH.'/controllers/timedTask/config.ini';
-
 /**
  * 定时任务
  * @author xiao
@@ -9,13 +7,13 @@ const TTPATH = APP_PATH.'/controllers/timedTask/config.ini';
  */
 class TimedTask extends ControllerBase{
 	
-	//private static $ttpath = APP_PATH.'/controllers/timedTask/config.ini';
+	private static $ttpath = APP_PATH.'/controllers/timedTask/config.ini';
 	
 	/**
 	 * 获取所有定时任务
 	 */
 	public static function allTimedTask(){
-		$tts = IniFileOpe::getIniFile(TTPATH);
+		$tts = IniFileOpe::getIniFile(self::$ttpath);
 		
 		if ($tts) return $tts;
 		else return array();
@@ -25,7 +23,7 @@ class TimedTask extends ControllerBase{
 	 * 更新任务信息
 	 */
 	public static function updateTimeTask($datas, $sections=''){
-		return IniFileOpe::reinitFile(TTPATH, $datas, $sections);
+		return IniFileOpe::reinitFile(self::$ttpath, $datas, $sections);
 	}
 	
 	/**
@@ -53,7 +51,7 @@ class TimedTask extends ControllerBase{
 	 * 获取任务信息
 	 */
 	public static function timedTaskInfo($sections){
-		$ttinfo = IniFileOpe::getIniFile(TTPATH, $sections);
+		$ttinfo = IniFileOpe::getIniFile(self::$ttpath, $sections);
 		
 		return $ttinfo;
 	}
