@@ -21,7 +21,7 @@ class ControllerBase extends Controller{
 		else return false;
 	}
 	public function esbEcode(){
-		$esb = $this->esbEcode();
+		$esb = $this->esbInfo();
 		if ($esb && isset($esb['ecode'])){
 			return $esb['ecode'];
 		}else return 'zzyh';
