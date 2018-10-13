@@ -33,6 +33,7 @@ class AdminloginController extends AdminBase{
     			$user = $user->toArray();
     			if ($user['pwd'] == md5($pwd)){
     				$this->session->set("uid", $user['id']);
+    				$this->session->set("mtype", $user['au_type']);
     				$this->session->set("sid", $user['sid']);
     				$shop = Shangchang::findFirstById($user['sid']);
     				$this->session->set("scType", $shop->sc_type);

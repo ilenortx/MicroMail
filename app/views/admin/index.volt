@@ -186,6 +186,8 @@
                         <ul>
                             <li>
                                 <a data-href="../Adminusers/adminUserList" data-title="管理员列表" href="javascript:void(0)">管理员列表</a>
+                                <a data-href="../Adminusers/rolePage" data-title="职位管理" href="javascript:void(0)">职位管理</a>
+                                <a data-href="../Adminusers/shopRightsPage" data-title="入驻店铺权限" href="javascript:void(0)">入驻店铺权限</a>
 							</li>
                         </ul>
                     </dd>

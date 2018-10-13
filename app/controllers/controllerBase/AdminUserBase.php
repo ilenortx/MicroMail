@@ -68,7 +68,6 @@ class AdminUserBase extends ControllerBase{
     			$result['status'] = 0;
     			$result['msg'] = "找不到用户！";
     		}
-    		
     	}
     	
     	return $result;

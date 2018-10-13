@@ -247,6 +247,10 @@ class Shangchang extends \Phalcon\Mvc\Model
     {
         $this->setSchema("micro_mail");
         $this->setSource("shangchang");
+        
+        $this->hasOne('id', 'MmAgentRights', 'sid');
+        
+        $this->useDynamicUpdate(true);
     }
 
     /**
@@ -281,4 +285,15 @@ class Shangchang extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 店铺信息
+    //----------
+    public static function shopInfo($sid){
+    	$si = self::findFirstById($sid);
+    	
+    	if ($si) return $si;
+    	else return 'DATAEXCEPTION';
+    }
+    
 }

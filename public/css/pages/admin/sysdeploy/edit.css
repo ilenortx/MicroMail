@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+.input-text{ width:160px; }
+.form-horizontal .form-label{ text-align:right; }
+
+select{ width:160px;height:30px;border:solid 1px #ddd; }
+.opcode-label{ margin-right:20px;line-height:30px; }
