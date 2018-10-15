@@ -35,6 +35,7 @@ class AdminloginController extends AdminBase{
     				$this->session->set("uid", $user['id']);
     				$this->session->set("mtype", $user['au_type']);
     				$this->session->set("sid", $user['sid']);
+    				$this->session->set('minfo', json_encode($user, true));
     				$shop = Shangchang::findFirstById($user['sid']);
     				$this->session->set("scType", $shop->sc_type);
     				

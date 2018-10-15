@@ -69,4 +69,19 @@ class MmRoleRights extends ModelBase
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取管理员所有角色权限
+     */
+    public static function arsRights($rids=''){
+    	if (empty($rids)) return 'ROLES_EMPTUY';
+    	$rights = self::find("rid in ($rids)");
+    	
+    	if ($rights) return $rights;
+    	else return 'DATAEXCEPTION';
+    }
+    
 }

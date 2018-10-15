@@ -48,7 +48,14 @@ class MmApps extends ModelBase
      * @Column(column="icon", type="string", length=16, nullable=true)
      */
     public $icon;
-
+    
+    /**
+     *
+     * @var string
+     * @Column(column="sort", type="string", length=13, nullable=true)
+     */
+    public $sort;
+    
     /**
      *
      * @var string

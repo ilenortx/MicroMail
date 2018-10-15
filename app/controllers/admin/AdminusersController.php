@@ -141,7 +141,7 @@ class AdminusersController extends AdminBase{
 			$sid = $this->session->get('sid');
 			$aresult = Adminuser::adminEdit($id, $sid, array(
 					'name'=>$name, 'uname'=>$uname, 'pwd'=>$pwd, 'phone'=>$phone,
-					'email'=>$email, 'mtype'=>$mtyp
+					'email'=>$email, 'mtype'=>empty($id)?'T3':$mtyp
 			));
 			if (gettype($aresult) == 'object'){
 				//修改manager_role
@@ -200,7 +200,7 @@ class AdminusersController extends AdminBase{
 		$rArr = array();//权限列表
 		if (is_array($rights)){
 			//获取所有应用
-			$apArr = MmApps::getApps(array('conditions'=>"status=?1",'bind'=>array(1=>'S1')));
+			$apArr = MmApps::getApps(array('conditions'=>"status=?1",'bind'=>array(1=>'S1'),'order'=>'sort asc'));
 			if (gettype($apArr)=='object'){
 				$apArr = $apArr->toArray(); $aas = array();
 				foreach ($apArr as $k=>$v){ $aas[$v['id']] = $v; }
@@ -335,10 +335,10 @@ class AdminusersController extends AdminBase{
 		$id = (isset($_GET['id'])&&intval($_GET['id'])) ? intval($_GET['id']) : 0;
 		
 		//获取所有应用
-		$apArr = MmApps::objIdToArr(MmApps::getApps(array('conditions'=>"status=?1",'bind'=>array(1=>'S1'))));
+		$apArr = MmApps::objIdToArr(MmApps::getApps(array('conditions'=>"status=?1",'bind'=>array(1=>'S1'),'order'=>'sort asc')));
 		
 		//获取所有操作码
-		$oArr = MmOpcode::objIdToArr(MmOpcode::getOpcodes(array('conditions'=>"status=?1",'bind'=>array(1=>'S1'))));
+		$oArr = MmOpcode::objIdToArr(MmOpcode::getOpcodes(array('conditions'=>"status=?1",'bind'=>array(1=>'S1'),'order'=>'sort asc')));
 		
 		$rights = MmShopRights::shopRirghts($this->session->get('sid'));//所有权限
 		$arights = MmShopRights::shopAllRights();

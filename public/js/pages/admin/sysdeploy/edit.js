@@ -21,6 +21,7 @@ function editApp(){
 	var ename = $('#ename').val();
 	var path = $('#path').val();
 	var icon = $('#icon').val();
+	var sort = $('#sort').val();
 	var remark = $('#remark').val();
 	var pid = $('#pid').val();
 	var oids = '';
@@ -33,7 +34,7 @@ function editApp(){
 	if (!name || !icon) { layer.msg('请完整填写数据!', function(){ }); return false; }
 	
 	$.post('../Asysdeploy/appEdit', {id:id, name:name, ename:ename, path:path,
-		icon:icon, remark:remark, pid:pid, oids:oids}, function(data){
+		icon:icon, sort:sort, remark:remark, pid:pid, oids:oids}, function(data){
 		var data = JSON.parse(data);
 		
 		if (data.status == 1){

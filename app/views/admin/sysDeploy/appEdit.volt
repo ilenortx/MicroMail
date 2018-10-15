@@ -63,6 +63,12 @@
 					</div>
 				</div>
 				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>排序：</label>
+					<div class="formControls col-xs-8 col-sm-5">
+						<input id="sort" name="sort" type="text" class="input-text" value="{{appInfo['sort']}}">
+					</div>
+				</div>
+				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>备注：</label>
 					<div class="formControls col-xs-8 col-sm-5">
 						<input id="remark" name="remark" type="text" class="input-text" value="{{appInfo['remark']}}">

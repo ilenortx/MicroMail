@@ -87,201 +87,26 @@
 
         <aside class="Hui-aside">
             <div class="menu_dropdown bk_2">
-                <dl id="menu-article"><!-- 综合 -->
+            	{% for app in apps %}
+                <dl>
                     <dt>
-                        <i class="Hui-iconfont">&#xe66a;</i>&nbsp;商城
+                        <i class="Hui-iconfont">{{app['icon']}}</i>&nbsp;{{app['name']}}
                         <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 					</dt>
                     <dd>
                         <ul>
-                            {% if scType=='ST0' %}
+                        	{% for c in app['child'] %}
                             <li>
-                                <a data-href="../ShopManagement/index" data-title="店铺列表" href="javascript:void(0)">店铺列表</a>
-                                <a data-href="../ShopManagement/shopShPage" data-title="审核列表" href="javascript:void(0)">审核列表</a>
-                            	<a data-href="../Distribution/sqListPage" data-title="申请列表" href="javascript:void(0)">申请列表</a>
-                                <a data-href="../Distribution/allfxsPage" data-title="分销商列表" href="javascript:void(0)">分销商列表</a>
-                                <a data-href="../Distribution/withdrawDeposit" data-title="分销提现" href="javascript:void(0)">分销提现</a>
+                            	
+                                <a data-href="{{c['path']}}" data-title="{{c['name']}}" href="javascript:void(0)">
+                                	<!-- <i class="Hui-iconfont">{{c['icon']}}</i>&nbsp; -->{{c['name']}}
+                                </a>
 							</li>
-							{% endif %}
-                            <li>
-                                <a data-href="../ShopManagement/shopInfoPage" data-title="店铺信息" href="javascript:void(0)">店铺信息</a>
-								<a data-href="../ShopManagement/withdrawDeposit" data-title="提现管理" href="javascript:void(0)">提现管理</a>
-							</li>
+							{% endfor %}
                         </ul>
                     </dd>
                 </dl>
-                <dl id="menu-product"><!-- 产品 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe613;</i>&nbsp;产品
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Product/paPage" data-title="添加商品" href="javascript:void(0)">添加商品</a>
-                                <a data-href="../Product/plPage?isDown=0" data-title="在售商品管理" href="javascript:void(0)">在售商品管理</a>
-                                <a data-href="../Product/plPage?isDown=1" data-title="待售商品管理" href="javascript:void(0)">待售商品管理</a>
-							</li>
-							{% if scType=='ST0' %}
-							<li>
-                                <a data-href="../Category/cgLPage" data-title="分类列表" href="javascript:;">分类列表</a>
-                                <a data-href="../Category/cgAPage" data-title="新增分类" href="javascript:void(0)">新增分类</a>
-                                <a data-href="../ProductAttr/proAttrPage" data-title="产品属性" href="javascript:void(0)">产品属性</a>
-
-                                <a data-href="../ProductParm/allParmPage" data-title="参数类型" href="javascript:void(0);">参数类型</a>
-							</li>
-							{% endif %}
-                            <li>
-                                <a data-href="../Product/proCxPage" data-title="促销产品" href="javascript:void(0)">促销产品</a>
-                                <a data-href="../Product/prosnPage" data-title="服务说明" href="javascript:void(0)">服务说明</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                
-                <dl id="menu-product-brand"><!-- 品牌 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe620;</i>&nbsp;品牌管理
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Brand/index" data-title="全部品牌" href="javascript:void(0)">全部品牌</a>
-								<a data-href="../Brand/addBrandPage" data-title="添加品牌" href="javascript:void(0)">添加品牌</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                
-                <dl id="menu-member"><!-- 会员 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe60d;</i>&nbsp;会员管理
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="member-list.html" data-title="会员列表" href="javascript:;">会员列表</a>
-								<a data-href="member-del.html" data-title="删除的会员" href="javascript:;">删除的会员</a>
-								<a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a>
-							</li>
-                            <li>
-                                <a data-href="member-scoreoperation.html" data-title="积分管理" href="javascript:;">积分管理</a>
-								<a data-href="member-record-browse.html" data-title="浏览记录" href="javascript:void(0)">浏览记录</a>
-							</li>
-                            <li>
-                                <a data-href="member-record-download.html" data-title="下载记录" href="javascript:void(0)">下载记录</a>
-								<a data-href="member-record-share.html" data-title="分享记录" href="javascript:void(0)">分享记录</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                <dl id="menu-admin"><!-- 管理员 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe62d;</i>&nbsp;管理员管理
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Adminusers/adminUserList" data-title="管理员列表" href="javascript:void(0)">管理员列表</a>
-                                <a data-href="../Adminusers/rolePage" data-title="职位管理" href="javascript:void(0)">职位管理</a>
-                                <a data-href="../Adminusers/shopRightsPage" data-title="入驻店铺权限" href="javascript:void(0)">入驻店铺权限</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                <dl id="menu-order"><!-- 订单 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe61a;</i>&nbsp;订单
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Order/index" data-title="订单管理" href="javascript:void(0)">订单管理</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                
-                <dl id="menu-marketing"><!-- 营销 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe6bb;</i>&nbsp;营销
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Aaconf/index" data-title="活动专区配置" href="javascript:void(0)">活动专区配置</a>
-								<a data-href="../ShopPageConf/hotselltjPage" data-title="首页热卖推荐配置" href="javascript:void(0)">首页热卖推荐配置</a>
-								<a data-href="../Promotion/index" data-title="限时促销" href="javascript:void(0)">限时促销</a>
-								<a data-href="../GroupBooking/index" data-title="多人团购" href="javascript:void(0)">多人团购</a>
-								<a data-href="../CutPriceSprites/index" data-title="砍价活动" href="javascript:void(0)">砍价活动</a>
-								<a data-href="../Voucher/index" data-title="优惠券列表" href="javascript:void(0)">优惠券列表</a>
-								<a data-href="../Voucher/addPage" data-title="添加优惠券" href="javascript:void(0)">添加优惠券</a>
-							</li>
-							
-							{% if scType=='ST0' %}
-							<li><!-- 疑难问题 -->
-                                <a data-href="../ServiceCenter/index" data-title="疑难问题" href="javascript:void(0)">疑难问题</a>
-							</li>
-							{% endif %}
-                        </ul>
-                    </dd>
-                </dl>
-                
-                <dl id="menu-marketing"><!-- 我的配送 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe669;</i>&nbsp;我的配送
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Amydelivery/wlmanagePage" data-title="物流管理" href="javascript:void(0)">物流管理</a>
-								<a data-href="../Amydelivery/wlgsListPage" data-title="物流公司" href="javascript:void(0)">物流公司</a>
-								<a data-href="../Amydelivery/shipAddressPage" data-title="发货地址" href="javascript:void(0)">发货地址</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-                
-                {% if scType=='ST0' %}
-                <dl id="menu-ad"><!-- 广告 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe61a;</i>&nbsp;广告管理
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <a data-href="../Guanggao/index" data-title="广告列表" href="javascript:void(0)">广告列表</a>
-								<a data-href="../Guanggao/addPage" data-title="添加广告" href="javascript:void(0)">添加广告</a>
-								<a data-href="../Guanggao/noticePage" data-title="公告列表" href="javascript:void(0)">公告列表</a>
-								<a data-href="../Guanggao/addNoticePage" data-title="添加公告" href="javascript:void(0)">添加公告</a>
-								<a data-href="../Guanggao/noticeConfigPage" data-title="公告设置" href="javascript:void(0)">公告设置</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
-            	{% endif %}
-            	<dl id="menu-ad"><!-- 任务管理 -->
-                    <dt>
-                        <i class="Hui-iconfont">&#xe62e;</i>&nbsp;系统管理
-                        <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-					</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                            	<a data-href="../Asysdeploy/moduleMaintailPage" data-title="模块维护" href="javascript:void(0)">模块维护</a>
-                            	<a data-href="../Asysmanage/timedTaskPage" data-title="定时任务" href="javascript:void(0)">定时任务</a>
-                                <a data-href="../Asysmanage/taskListPage" data-title="任务列表" href="javascript:void(0)">任务列表</a>
-                                <a data-href="../Asysmanage/tqRecycleBin" data-title="回收站" href="javascript:void(0)">回收站</a>
-							</li>
-                        </ul>
-                    </dd>
-                </dl>
+                {% endfor %}
             </div>
         </aside>
 

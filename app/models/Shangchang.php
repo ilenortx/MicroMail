@@ -248,7 +248,7 @@ class Shangchang extends \Phalcon\Mvc\Model
         $this->setSchema("micro_mail");
         $this->setSource("shangchang");
         
-        $this->hasOne('id', 'MmAgentRights', 'sid');
+        $this->hasOne('id', 'MmShopRights', 'sid');
         
         $this->useDynamicUpdate(true);
     }

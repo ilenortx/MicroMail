@@ -29,7 +29,16 @@ class AdminController extends AdminBase{
 	    	 ->addJs("js/static/h-ui/H-ui.min.js")
 	    	 ->addJs("js/static/h-ui.admin/H-ui.admin.js")
 	    	 ->addJs("lib/jquery.contextmenu/jquery.contextmenu.r2.js");
-		
+	    
+	    $uid = $this->session->get('uid');
+	    $sid = $this->session->get('sid');
+	    $mtype = $this->getMtype();
+	    $apps = $this->adminApps($uid, $mtype, $sid);
+	    	 
+	    $this->view->mtype = $mtype;//获取管理员类型
+	    $this->view->minfo = $this->getMinfo();//获取个人信息
+	    $this->view->apps = $apps;
+	    
     	$this->view->scType = $this->session->get('scType');
     	$this->view->pick("admin/index");
     }

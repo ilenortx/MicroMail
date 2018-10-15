@@ -355,6 +355,7 @@ class ShopmanagementController extends AdminBase{
     			$admin->phone = $shop->utel;
     			$admin->qx = 4;
     			$admin->addtime = time();
+    			$admin->au_type = 'T2';
     			$admin->status = 'S1';
 
     			$admin->save();

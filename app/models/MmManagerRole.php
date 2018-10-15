@@ -91,4 +91,13 @@ class MmManagerRole extends ModelBase
     	}
     }
     
+    /**
+     * 查询管理员的rids
+     */
+    public static function adminRids($aid){
+    	$rids = MmManagerRole::findFirstByUid($aid);
+    	
+    	if ($rids) return trim($rids->toArray()['rids'], ',');
+    	else return '';
+    }
 }

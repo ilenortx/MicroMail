@@ -76,7 +76,7 @@ class AsysdeployController extends AdminBase{
      * 获取所有功能
      */
     public function allAppsAction(){
-    	$conditions = array('conditions'=>"status!=?1",'bind'=>array(1=>'S0'),'order'=>'addtime asc');
+    	$conditions = array('conditions'=>"status!=?1",'bind'=>array(1=>'S0'),'order'=>'sort asc');
     	$apps = MmApps::getApps($conditions);
     	
     	if (gettype($apps) == 'object') $apps = $apps->toArray();
@@ -97,6 +97,7 @@ class AsysdeployController extends AdminBase{
     		$ename = isset($_POST['ename']) ? $_POST['ename'] : '';
     		$path = isset($_POST['path']) ? $_POST['path'] : '';
     		$icon = isset($_POST['icon']) ? $_POST['icon'] : '';
+    		$sort = isset($_POST['sort']) ? $_POST['sort'] : 0;
     		$remark = isset($_POST['remark']) ? $_POST['remark'] : '';
     		$pid = isset($_POST['pid']) ? intval($_POST['pid']) : 0;
     		$oids = isset($_POST['oids']) ? trim($_POST['oids'], ',') : '';
@@ -123,6 +124,7 @@ class AsysdeployController extends AdminBase{
     		$app->name = $name;
     		$app->ename = $ename;
     		$app->path = $path;
+    		$app->sort = $sort;
     		$app->icon = $icon;
     		$app->remark = $remark;
     		
@@ -250,7 +252,7 @@ class AsysdeployController extends AdminBase{
     protected function appDetail($id=0){
     	$appArr = array(
     			'id'=>'', 'pid'=>'', 'name'=>'', 'ename'=>'','path'=>'',
-    			'icon'=>'', 'remark'=>'', 'status'=>'', 'oids'=>array()
+    			'icon'=>'', 'sort'=>0, 'remark'=>'', 'status'=>'', 'oids'=>array()
     	);
     	
     	$app = MmApps::appDetail($id);

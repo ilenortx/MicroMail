@@ -95,7 +95,8 @@ class MmShopRights extends ModelBase
     	if ($shop && $shop->sc_type=='ST0'){//判断是否是开发者或自营
     		$apps = MmApps::getApps(array(//查询所有应用 status='S1'
     				'conditions'=> "status=?1",
-    				'bind'		=> array(1=>'S1')
+    				'bind'		=> array(1=>'S1'),
+    				'order'		=> 'sort asc'
     		));
     		
     		$pidArr = array(); $aoArr = array();
@@ -128,6 +129,14 @@ class MmShopRights extends ModelBase
     		}
     	}
     	return $rights;
+    }
+    public static function shopRight($sid=0){
+    	$right = self::findFirstBySid($sid);
+    	if (!$right || !count($right->toArray())){//不存在店铺单独权限，查询店铺总权限
+    		$right = self::findFirstBySid(0);
+    	}
+    	
+    	return $right;
     }
     
     /**
