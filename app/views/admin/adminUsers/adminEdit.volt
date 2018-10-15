@@ -61,7 +61,7 @@
 						<input id="email" name="email" type="text" class="input-text" value="{{adminInfo['email']}}" placeholder="邮箱" />
 					</div>
 				</div>
-				{% if mtype!='T1' %}
+				{% if adminInfo['mtype']!='T1' %}
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>职位：</label>
 					<div class="formControls col-xs-8 col-sm-9">

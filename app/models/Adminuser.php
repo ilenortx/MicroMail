@@ -158,8 +158,9 @@ class Adminuser extends \Phalcon\Mvc\Model
     	);
     	$admin = self::findFirstById($uid);
     	
-    	if ($admin && $admin->sid==$sid) {//判断管理员是否和当前管理员同代理商
+    	if ($admin && $admin->sid==$sid) {//判断管理员是否和当前管理员同店铺
     		$adminArr = $admin->toArray();
+    		$adminArr['mtype'] = $adminArr['au_type'];
     		$roles = $admin->MmManagerRole;
     		$adminArr['rids'] = $roles?trim($roles->rids, ','):'';
     	}
