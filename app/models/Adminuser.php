@@ -270,4 +270,35 @@ class Adminuser extends \Phalcon\Mvc\Model
     	else return 'OPEFILE';
     }
     
+    /**
+     * 修改密码
+     */
+    public static function reAuinfo($uid, $infos=array()){
+    	$au = self::findFirst("id=$uid");
+    	
+    	if ($au){
+    		$au->uname = isset($infos['uname']) ? $infos['uname'] : '';
+    		$au->phone = isset($infos['phone']) ? $infos['phone'] : '';
+    		$au->email = isset($infos['email']) ? $infos['email'] : '';
+    		
+    		if ($au->save()) return $au;
+    		else return 'OPEFILE';
+    	}else return 'DATAEXCEPTION';
+    }
+    
+    /**
+     * 修改密码
+     */
+    public static function resetPwd($uid, $opwd, $pwd){
+    	$au = self::findFirst("id=$uid");
+    	
+    	if ($au){
+    		if ($au->pwd == md5($opwd)){
+    			$au->pwd = md5($pwd);
+    			if ($au->save()) return 'SUCCESS';
+    			else return 'OPEFILE';
+    		}else return 'OPWD_ERROR';
+    	}else return 'DATAEXCEPTION';
+    }
+    
 }

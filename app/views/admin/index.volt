@@ -32,14 +32,17 @@
                     <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
                     <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                         <ul class="cl">
-                            <li>超级管理员</li>
+                            <li>欢迎回来！</li>
                             <li class="dropDown dropDown_hover">
-                                <a href="#" class="dropDown_A">admin
+                                <a href="#" class="dropDown_A">{{minfo['uname']}}
                                     <i class="Hui-iconfont">&#xe6d5;</i>
 								</a>
                                 <ul class="dropDown-menu menu radius box-shadow">
                                     <li>
                                         <a href="javascript:;" onClick="myselfinfo()">个人信息</a>
+									</li>
+                                    <li>
+                                        <a href="javascript:;" onClick="resetPwd()">重置密码</a>
 									</li>
                                     <li>
                                         <a href="#">切换账户</a>
@@ -83,6 +86,77 @@
                     </nav>
                 </div>
             </div>
+            
+            <!-- 个人信息 -->
+            <div class="layui-row" id="auinfo" style="display:none;">
+				<div class="layui-form" style="margin-top:20px;">
+					<div class="layui-form-item">
+					    <label class="layui-form-label">账号</label>
+					    <div style="line-height:38px;">{{minfo['name']}}</div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">用户名</label>
+					    <div class="layui-input-inline">
+					    	<input type="text" name="uname" lay-verify="required" autocomplete="off" placeholder="用户名" value="{{minfo['uname']}}" class="layui-input uname">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">手机号</label>
+					    <div class="layui-input-inline">
+					    	<input type="text" name="phone" lay-verify="phone" autocomplete="off" placeholder="手机号" value="{{minfo['phone']}}" class="layui-input phone">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">邮箱</label>
+					    <div class="layui-input-inline">
+					    	<input type="text" name="email" lay-verify="email" autocomplete="off" placeholder="邮箱" value="{{minfo['email']}}" class="layui-input email">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">添加时间</label>
+					    <div style="line-height:38px;">{{ minfo['addtime'] }}</div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">状态</label>
+					    <div style="line-height:38px;">
+					    	{% if minfo['status']=='S0' %}
+					    	<span class="label label-default radius">已禁用</span>
+					    	{% else %}
+					    	<span class="label label-success radius">启用</span>
+					    	{% endif %}
+					    </div>
+					</div>
+				  	<div class="layui-input-block">
+				      	<button class="layui-btn layui-btn-sm" onclick="subReAuinfo()">立即提交</button>
+					</div>
+				</div>
+			</div>
+            <!-- 重置密码 -->
+            <div class="layui-row" id="resetPwd" style="display:none;">
+				<div class="layui-form" style="margin-top:20px;">
+					<div class="layui-form-item">
+					    <label class="layui-form-label">旧密码</label>
+					    <div class="layui-input-inline">
+					    	<input type="password" name="opwd" lay-verify="required" autocomplete="off" placeholder="旧密码" class="layui-input opwd">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">新密码</label>
+					    <div class="layui-input-inline">
+					    	<input type="password" name="pwd" lay-verify="required" autocomplete="off" placeholder="新密码" class="layui-input pwd">
+					    </div>
+					</div>
+				  	<div class="layui-form-item">
+				    	<label class="layui-form-label">确认密码</label>
+				    	<div class="layui-input-inline">
+				      		<input type="password" name="repwd" lay-verify="required" placeholder="确认密码" autocomplete="off" class="layui-input repwd">
+				    	</div>
+				  	</div>
+				  	<div class="layui-input-block">
+				      	<button class="layui-btn layui-btn-sm" onclick="subResetPwd()">立即提交</button>
+					</div>
+				</div>
+			</div>
         </header>
 
         <aside class="Hui-aside">
@@ -151,52 +225,58 @@
         
         {{ assets.outputJs('js') }}
 		<script>
-			$(function() {
-				
+			layui.use(['form'], function(){
+				var form = layui.form;
 			});
 			/*个人信息*/
 			function myselfinfo() {
-				layer.open({
-					type: 1,
-					area: ['300px', '200px'],
-					fix: false,
-					maxmin: true,
-					shade: 0.4,
-					title: '查看信息',
-					content: '<div>管理员信息</div>'
-				});
+				openEdit('个人信息', $('#auinfo').html(), 500, 450, 1);
 			}
-		
-			/*资讯-添加*/
-			function article_add(title, url) {
-				var index = layer.open({
-					type: 2,
-					title: title,
-					content: url
-				});
-				layer.full(index);
+			function subReAuinfo(){
+				var uname = $('.uname').eq(1).val();
+				var phone = $('.phone').eq(1).val();
+				var email = $('.email').eq(1).val();
+				
+				if (!uname){ 
+					layer.msg('请正确填写!', function(){ });
+				}else {
+					$.post('../Admin/reAuinfo', {uname:uname, phone:phone, email:email}, function(data){
+						var data = JSON.parse(data);
+						
+						if (data.status == 1){
+							layer.msg('修改成功', { icon: 6, time: 1000 });
+							setTimeout(function(){
+								location.reload();
+							}, 1000);
+						}else layer.msg(data.msg, { icon: 5, time: 1000 });
+					});
+				}
 			}
-			/*图片-添加*/
-			function picture_add(title, url) {
-				var index = layer.open({
-					type: 2,
-					title: title,
-					content: url
-				});
-				layer.full(index);
+			/*重置密码*/
+			function resetPwd(){
+				openEdit('重置密码', $('#resetPwd').html(), 400, 300, 1);
 			}
-			/*产品-添加*/
-			function product_add(title, url) {
-				var index = layer.open({
-					type: 2,
-					title: title,
-					content: url
-				});
-				layer.full(index);
-			}
-			/*用户-添加*/
-			function member_add(title, url, w, h) {
-				layer_show(title, url, w, h);
+			function subResetPwd(){
+				var opwd = $('.opwd').eq(1).val();
+				var pwd = $('.pwd').eq(1).val();
+				var repwd = $('.repwd').eq(1).val();
+				
+				if (!opwd || !pwd || !repwd){ 
+					layer.msg('请正确填写!', function(){ });
+				}else if (pwd != repwd){
+					layer.msg('两次密码不一致!', function(){ });
+				}else {
+					$.post('../Admin/resetPwd', {opwd:opwd, pwd:pwd, repwd:repwd}, function(data){
+						var data = JSON.parse(data);
+						
+						if (data.status == 1){
+							layer.msg('修改该成功！需重新登陆。', { icon: 6, time: 3000 });
+							setTimeout(function(){
+								window.location.href = "../Adminlogin/logout";
+							}, 2000);
+						}else layer.msg(data.msg, { icon: 5, time: 1000 });
+					});
+				}
 			}
 		</script>
 	</body>

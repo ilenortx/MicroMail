@@ -11,9 +11,8 @@
             <script type="text/javascript" src="lib/respond.min.js"></script>
         <![endif]-->
         
-        {{ assets.outputCss('css1') }}
-        <link rel="stylesheet" type="text/css" href="../css/static/h-ui.admin/skin/default/skin.css" id="skin">
-        {{ assets.outputCss('css2') }}
+        {{ assets.outputCss() }}
+        {{ assets.outputJs() }}
         
         <!--[if IE 6]>
             <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
@@ -91,6 +90,5 @@
             </div>
         </footer>
         
-        {{ assets.outputJs('js') }}
 	</body>
 </html>

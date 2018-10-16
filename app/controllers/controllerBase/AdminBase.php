@@ -78,6 +78,13 @@ class AdminBase extends ControllerBase{
 	}
 	
 	/**
+	 * 设置个人信息
+	 */
+	public function setMinfo($minfo){
+		$this->session->set('minfo', $minfo);
+	}
+	
+	/**
 	 * 获取管理员所有得应用(一级菜单、二级菜单)
 	 */
 	public function adminApps($uid, $mtype='T3', $sid=0){
