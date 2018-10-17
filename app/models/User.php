@@ -180,14 +180,20 @@ class User extends \Phalcon\Mvc\Model
     	$uie = User::findFirstByName($datas['name']);
     	if ($uie && count($uie)) return 'NAME_EXIST';//账号存在
     	
+    	if (!isset($datas['name']) || empty($datas['name']) || 
+    			!isset($datas['pwd']) || empty($datas['pwd'])) return 'DATAERR';
+    	
     	$user = new User();
     	$user->name = $datas['name'];
-    	$user->uname = $datas['uname'];
+    	$user->uname = (isset($datas['uname'])&&!empty($datas['uname']))?$datas['uname']:$datas['name'];
     	$user->pwd = md5($datas['pwd']);
     	$user->addtime = time();
+    	$user->jifen = isset($datas['jifen']) ? $datas['jifen'] : 0;
+    	$user->photo = isset($datas['photo']) ? $datas['photo'] : '';
+    	$user->sex = isset($datas['sex']) ? $datas['sex'] : 0;
     	$user->del = 0;
-    	$user->tel = $datas['tel'];
-    	$user->email = $datas['email'];
+    	$user->tel = isset($datas['tel']) ? $datas['tel'] : '';
+    	$user->email = isset($datas['email']) ? $datas['email'] : '';
     	if ($user->save()) return $user;
     	else return 'OPEFILE';
     }
