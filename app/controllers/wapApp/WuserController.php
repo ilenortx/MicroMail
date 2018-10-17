@@ -75,22 +75,15 @@ class WuserController extends ControllerBase{
 			if (!$account || !$password || !$tel){
 				echo json_encode(array('status'=>0, 'err'=>'数据错误')); exit();
 			}
-
-			$uie = User::findFirstByName($account);
-			if ($uie && count($uie)){
-				echo json_encode(array('status'=>0, 'err'=>'账号已存在')); exit();
-			}
-
-			$user = new User();
-			$user->name = $account;
-			$user->uname = $uname;
-			$user->pwd = md5($password);
-			$user->addtime = time();
-			$user->del = 0;
-			$user->tel = $tel;
-			$user->email = $email;
-			if ($user->save()) echo json_encode(array('status'=>1, 'msg'=>'success'));
-			else echo json_encode(array('status'=>0, 'err'=>'注册失败')); exit();
+			
+			$result = User::addUser(array(
+					'name'=>$account, 'uname'=>$uname, 'pwd'=>$password,
+					'tel'=>$tel, 'email'=>$email
+			));
+			
+			if (gettype($result) == 'object') $this->msg('success');
+			else if ($result == 'NAME_EXIST') $this->err('账号已存在');
+			else if ($result == 'OPEFILE') $this->err('注册失败');
 		}else echo json_encode(array('status'=>0, 'err'=>'请求方式错误')); exit();
 	}
 

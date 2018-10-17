@@ -136,6 +136,7 @@
                         <input type="text" class="input-text" placeholder="QQ号" name="qq" id="qq" value="{{ sinfo['qq'] }}">
                     </div>
                 </div>
+                {% if sinfo['sc_type']=='ST0' %}
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-3">微信公众号APPID：</label>
                     <div class="formControls col-xs-8 col-sm-3">
@@ -191,7 +192,7 @@
                         <textarea class="inp_1 inp_2" style="width:100%;height:300px" name="content" id="content" />{{sinfo['content']}}</textarea>
                     </div>
                 </div>
-
+				{% endif %}
 
                 <div class="row cl">
                     <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">

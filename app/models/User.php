@@ -169,4 +169,26 @@ class User extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
     
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 添加用户
+     */
+    public static function addUser($datas=array()){
+    	$uie = User::findFirstByName($datas['name']);
+    	if ($uie && count($uie)) return 'NAME_EXIST';//账号存在
+    	
+    	$user = new User();
+    	$user->name = $datas['name'];
+    	$user->uname = $datas['uname'];
+    	$user->pwd = md5($datas['pwd']);
+    	$user->addtime = time();
+    	$user->del = 0;
+    	$user->tel = $datas['tel'];
+    	$user->email = $datas['email'];
+    	if ($user->save()) return $user;
+    	else return 'OPEFILE';
+    }
 }

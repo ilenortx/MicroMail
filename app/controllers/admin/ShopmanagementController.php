@@ -444,7 +444,7 @@ class ShopmanagementController extends AdminBase{
     		
     		$shhCert = ''; $shhKey = '';
     		//上传证书 cert
-    		if (!empty($_FILES["shh_cert"]["tmp_name"])) {
+    		if (!empty($_FILES["shh_cert"]["tmp_name"]) && $shop->sc_type=='ST0') {
     			//文件上传
     			$info = $this->uploadFile($_FILES["shh_cert"], "cert", array('pem'), WECHAT.'/', false);
     			if(!is_array($info)) {
@@ -452,7 +452,7 @@ class ShopmanagementController extends AdminBase{
     			}else $shhCert = WECHAT.'/'.$info['savepath'].$info['savename'];
     		}
     		//上传证书密钥 key
-    		if (!empty($_FILES["shh_key"]["tmp_name"])) {
+    		if (!empty($_FILES["shh_key"]["tmp_name"]) && $shop->sc_type=='ST0') {
     			//文件上传
     			$info = $this->uploadFile($_FILES["shh_key"], "cert", array('pem'), WECHAT.'/', false);
     			if(!is_array($info)) {
@@ -461,22 +461,25 @@ class ShopmanagementController extends AdminBase{
     		}
     		
     		if ($shop->save()) {
-    			$ecode = $this->esbEcode();
-    			//保存公众号信息
-    			$gzhd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-gzh');
-    			$gzhd['appid'] = $wx_appid; $gzhd['secret'] = $wx_secret;
-    			$gzhd['mchid'] = $shh_mch_id; $gzhd['key'] = $shh_key;
-    			if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert; 
-    			if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey; 
-    			IniFileOpe::reinitFile(WECHAT.'/config.ini', $gzhd, $ecode.'-gzh');
     			
-    			//保存小程序信息
-    			$xcxd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-xcx');
-    			$xcxd['appid'] = $xcx_appid; $xcxd['secret'] = $xcx_secret;
-    			$xcxd['mchid'] = $shh_mch_id; $xcxd['key'] = $shh_key;
-    			if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert;
-    			if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey; 
-    			IniFileOpe::reinitFile(WECHAT.'/config.ini', $xcxd, $ecode.'-xcx');
+    			if ($shop->sc_type == 'ST0'){
+    				$ecode = $this->esbEcode();
+    				//保存公众号信息
+    				$gzhd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-gzh');
+    				$gzhd['appid'] = $wx_appid; $gzhd['secret'] = $wx_secret;
+    				$gzhd['mchid'] = $shh_mch_id; $gzhd['key'] = $shh_key;
+    				if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert;
+    				if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey;
+    				IniFileOpe::reinitFile(WECHAT.'/config.ini', $gzhd, $ecode.'-gzh');
+    				
+    				//保存小程序信息
+    				$xcxd = IniFileOpe::getIniFile(WECHAT.'/config.ini', $ecode.'-xcx');
+    				$xcxd['appid'] = $xcx_appid; $xcxd['secret'] = $xcx_secret;
+    				$xcxd['mchid'] = $shh_mch_id; $xcxd['key'] = $shh_key;
+    				if (!empty($shhCert))$gzhd['sslcertPath'] = $shhCert;
+    				if (!empty($shhKey))$gzhd['sslkeyPath'] = $shhKey;
+    				IniFileOpe::reinitFile(WECHAT.'/config.ini', $xcxd, $ecode.'-xcx');
+    			}
     			
     			echo json_encode(array('status'=>1, 'msg'=>'success'));
     		}else echo json_encode(array('status'=>0, 'msg'=>'操作失败!'));
