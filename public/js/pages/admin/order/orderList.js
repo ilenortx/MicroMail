@@ -54,12 +54,20 @@ $(document).ready(function(){
 	});
 
     $(document).on('click', '.print_logistics', function(){
-        // var check_data = getCheckData('order');
+        var check_data = getCheckData('order');
+        if(check_data.length == 0){
+            layer.alert('请选择订单', {icon: 5});
+            return;
+        }
         openEditFull('打印快递单','../Logistics/index');
     });
 
     $(document).on('click', '.print_order', function(){
-        // var check_data = getCheckData('order');
+        var check_data = getCheckData('order');
+        if(check_data.length == 0){
+            layer.alert('请选择订单', {icon: 5});
+            return;
+        }
         openEdit('打印出货单','../Logistics/printPage', 500, 200);
         // openEditFull('打印出货单','../Logistics/index');
     });
