@@ -2,6 +2,7 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class User extends \Phalcon\Mvc\Model
 {
@@ -135,6 +136,13 @@ class User extends \Phalcon\Mvc\Model
     {
         $this->setSchema("micro_mail");
         $this->setSource("user");
+
+        $this->addBehavior(new SoftDelete(
+            array(
+                'field' => 'del',
+                'value' => 1
+            )
+        ));
     }
 
     /**
@@ -168,21 +176,21 @@ class User extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
-    
-    
+
+
     //----------
-    // è‡ªå®šä¹‰
+    // ×Ô¶¨Òå
     //----------
     /**
-     * æ·»åŠ ç”¨æˆ·
+     * Ìí¼ÓÓÃ»§
      */
     public static function addUser($datas=array()){
     	$uie = User::findFirstByName($datas['name']);
-    	if ($uie && count($uie)) return 'NAME_EXIST';//è´¦å·å­˜åœ¨
-    	
-    	if (!isset($datas['name']) || empty($datas['name']) || 
+    	if ($uie && count($uie)) return 'NAME_EXIST';//ÕËºÅ´æÔÚ
+
+    	if (!isset($datas['name']) || empty($datas['name']) ||
     			!isset($datas['pwd']) || empty($datas['pwd'])) return 'DATAERR';
-    	
+
     	$user = new User();
     	$user->name = $datas['name'];
     	$user->uname = (isset($datas['uname'])&&!empty($datas['uname']))?$datas['uname']:$datas['name'];
@@ -196,5 +204,53 @@ class User extends \Phalcon\Mvc\Model
     	$user->email = isset($datas['email']) ? $datas['email'] : '';
     	if ($user->save()) return $user;
     	else return 'OPEFILE';
+    }
+
+    public static function getAllUser($limit = 10, $page = 1, $parameters = null){
+        $conditions = array(
+            'order'     => "addtime desc",
+            'limit'     => array("number" => $limit, "offset" => $limit*($page-1)),
+            'conditions'=> "del = 0",
+        );
+        if($parameters){
+            $conditions['conditions'] .= " and ".$parameters['conditions'];
+            $conditions['bind'] = $parameters['bind'];
+        }
+
+        $list = User::find($conditions);
+        // $lv = UserLv::find()->toArray();
+        // $lv_info = array_column($lv, 'lv_name', 'lv_id');
+
+        $data['data'] = array();
+        foreach ($list as $key => $value) {
+            $item = $value->toArray();
+            // $item['lv'] = $lv_info[$item['lv_id']];
+
+            array_push($data['data'], $item);
+        }
+
+        unset($conditions['limit']);
+        $data['count'] = User::count($conditions);
+
+        return $data;
+    }
+
+    public static function getUserInfo($user_id, $shop_id){
+        $ext_user_obj = ShopUsers::findFirst("shop_id = $shop_id and user_id = $user_id");
+
+        $user_data = User::findFirstById($user_id)? User::findFirstById($user_id)->toArray():array();
+        if($ext_user_obj && count($ext_user_obj)){
+            unset($user_data['pwd']);
+
+            $user_data['point'] = $ext_user_obj->point;
+            $user_data['exp'] = $ext_user_obj->exp;
+            $user_data['user_lv'] = $ext_user_obj->user_lv;
+        }else{
+            $user_data['point'] = 0;
+            $user_data['exp'] = 0;
+            $user_data['user_lv'] = 1;
+        }
+
+        return $user_data;
     }
 }

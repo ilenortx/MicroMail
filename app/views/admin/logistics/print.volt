@@ -48,6 +48,10 @@
         }
         #table_box td{
             border-color: #999;
+            text-align:center;
+        }
+        #table_box td.left{
+            text-align:left;
         }
     </style>
 </head>
