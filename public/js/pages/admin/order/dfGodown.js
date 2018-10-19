@@ -141,7 +141,8 @@ $(function(){
         LODOP.PRINT_INIT("");
         LODOP.SET_PRINTER_INDEX($('#print_sel').val());
         LODOP.SET_PRINT_PAGESIZE(0,'100mm','180mm');
-        LODOP.ADD_PRINT_HTM(0,0,"100%","100%", template);
+        LODOP.SET_PRINT_STYLE('HOrient', 2);
+        LODOP.ADD_PRINT_HTM(0,0,'100mm','180mm', template);
         LODOP.PREVIEW("_dialog");
     });
 });

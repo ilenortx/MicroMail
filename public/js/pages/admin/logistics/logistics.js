@@ -103,26 +103,18 @@ $(document).ready(function(){
     });
 
     $('.print_action').click(function(){
-        // var win_html = $(window.document.body).clone();
-        // bdhtml=window.document.body.innerHTML;//获取当前页的html代码
-        // sprnstr="<!--startprint-->";//设置打印开始区域
-        // eprnstr="<!--endprint-->";//设置打印结束区域
-        // prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html
-        // prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
-        // window.document.body.innerHTML=prnhtml;
-        // window.print();
-        // window.document.body.innerHTML=win_html.html();
-
-        // var html = '<!--startprint-->' + $('.print_box').html() + '<!--endprint-->';
-        // html += '<script>bdhtml=window.document.body.innerHTML;sprnstr="<!--startprint-->";eprnstr="<!--endprint-->";prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18);prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));window.document.body.innerHTML=prnhtml;window.print();console.log(window.document.body);//window.document.body.innerHTML=bdhtml;</script>';
-
         var sel_data = getCheckData('log');
+        if(sel_data.length == 0){
+            layer.alert('请选择订单', {icon: 5});
+            return;
+        }
         var html_text = "";
         var body_array = [];
         for (var i in sel_data) {
             if(sel_data[i].template && sel_data[i].template!='' && html_text==''){
                 //  /<style(([\s\S])*?)<\/style>/g
                 html_text = sel_data[i].template.replace(/<body(([\s\S])*?)<\/body>/, "<!--replace_code-->");
+                html_text = html_text.replace('class="logo"', 'class="logo" style="opacity:0;"');
             }
 
             body = sel_data[i].template.match(/<body[^>]*>([\s\S]*)<\/body>/);
@@ -147,12 +139,12 @@ $(document).ready(function(){
         LODOP.PRINT_INIT("");
         LODOP.SET_PRINTER_INDEX($('#print_sel').val());
         LODOP.SET_PRINT_PAGESIZE(0,'100mm','180mm');
-        LODOP.SET_PRINT_STYLE('alignment', 2);
-        LODOP.SET_PRINT_STYLE('VOrient', 2);
+        LODOP.SET_PRINT_STYLE('HOrient', 2);
+        // LODOP.SET_PRINT_STYLE('VOrient', 2);
         // LODOP.ADD_PRINT_TEXT(10,10,300,200,"");
         for(var j in body_array){
             LODOP.NewPage();
-            LODOP.ADD_PRINT_HTM(0,0,"100%","100%", html_text.replace("<!--replace_code-->", body_array[j]));
+            LODOP.ADD_PRINT_HTM(0,0,"100mm","180mm", html_text.replace("<!--replace_code-->", body_array[j]));
         }
         // LODOP.On_Return=function(TaskID,Value){ alert("打印结果:"+Value); };
         LODOP.PREVIEW("_dialog");

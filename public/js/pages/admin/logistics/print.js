@@ -32,8 +32,8 @@ $(document).ready(function(){
 
                 LODOP.PRINT_INIT("");
                 LODOP.SET_PRINTER_INDEX($('#print_sel').val());
-                // LODOP.SET_PRINT_PAGESIZE(0,'100mm','180mm','CreateCustomPage');
-                // LODOP.SET_PRINT_STYLE('alignment', 2);
+                LODOP.SET_PRINT_PAGESIZE(0,'100mm','180mm');
+                LODOP.SET_PRINT_STYLE('HOrient', 2);
                 // LODOP.SET_PRINT_STYLE('VOrient', 2);
                 for(var j in return_data){
                     LODOP.NewPage();            // 新建打印页
@@ -62,14 +62,14 @@ $(document).ready(function(){
                         table_html += '<td>'+ push_data['pro_number'] +'</td>';
                         table_html += '<td>'+ push_data['num'] +'</td>';
                         table_html += '<td>'+ push_data['attr'] +'</td>';
-                        table_html += '<td>'+ push_data['name'] +'</td>';
+                        table_html += '<td class="left">'+ push_data['name'] +'</td>';
                         table_html += '<td>'+ push_data['price'] +'</td>';
                         table_html += '<td>'+ push_data['sum'] +'</td>';
                         table_html += '</tr>';
                     };
                     print_html.find('tbody').html(table_html);
 
-                    LODOP.ADD_PRINT_HTM(40,0,'100mm','180mm', print_html.html());        // 渲染打印
+                    LODOP.ADD_PRINT_HTM(60,5,'100mm','180mm', print_html.html());        // 渲染打印
                 }
 
                 LODOP.PREVIEW("_dialog");
