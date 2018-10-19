@@ -93,7 +93,7 @@ class AdminBase extends ControllerBase{
 			$apps = MmApps::getApps(array(//查询所有应用 status='S1'
 					'conditions'=> "status=?1",
 					'bind'		=> array(1=>'S1'),
-					'order'		=> 'sort asc'
+					'order'		=> 'pid asc,sort asc'
 			));
 			
 			$pidArr = array(); $app = array();
