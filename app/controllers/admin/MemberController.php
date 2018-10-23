@@ -178,16 +178,25 @@ class MemberController extends AdminBase{
                         'tel'=>$post_data['tel'],
                         'email'=>$post_data['email'],
                     );
-                    $user_result = User::addUser($add_data)->toArray();
-                    $shop_config = ShopConfig::getShopConf($shopId);
 
-                    $shop_user_obj = new ShopUsers();
-                    $shop_user_obj->shop_id = $shopId;
-                    $shop_user_obj->user_id = $user_result['id'];
-                    $shop_user_obj->user_lv = $post_data['shop_lv'];
-                    $shop_user_obj->exp = $shop_config['lv_info'][$post_data['shop_lv']]['need_exp'];
-                    $shop_user_obj->point = $post_data['jifen'];
-                    if(!$shop_user_obj->save()){
+                    $user_result = User::addUser($add_data);
+                    if(!is_string($user_result)){
+                        $user_result = $user_result->toArray();
+
+                        $shop_config = ShopConfig::getShopConf($shopId);
+
+                        $shop_user_obj = new ShopUsers();
+                        $shop_user_obj->shop_id = $shopId;
+                        $shop_user_obj->user_id = $user_result['id'];
+                        $shop_user_obj->user_lv = $post_data['shop_lv'];
+                        $shop_user_obj->exp = $shop_config['lv_info'][$post_data['shop_lv']]['need_exp'];
+                        $shop_user_obj->point = $post_data['jifen'];
+                        if(!$shop_user_obj->save()){
+                            $error_msg = "保存失败";
+                        }
+                    }else if($user_result == 'NAME_EXIST'){
+                        $error_msg = "用户名重复不能创建";
+                    }else{
                         $error_msg = "保存失败";
                     }
                 }
