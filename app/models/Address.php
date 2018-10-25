@@ -150,7 +150,7 @@ class Address extends ModelBase
      */
     public static function addrInfo($type='id', $params){
     	if ($type == 'id'){
-    		$addr = self::findFirst("id=$params");
+    		$addr = self::findFirst("id=$params and status='1'");
     		if ($addr) return $addr;
     		else return 'DATAEXCEPTION';
     	}

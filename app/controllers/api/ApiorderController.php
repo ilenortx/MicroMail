@@ -206,14 +206,10 @@ class ApiorderController extends ApiBase{
     	if ($this->request->isPost()){
     		$oid = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
     		
-    		if (!$oid){
-    			echo json_encode(array('status'=>0, 'err'=>'数据错误.'));
-    			exit();
-    		}
+    		if (!$oid){ $this->err('数据错误！'); exit(); }
     		
-    		$order = Order::findFirstById($oid);
-    		
-    		if ($order){
+    		$order = Order::orderInfo('id', $oid);
+    		if (ModelBase::isObject($order)){
     			$pros = $order->OrderProduct;
     			if ($pros){
     				$pros = $pros->toArray();
@@ -251,15 +247,19 @@ class ApiorderController extends ApiBase{
     					if ($p) $pArr = $p->toArray();
     				}
     				//收货人信息
-    				$rArr = array();
     				if ($rid){
-    					$r = Address::findFirstById($rid);
-    					if ($r) $rArr = $r->toArray();
+    					$r = Address::addrInfo('id', $rid);
+    					if (ModelBase::isObject($r)){
+    						$order['receiver'] = $r->name;
+    						$order['tel'] = $r->tel;
+    						$order['address'] = $r->address;
+    						$order['address_xq'] = $r->address_xq;
+    					}
     				}
     				
-    				echo json_encode(array('status'=>1, 'orderInfo'=>$order, 'pros'=>$pros, 'vouInfo'=>$vouArr, 'postInfo'=>$pArr, 'address'=>$rArr));
-    			}else echo json_encode(array('status'=>0, 'err'=>'数据异常.'));
-    		}else echo json_encode(array('status'=>0, 'err'=>'数据异常.'));
+    				echo json_encode(array('status'=>1, 'orderInfo'=>$order, 'pros'=>$pros, 'vouInfo'=>$vouArr, 'postInfo'=>$pArr));
+    			}else $this->err('数据异常！');
+    		}else $this->err('数据异常！');
     	}
     }
     

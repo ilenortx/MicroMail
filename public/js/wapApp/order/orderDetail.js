@@ -48,9 +48,9 @@ var page = {
 		else if (d.orderInfo.status==50||d.orderInfo.status==51) $('#ord-statu').text('交易完成');
 
 		//地址信息
-		$('#shr').text(d.address.name);
-		$('#tel').text(d.address.tel);
-		$('#addressXq').text(d.address.address_xq);
+		$('#shr').text(d.orderInfo.name);
+		$('#tel').text(d.orderInfo.tel);
+		$('#addressXq').text(d.orderInfo.address_xq);
 
 		//产品信息
 		var hi = app.d.hostImg;
