@@ -74,7 +74,7 @@ class LogisticsController extends AdminBase{
                 'order'     => "addtime desc",
                 'limit'     => array("number" => $limit, "offset" => $limit*($page-1))
             );
-            $count = Order::getCount("shop_id=$sid and del=0 and status in(20,30) and order_sn in ($order_nums)");
+            $count = Order::getCount('Order', array('conditions'=>"shop_id=$sid and del=0 and status in(20,30) and order_sn in ($order_nums)"));
 
             $orderArr = Order::find($conditions);
 

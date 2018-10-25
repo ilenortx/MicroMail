@@ -1,6 +1,6 @@
 <?php
 
-class Shangchang extends \Phalcon\Mvc\Model
+class Shangchang extends ModelBase
 {
 
     /**
@@ -289,11 +289,13 @@ class Shangchang extends \Phalcon\Mvc\Model
     //----------
     // 店铺信息
     //----------
-    public static function shopInfo($sid){
-    	$si = self::findFirstById($sid);
-    	
-    	if ($si) return $si;
-    	else return 'DATAEXCEPTION';
+    public static function shopInfo($type='id', $sid){
+    	if ($type == 'id'){
+    		$si = self::findFirstById($sid);
+    		
+    		if ($si) return $si;
+    		else return 'DATAEXCEPTION';
+    	}
     }
     
 }

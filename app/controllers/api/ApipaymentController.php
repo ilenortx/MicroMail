@@ -1,18 +1,16 @@
 <?php
 
+use Phalcon\Mvc\Model;
+
 class ApipaymentController extends ApiBase{
 
-    public function indexAction(){
-
-    }
-    
     //**********************************
     // 购物车结算
     //***********************************
     public function buyCartAction($cart_id, $uid, $payType){
-    	if (!$uid) { echo json_encode(array('status'=>0,'err'=>'登录状态异常.')); exit(); }
+    	if (!$uid) { $this->err('登录状态异常!'); exit(); }
     	$cids = explode(',', trim($cart_id, ','));
-    	if (!$cart_id) { echo json_encode(array('status'=>0,'err'=>'网络异常.'.__LINE__)); exit(); }
+    	if (!$cart_id) { $this->err('网络异常.'.__LINE__); exit(); }
     	
     	//生成订单号
     	$oproarr = array(); $orderArr = array();
@@ -50,7 +48,7 @@ class ApipaymentController extends ApiBase{
     		}
     		
     		if (!isset($orderArr[$proinfo['shop_id']])){
-    			$orderArr[$proinfo['shop_id']]['order_sn'] = $this->build_order_no();
+    			$orderArr[$proinfo['shop_id']]['order_sn'] = Order::buildOrderno();
     			$orderArr[$proinfo['shop_id']]['shop_id'] = $proinfo['shop_id'];
     			$orderArr[$proinfo['shop_id']]['price'] = $proinfo['price'] * $v['num'];
     			$orderArr[$proinfo['shop_id']]['amount'] = $proinfo['price_yh'] * $v['num'];
@@ -73,70 +71,6 @@ class ApipaymentController extends ApiBase{
     				'skuid'		=> $v['skuid']
     		));
     	}
-    	
-    	/* for ($i=0; $i<count($cids); ++$i){
-    		//获取购物车
-    		$cartinfo = array();
-    		$carts = ShoppingChar::findFirstById($cids[$i]);
-    		if (!$carts){
-    			echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    			exit();
-    		}else $cartinfo= $carts->toArray();
-    		
-    		//获取产品
-    		$proinfo = array();
-    		$pros = Product::findFirstById($cartinfo['pid']);
-    		
-    		if (!$pros){
-    			echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    			exit();
-    		}else $proinfo = $pros->toArray();
-    		
-    		//判断库存是否大于等购买量
-    		$stock = intval($proinfo['num']);
-    		if (trim($cartinfo['skuid'], ',')){
-    			$sku = self::getSku(trim($cartinfo['skuid'], ','), $cartinfo['pid']);
-    			if ($sku) $stock = $sku['stock'];
-    			$proinfo['price_yh'] = $sku['price'];
-    		}
-    		if ($stock<$cartinfo['num']){
-    			echo json_encode(array('status'=>0, 'err'=>'库存不足.'));
-    			exit();
-    		}
-    		
-    		if ($proinfo['hd_type']=='1'){
-    			$ab = new ActivityBase();
-    			$hs = $ab->verifyAIV($proinfo['hd_id'], 1);
-    			if ($hs == 'S2'){
-    				$pi = $ab->promotion($proinfo['hd_id']);
-    				$proinfo['price_yh'] = $pi['pprice'];
-    			}
-    		}
-    		
-    		if (!isset($orderArr[$proinfo['shop_id']])){
-    			$orderArr[$proinfo['shop_id']]['order_sn'] = $this->build_order_no();
-    			$orderArr[$proinfo['shop_id']]['shop_id'] = $proinfo['shop_id'];
-    			$orderArr[$proinfo['shop_id']]['price'] = $proinfo['price'] * $cartinfo['num'];
-    			$orderArr[$proinfo['shop_id']]['amount'] = $proinfo['price_yh'] * $cartinfo['num'];
-    			$orderArr[$proinfo['shop_id']]['product_num'] = $cartinfo['num'];
-    		}else{
-    			$orderArr[$proinfo['shop_id']]['price'] += $proinfo['price'] * $cartinfo['num'];
-    			$orderArr[$proinfo['shop_id']]['amount'] += $proinfo['price_yh'] * $cartinfo['num'];
-    			$orderArr[$proinfo['shop_id']]['product_num'] += $cartinfo['num'];
-    		}
-    		
-    		array_push($oproarr, array(
-    				'pid'		=> $cartinfo['pid'],
-    				'name'		=> $proinfo['name'],
-    				'price'		=> $proinfo['price_yh'] * $cartinfo['num'],
-    				'photo_x'	=> $proinfo['photo_x'],
-    				//'pro_buff'	=> $proinfo['pro_buff'],
-    				'num'		=> $cartinfo['num'],
-    				'shop_id'	=> $proinfo['shop_id'],
-    				'addtime'	=> time(),
-    				'skuid'		=> $cartinfo['skuid']
-    		));
-    	} */
     	
     	$shop_oid = array(); $oidstr = '';
     	//添加订单信息
@@ -191,105 +125,96 @@ class ApipaymentController extends ApiBase{
     }
 
     //***************************
-    //  立即购买下单接口
+    // 立即购买下单接口
     //***************************
     public function buyNowAction($uid, $orderInfo, $payType, $type='buyNow', $hdId=0){
     	$pid = $orderInfo['pid']; $num = $orderInfo['num'];
     	$skuid = isset($orderInfo['skuid'])?trim($orderInfo['skuid'], ','):'';
-    	if (!$uid || !$pid || !$num){
-    		echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    		exit();
+    	
+    	if (!$uid || !$pid || !$num){//参数错误
+    		$this->err('数据错误!'); exit();
     	}
     	
-    	//获取产品
-    	$proinfo = array();
-    	$pros = Product::findFirstById($pid);
-    	if (!$pros){
-    		echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    		exit();
-    	}else $proinfo = $pros->toArray();
-    	
+    	//获取产品信息
+    	$pros = Product::getPro('pid', $pid); $proinfo = array();
+    	if (gettype($pros) == 'object') $proinfo = $pros->toArray();
+    	else if ($pros == 'DATAERR') { $this->err('数据错误!'); exit(); }
+    	else if ($pros == 'DATAEXCEPTION') { $this->err('数据异常!'); exit(); }
     	
     	//判断库存是否大于等购买量
     	$stock = intval($proinfo['num']);
     	if (trim($skuid, ',')){
-    		$sku = self::getSku(trim($skuid, ','), $proinfo['id']);
-    		if ($sku) $stock = $sku['stock'];
-    		$proinfo['price_yh'] = floatval($sku['price']);
+    		$sku = ProductSku::getSku('spid', array('skuid'=>$skuid, 'pid'=>$proinfo['id']));
+    		if (ProductSku::isObject($sku)) {
+    			$stock = $sku->stock;
+    			$proinfo['price_yh'] = $this->numberFormat($sku->price);
+    		}
     	}
-    	if ($stock<$num){
-    		echo json_encode(array('status'=>0, 'err'=>'库存不足.'));
-    		exit();
-    	}
+    	if ($stock<$num){ $this->err('库存不足'); exit(); } //库存不足
     	
     	$isNewOrder = false; $otype = 1;
-    	$order_no = $this->build_order_no();//生成订单号
+    	$order_no = Order::buildOrderno();//生成订单号
     	if ($type == 'buyNow'){
     		//添加订单信息
-    		$order = new Order();
-    		$isNewOrder = true;
+    		$order = new Order(); $isNewOrder = true;
     		if ($proinfo['hd_type']=='1') {
     			$order->order_type = 1;
     			$order->hd_id = $proinfo['hd_id'];
     		}
-    	}else if ($type == 'cutPrice'){
-    		$order = Order::find("order_type=4 and hd_id=$hdId");
-    		if (!$order || !count($order->toArray())){
-    			$order = new Order();
-    			$isNewOrder = true;
+    	}else if ($type == 'cutPrice'){//砍价
+    		$order = Order::hdOrders(4, $hdId);
+    		if (!$order || !$order->count()){
+    			$order = new Order(); $isNewOrder = true;
     			
     			$cutPrice = $this->getCutPrice($hdId);
-    			if (!$cutPrice) {
-    				echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    				exit();
-    			}
+    			if (!$cutPrice) { $this->err('数据异常!'); exit(); }
+    			
     			$cpnum = ($proinfo['price_yh']-$cutPrice[0]['low_price'])/$cutPrice[0]['friends']*$cutPrice[1]['cpnum'];
     			$proinfo['price_yh'] -= round($cpnum, 2);
     			$order->order_type = 4;
     			$order->hd_id = $hdId;
-    		}else {
-    			foreach ($order as $k=>$v){ $order = $v; break; }
     		}
-    	}else if ($type == 'gb'){
-    		$order = new Order();
-    		$isNewOrder = true;
+    	}else if ($type == 'gb'){//拼团
+    		$order = new Order(); $isNewOrder = true;
     		
-    		$ab = new ActivityBase();
-    		$gbv = $ab->verifyAIV($hdId, 2);
-    		if ($gbv=='S0'){ echo json_encode(array('status'=>0,'msg'=>'拼团删除')); exit(); }
-    		else if ($gbv=='S1'){ echo json_encode(array('status'=>0,'msg'=>'活动未开始')); exit(); }
-    		else if ($gbv=='S3'){ echo json_encode(array('status'=>0,'msg'=>'活动结束')); exit(); }
-    		$gbi = $ab->gbInfo($hdId);
+    		//团购验证
+    		$gbinfo = GroupBooking::getGb('id', $hdId);
+    		if ($gbinfo->status=='S0'){ $this->err('拼团删除'); exit(); }
+    		else if ($gbinfo->status=='S1'){ $this->err('活动未开始'); exit(); }
+    		else if ($gbinfo->status=='S3'){ $this->err('活动结束'); exit(); }
+    		$gbi = $gbinfo;
     		
-    		if (intval($orderInfo['gblid'])==0) {
-    			$gbl = $ab->addGb($hdId, $uid, $pid);//新增砍价
-    		}else {
-    			$gbls = $ab->verifyGBL($orderInfo['gblid']);
-    			if ($gbls == 'S0'){ echo json_encode(array('status'=>0,'msg'=>'拼团删除')); exit(); }
-    			else if ($gbls == 'S1'){ echo json_encode(array('status'=>0,'msg'=>'暂未成团')); exit(); }
-    			else if ($gbls == 'S3'){ echo json_encode(array('status'=>0,'msg'=>'活动结束')); exit(); }
-    			else if ($gbls == 'S4'){ echo json_encode(array('status'=>0,'msg'=>'成团失败')); exit(); }
-    			else if ($gbls == 'S5'){ echo json_encode(array('status'=>0,'msg'=>'成团成功')); exit(); }
-    			$gbl = intval($orderInfo['gblid']);
+    		if (intval($orderInfo['gblid'])==0) {//开团
+    			$gbl = GroupBookingList::addGbl('gb', $gbi, $uid, $pid);//新增团购
+    			if (!GroupBookingList::isObject($gbl)) { $this->err('操作失败!'); exit(); }
+    			$gblid = $gbl->id;
+    		}else {//参团
+    			//开团验证
+    			$gblinfo = GroupBookingList::getGbl('gblid', intval($orderInfo['gblid']));
+    			$gblinfo = GroupBookingList::gblVerify($gblinfo);
+    			
+    			if ($gblinfo->status == 'S0'){ $this->err('拼团删除'); exit(); }
+    			else if ($gblinfo->status == 'S1'){ $this->err('暂未成团'); exit(); }
+    			else if ($gblinfo->status == 'S3'){ $this->err('活动结束'); exit(); }
+    			else if ($gblinfo->status == 'S4'){ $this->err('成团失败'); exit(); }
+    			else if ($gblinfo->status == 'S5'){ $this->err('成团成功'); exit(); }
+    			$gblid = intval($orderInfo['gblid']);
     		}
     		
     		$order->order_type = 3;
-    		$order->hd_id = $gbl;
-    		$proinfo['price_yh'] = $gbi['gbprice'];
-    	}else if ($type == 'promotion'){
-    		$order = new Order();
-    		$isNewOrder = true;
+    		$order->hd_id = $gblid;
+    		$proinfo['price_yh'] = $gbinfo->gbprice;
+    	}else if ($type == 'promotion'){//秒杀
+    		$order = new Order(); $isNewOrder = true;
     		
-    		$ab = new ActivityBase();
-    		$gbv = $ab->verifyAIV($hdId, 1);
-    		if ($gbv=='S0'){ echo json_encode(array('status'=>0,'msg'=>'活动不存在')); exit(); }
-    		else if ($gbv=='S1'){ echo json_encode(array('status'=>0,'msg'=>'活动未开始')); exit(); }
-    		else if ($gbv=='S3'){ echo json_encode(array('status'=>0,'msg'=>'活动结束')); exit(); }
-    		$pi = $ab->promotion($hdId);
+    		$pmtinfo = Promotion::getSk('id', $hdId);
+    		if ($pmtinfo->status=='S0'){ $this->err('活动不存在'); exit(); }
+    		else if ($pmtinfo->status=='S1'){ $this->err('活动未开始'); exit(); }
+    		else if ($pmtinfo->status=='S3'){ $this->err('活动结束'); exit(); }
     	
     		$order->order_type = 3;
-    		$order->hd_id = $pi['id'];
-    		$proinfo['price_yh'] = $pi['pprice'];
+    		$order->hd_id = $pmtinfo->id;
+    		$proinfo['price_yh'] = $pmtinfo->pprice;
     	}
     	
     	if ($isNewOrder){
@@ -324,7 +249,7 @@ class ApipaymentController extends ApiBase{
     			$opro->skuid = $skuid;
     			$opro->save();
     			
-    			if (($order->order_type=='3'||$order->order_type=='4') && $payType=='cash'){
+    			if (($order->order_type=='3'||$order->order_type=='4') && $payType=='cash'){//支付成功，修改活动状态
     				$ab = new ActivityBase();
     				$ab->hdOrderSuc($order->order_type, $order->hd_id, $order->uid);
     				if ($order->order_type==3) $ab->joinGb($order->id, $order->hd_id, $order->uid);
@@ -336,7 +261,7 @@ class ApipaymentController extends ApiBase{
     }
     
     //***************************
-    //  获取订单信息
+    // 获取订单信息
     //***************************
     public function getOrderInfoAction(){
     	if ($this->request->isPost()){
@@ -433,6 +358,7 @@ class ApipaymentController extends ApiBase{
     	}
     }
     
+    //弃用
     public function orderInfoAction(){
     	if ($this->request->isPost()){
     		$oid = isset($_POST['oid']) ? $_POST['oid']: '';
@@ -452,27 +378,22 @@ class ApipaymentController extends ApiBase{
     }
 
     //***************************
-    //  获取产品信息
+    // 获取产品信息
     //***************************
     public function getProInfoAction(){
     	if ($this->request->isPost()){
     		$oinfo = isset($_POST['order_info']) ? json_decode($_POST['order_info'], true): '';
     		$addrId = (isset($_POST['addr_id'])&&intval($_POST['addr_id'])>0) ? $_POST['addr_id'] : false;
     		$uid = isset($_POST['uid']) ? intval($_POST['uid']) : '';
-    		if (!$oinfo || !count($oinfo) || !$uid){
-    			echo json_encode(array('status'=>0, 'err'=>'数据异常.'));
-    			exit();
-    		}
+    		
+    		if (!$oinfo || !count($oinfo) || !$uid){ $this->err('数据异常!'); exit(); }
     		
     		$type = $oinfo['type'];
-    		if (!$type){
-    			echo json_encode(array('status'=>0, 'err'=>'数据异常.'));
-    			exit();
-    		}
+    		if (!$type){ $this->err('数据异常!'); exit(); }
     		
-    		//查询店铺
+    		//查询店铺 待完善
     		$shops = Shangchang::find(array(
-    				'conditions'=> "status=?1", 'bind'		=> array(1=>1)
+    				'conditions'=>"status=?1", 'bind'=>array(1=>1)
     		));
     		
     		if ($shops){
@@ -496,18 +417,17 @@ class ApipaymentController extends ApiBase{
     			if ($type=='buyNow' || $type=='cutPrice' || $type=='gb' || $type=='promotion'){
     				//查询产品
     				$pinfo = Product::findFirstById($oinfo['pid']);
-    				if (!$pinfo || !count($pinfo)) {
-    					echo json_encode(array('status'=>0, 'err'=>'商品错误.'));
-    					exit();
-    				}
+    				if (!$pinfo || !count($pinfo)) { $this->err('商品错误!'); exit(); }
     				
     				$pinfo = $pinfo->toArray();
     				$stock = $pinfo['num'];
     				//判断库存是否大于等购买量
     				if (trim($oinfo['skuid'], ',')){
-    					$sku = self::getSku(trim($oinfo['skuid'], ','), $oinfo['pid']);
-    					if ($sku) $stock = $sku['stock'];
-    					$pinfo['price_yh'] = $sku['price'];
+    					$sku = ProductSku::getSku('spid', array('skuid'=>trim($oinfo['skuid'], ','), 'pid'=>$oinfo['pid']));
+    					if ($sku) {
+    						$stock = $sku->stock;
+    						$pinfo['price_yh'] = $sku->price;
+    					}
     				}
     				if ($stock<$oinfo['num']){
     					echo json_encode(array('status'=>0, 'err'=>'库存不足.'));
@@ -553,27 +473,26 @@ class ApipaymentController extends ApiBase{
     					//获取购物车
     					$carts = ShoppingChar::findFirstById($cids[$i]);
     					if (!$carts){
-    						echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    						exit();
+    						$this->err('数据异常!'); exit();
     					}else $carts= $carts->toArray();
     					
     					//获取产品
     					$pinfo = Product::findFirstById($carts['pid']);
     					
     					if (!$pinfo){
-    						echo json_encode(array('status'=>0,'err'=>'数据异常.'));
-    						exit();
+    						$this->err('数据异常!'); exit();
     					}else $pinfo= $pinfo->toArray();
     					//判断库存是否大于等购买量
     					$stock = intval($pinfo['num']);
     					if (trim($carts['skuid'], ',')){
-    						$sku = self::getSku(trim($carts['skuid'], ','), intval($pinfo['id']));
-    						if ($sku) $stock = intval($sku['stock']);
-    						$pinfo['price_yh'] = $sku['price'];
+    						$sku = ProductSku::getSku('spid', array('skuid'=>trim($oinfo['skuid'], ','), 'pid'=>intval($pinfo['id'])));
+    						if ($sku) {
+    							$stock = intval($sku->stock);
+    							$pinfo['price_yh'] = $sku->price;
+    						}
     					}
     					if ($stock<$carts['num']){
-    						echo json_encode(array('status'=>0, 'err'=>'库存不足.'));
-    						exit();
+    						$this->err('库存不足!'); exit();
     					}
     					if ($pinfo['hd_type'] == '1') {//秒杀
     						$ab = new ActivityBase();
@@ -594,7 +513,6 @@ class ApipaymentController extends ApiBase{
     				}
     			}
     			
-    			
     			//优惠券
     			foreach ($shopArr as $k=>$v){
     				foreach ($shopArr[$k]['shop_pros'] as $k1=>$v1){
@@ -608,7 +526,6 @@ class ApipaymentController extends ApiBase{
     				}
     			}
     			
-    			
     			//收货地址
     			if (!$addrId) $add = $this->getAddAction($uid);
     			else {
@@ -616,11 +533,8 @@ class ApipaymentController extends ApiBase{
     				$add = $add->toArray();
     			}
     			
-    			if (!$add && !count($add)) {
-    				$addemt = 1;
-    			}else{
-    				$addemt = 0;
-    			}
+    			if (!$add && !count($add)) $addemt = 1;
+    			else $addemt = 0;
     			
     			foreach ($shopArr as $k=>$v){
     				if (count($v['shop_pros']) == 0) {
@@ -696,11 +610,8 @@ class ApipaymentController extends ApiBase{
     		foreach ($yfs as $k=>$v){
     			if ($v['price_max']<=$amount && !$hasmy){
     				$yunfei['0'] = array('id'=>0, 'name'=>'快递 免邮', 'price'=>0);
-//     				if () array_unshift($yunfei, array('id'=>-1, 'name'=>$v['name'], 'price'=>0));
-//     				else array_push($yunfei, array('id'=>-1, 'name'=>$v['name'], 'price'=>0));
     			}else{
     				$yunfei[$v['id']] = array('id'=>$v['id'], 'name'=>$v['name'], 'price'=>$v['price']);
-    				//array_push($yunfei, array('id'=>$v['id'], 'name'=>$v['name'], 'price'=>$v['price']));
     			}
     		}
     	}else {
@@ -793,134 +704,118 @@ class ApipaymentController extends ApiBase{
     	$yfarr 		= isset($_POST['yfarr']) ? json_decode($_POST['yfarr'], true) : '';
     	$fxsId 		= isset($_POST['fxs_id']) ? intval($_POST['fxs_id']) : 0;
     	
-    	if (!$uid || !$orderInfo || !$aid || !$payType) { echo json_encode(array('status'=>0, 'err'=>'数据异常.')); exit(); }
+    	if (!$uid || !$orderInfo || !$aid || !$payType) { $this->err('数据异常！'); exit(); }
     	
     	$hdId = 0;
-    	if ($orderInfo['type']=='cutPrice'){
+    	if ($orderInfo['type']=='cutPrice'){ // 砍价
     		$hdId = (isset($orderInfo['cpId'])&&intval($orderInfo['cpId'])) ? intval($orderInfo['cpId']): 0;
-    	}else if ($orderInfo['type']=='gb'){
+    	}else if ($orderInfo['type']=='gb'){ // 团购
     		$hdId = (isset($orderInfo['hdId'])&&intval($orderInfo['hdId'])) ? intval($orderInfo['hdId']): 0;
-    	}else if ($orderInfo['type']=='promotion'){
+    	}else if ($orderInfo['type']=='promotion'){ // 秒杀
     		$hdId = (isset($orderInfo['hdId'])&&intval($orderInfo['hdId'])) ? intval($orderInfo['hdId']): 0;
     	}
     	
+    	// 创建订单
     	if ($orderInfo['type']=='buyNow'||$orderInfo['type']=='cutPrice'||$orderInfo['type']=='gb'||$orderInfo['type']=='promotion') $order_id = $this->buyNowAction($uid, $orderInfo, $payType, $orderInfo['type'], $hdId);
     	else if ($orderInfo['type'] == 'buyCart') $order_id = $this->buyCartAction($orderInfo['cart_id'], $uid, $payType);
     	
     	//查询订单
-    	$order = Order::find("id in({$order_id})");
-    	if (!$order){ echo json_encode(array('status'=>0,'err'=>'订单不存在.')); exit(); }
+    	$order = Order::orderInfo('id', $order_id);
+    	if (!ModelBase::isObject($order)){ $this->err('订单不存在！'); exit(); }
     	
     	//查询地址
-    	$address = Address::findFirstById($aid);
-    	if (!$address){
-    		echo json_encode(array('status'=>0,'err'=>'地址不存在.')); exit();
-    	}else $address = $address->toArray();
+    	$address = Address::addrInfo('id', $aid);
+    	if (!ModelBase::isObject($address)){ $this->err('地址不存在！'); exit(); }
+    	else $address = $address->toArray();
     	
-    	$order_sn = '';
-    	foreach ($order as $k=>$v){
-    		$order_sn .= $v->order_sn.',';
-    		//查询优惠卷
-    		if(isset($vidarr[$v->shop_id])){
-    			$vous = UserVoucher::findFirstById(intval($vidarr[$v->shop_id]));
-    			if ($vous){
-    				$vou = $vous->toArray();
-    				if (count($vou) > 0){
-    					$v->price_h = $v->amount-$vou['amount'];
-    					$v->vid = $vidarr[$v->shop_id];
-    					$vous->status = 2; $vous->save();
-    				}
+    	$order_sn = $order->order_sn;
+    	//查询优惠卷
+    	if(isset($vidarr[$order->shop_id])){
+    		$vous = UserVoucher::uvInfo('id', intval($vidarr[$order->shop_id]));
+    		if (ModelBase::isObject($vous)){
+    			$vou = $vous->toArray();
+    			if (count($vou) > 0){
+    				$order->price_h = $order->amount-$vou['amount'];
+    				$order->vid = $vidarr[$$order->shop_id];
+    				$vous->status = 2; $vous->save();
     			}
     		}
-    		if ($yfarr[$v->shop_id] && intval($yfarr[$v->shop_id])){
-    			$post = Post::findFirstById(intval($yfarr[$v->shop_id]));
-    			if ($post){
-    				$v->post = intval($yfarr[$v->shop_id]);
-    				$v->price_h += $post->price;
-    			}else $v->post = 0;
-    		}
-    		//备注
-    		$remark = '';
-    		if (isset($remarkarr[$v->shop_id])) $remark = $remarkarr[$v->shop_id];
-    		
-    		//提成
-    		if ($fxsId){
-    			$sc = Shangchang::findFirstById($v->shop_id);
-    			$v->fxtc = $v->amount*$sc->fstc/100;
-    		}else $v->fxtc = 0;
-    		
-    		$v->fxs_id = $fxsId;
-    		$v->receiver = $address['name'];
-    		$v->tel = $address['tel'];
-    		$v->address = $address['address'];
-    		$v->address_xq = $address['address_xq'];
-    		$v->code= $address['code'];
-    		$v->remark = $remark;
-    		$v->save();
     	}
+    	if ($yfarr[$order->shop_id] && intval($yfarr[$order->shop_id])){
+    		$post = Post::findFirstById(intval($yfarr[$order->shop_id]));
+    		if ($post){
+    			$order->post = intval($yfarr[$order->shop_id]);
+    			$order->price_h += $post->price;//包含运费
+    		}else $order->post = 0;
+    	}
+    	//备注
+    	$remark = '';
+    	if (isset($remarkarr[$order->shop_id])) $remark = $remarkarr[$order->shop_id];
+    	
+    	//提成
+    	if ($fxsId){
+    		$sc = Shangchang::shopInfo('id', $order->shop_id);
+    		$order->fxtc = $order->amount*$sc->fstc/100;
+    	}else $order->fxtc = 0;
+    	
+    	$order->fxs_id = $fxsId;
+    	$order->receiver = $address['name'];
+    	$order->tel = $address['tel'];
+    	$order->address = $address['address'];
+    	$order->address_xq = $address['address_xq'];
+    	$order->code= $address['code'];
+    	$order->remark = $remark;
+    	$order->save();
     	
     	echo json_encode(array('status'=>1, 'arr'=>array('order_id'=>$order_id, 'order_sn'=>trim($order_sn), 'pay_type'=>$payType)));
-    }
-    
-    /**生成唯一订单号
-     *@return int 返回16位的唯一订单号
-     */
-    public function build_order_no($rand=true){
-    	if ($rand)
-    		return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8).rand(100,999);
-    	else
-    		return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
     }
     
     /**
      * 支付
      */
     public function wxpayAction(){
-    	require_once PAYMENT."/wechat/lib/WxPay.Config.php";
     	$this->view->disable();
+    	require_once PAYMENT."/wechat/lib/WxPay.Config.php";
 	   	$pay_sn = trim($_REQUEST['order_sn'], ',');
 	   	$platform = (isset($_POST['platform'])&&$_POST['platform']=='zzyh-gzh') ? 'zzyh-gzh': '';
     	
-    	//订单号错误
-	   	if (!$pay_sn) { echo json_encode(array('status'=>0,'err'=>'支付信息错误！')); exit(); }
+	   	if (!$pay_sn) { $this->err('支付信息错误！'); exit(); }
     	
-	   	$order_info = Order::findFirstByOrderSn($pay_sn);
-    	//订单不存在
-    	if (!$order_info) { echo json_encode(array('status'=>0,'err'=>'没有找到支付订单！')); exit(); }
+	   	$order_info = Order::orderInfo('osn', array('orderSn'=>$pay_sn));
+	   	if (!ModelBase::isObject($order_info)) { $this->err('订单不存在！'); exit(); }
     	
-    	if ($order_info->order_type == 3){//团购时间验证
+	   	// 活动验证
+    	if ($order_info->order_type == 3){ // 团购时间验证
     		$ab = new ActivityBase();
     		$ab->gblIsPd($order_info->hd_id);
     	}
     	
-    	//订单状态异常
-    	if (intval($order_info->status)!=10) { echo json_encode(array('status'=>0,'err'=>'订单状态异常！')); exit(); }
-    	
+    	// 订单状态异常
+    	if (intval($order_info->status)!=10) { $this->err('订单状态异常！'); exit(); }
     	$orderinfo = $order_info->toArray();
     	$shopInfo = $order_info->Shangchang;//店铺名
     	$pros = $order_info->OrderProduct;
     	
-    	//商品名称
+    	// 商品名称
     	$strPros = '';
     	foreach ($pros as $k=>$v){ $strPros .= $v->name.'/'; }
     	
     	$amount = $order_info->price_h;
     	$uid = $order_info->uid;
     	
-    	//①、获取用户openid
+    	// ①、获取用户openid
     	if ($platform) WxPayConfig::initPayInfo($platform);
-    	$user = User::findFirstById($uid);
+    	$user = User::findFirst("id=$uid");
+    	if (!$user) { $this->err('用户状态异常！'); exit(); } // 用户信息错误
     	$openId = $user->openid;
-    	//用户信息错误
-    	if (!$openId) { echo json_encode(array('status'=>0,'err'=>'用户状态异常！')); exit(); }
     	
     	$tools = new WxJsApi();
-    	//②、统一下单
+    	// ②、统一下单
     	$orderSn = $order_info->order_sn;
     	$datas = array(
-    			'body'=>trim($strPros, '/'), 'attach'=>'专致优货--'.$shopInfo->name, 
+    			'body'=>trim($strPros, '/'), 'attach'=>$shopInfo->name.'--'.$shopInfo->name, 
     			'order_no'=>$orderSn, 'total_fee'=>floatval($amount)*100, 'indate'=>1,
-    			'goods_tag'=>"专致优货--更多优惠等你来拿", 'open_id'=>$openId
+    			'goods_tag'=>$shopInfo->name."--更多优惠等你来拿", 'open_id'=>$openId
     	);
     	$order = $tools->jsApi($datas);
     	
@@ -935,11 +830,10 @@ class ApipaymentController extends ApiBase{
     	$arr['paySign'] = strtoupper(MD5($jmstr));
     	
     	echo json_encode(array('status'=>1,'arr'=>$arr));
-    	exit();
     }
     
     //***************************
-    //  支付回调 接口
+    // 支付回调 接口
     //***************************
     public function notifyAction(){
     	$res_xml = file_get_contents("php://input");
@@ -955,7 +849,7 @@ class ApipaymentController extends ApiBase{
     	
     	if (is_array($result)) {
     		$xml = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg>";
-    		$xml.="</xml>";
+    		$xml .= "</xml>";
     		echo $xml;
     	}else{
     		$contents = 'error => '.json_encode($result);  // 写入的内容
@@ -966,7 +860,7 @@ class ApipaymentController extends ApiBase{
     }
     
     //***************************
-    //  订单处理 接口
+    // 订单处理 接口
     //***************************
     public function orderhandle($data){
     	$order_sn = trim($data['order_sn']);
@@ -974,10 +868,8 @@ class ApipaymentController extends ApiBase{
     	$trade_no = trim($data['trade_no']);
     	$total_fee = floatval($data['total_fee']);
     	
-    	$order = Order::findFirstByOrderSn($order_sn);
-    	if (!$order) {
-    		return "订单信息错误...";
-    	}
+    	$order = Order::findFirst("order_sn='{$order_sn}'");
+    	if (!$order) { return "订单信息错误..."; }
     	
     	$check_info= $order->toArray();
     	if ($check_info['status']<10 || $check_info['back']>'0') {
@@ -1006,8 +898,9 @@ class ApipaymentController extends ApiBase{
     		$jifen= 0;
     		if ($ops){
     			foreach ($ops as $k=>$v){
-    				$pro = Product::findFirstById($v->pid);
+    				$pro = Product::findFirst("id='{$v->pid}'");
     				$pro->num = $pro->num-$v->num;
+    				$pro->shiyong = $pro->shiyong+$v->num;
     				$pro->save();
     				$jifen += $pro->price_jf*$v->num;
     				
@@ -1059,23 +952,6 @@ class ApipaymentController extends ApiBase{
     	
     	$buff = trim($buff, "&");
     	return $buff;
-    }
-    
-    /**
-     * 获取sku
-     */
-    private function getSku($skuid, $pid){
-    	if ($skuid){
-    		$sku = ProductSku::find(array(
-    				'conditions'=> "skuid=?1 and pid=?2",
-    				'bind'		=> array(1=>$skuid, 2=>intval($pid))
-    		));
-    		if ($sku && count($sku)){
-    			$sku = $sku->toArray()[0];
-    			return $sku;
-    		}
-    	}
-    	return false;
     }
     
 }

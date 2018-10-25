@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class TaskQueue extends \Phalcon\Mvc\Model
+class TaskQueue extends ModelBase
 {
 
     /**
@@ -21,6 +21,7 @@ class TaskQueue extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="sid", type="integer", length=255, nullable=true)
      */
+    public $sid;
     
     /**
      *

@@ -16,45 +16,50 @@ class ApiproductController extends ApiBase{
 			$uid = isset($_POST['uid']) ? intval($_POST['uid']) : '';
 			if ($proId){
 				//查询所有收藏
-				$sclist = array(); $scpids = array();
+				$isSc = 0;
 				if ($uid){
 					$scs = ProductSc::find(array(
-							'conditions'=>'uid=?1 and status=?2',
-							'bind'=>array(1=>$uid, 2=>1)
+							'conditions'=>'uid=?1 and status=?2 and pid=?3',
+							'bind'=>array(1=>$uid, 2=>1, 3=>$proId)
 					));
-					if ($scs) $sclist = $scs->toArray();
-
-					foreach ($sclist as $k=>$v){
-						array_push($scpids, $v['pid']);
-					}
+					if ($scs && $scs->count()>0) $isSc = 1;
 				}
 
 
-				$pro = Product::findFirstById($proId);
+				$pro = Product::getPro('pid', $proId);//获取商品信息
 				if ($pro){
-					$pro = $pro->toArray(); $is_sc = 0;
+					$pro = $pro->toArray();
 					if ($pro['hd_type'] != '0'){
 						$ab = new ActivityBase();
-						$as = $ab->verifyAIV($pro['hd_id'], $pro['hd_type']);
-						if ($as != 'S2') { $pro['hd_type']='0'; $pro['hd_id']=0; }//活动为未进行中
 						$abresult = $ab->userIJA($uid, $pro['hd_id'], $pro['hd_type']);
 						$pro['hstatus'] = ($abresult&&count($abresult)) ? ($abresult['status']=='S1'?1:2): 0;
 
-						if ($pro['hd_type']=='2'){
-							//$pro['gbInfo'] = $abresult;
-							$gbInfo = $ab->groupBooking($pro['hd_id']);
-							$pro['gbInfo'] = $gbInfo[0];
-							$pro['gbList'] = $gbInfo[1];
-							$pro['gbList2'] = count($gbInfo[1])>2? array_slice($gbInfo[1], 0, 2) : $gbInfo[1];
-							$pro['hd_price'] = $gbInfo[0]['gbprice'];
-						}else if ($pro['hd_type'] == '1'){
+						if ($pro['hd_type'] == '1'){
 							$pinfo = $ab->promotion($pro['hd_id']);
-							$pro['skinfo'] = $pinfo;
-							$pro['hd_price'] = $pinfo['pprice'];
+							if ($pinfo['status'] == 'S2'){
+								$pro['skinfo'] = $pinfo;
+								$pro['hd_price'] = $pinfo['pprice'];
+							}else {
+								$pro['hd_type'] = '0'; $pro['hd_id'] = 0;
+							}
+						}else if ($pro['hd_type']=='2'){
+							$gbInfo = $ab->groupBooking($pro['hd_id']);
+							if ($gbInfo[0]['status'] == 'S2'){//判断活动是否进行中
+								$pro['gbInfo'] = $gbInfo[0];
+								$pro['gbList'] = $gbInfo[1];
+								$pro['gbList2'] = count($gbInfo[1])>2? array_slice($gbInfo[1], 0, 2) : $gbInfo[1];
+								$pro['hd_price'] = $gbInfo[0]['gbprice'];
+							}else {
+								$pro['hd_type'] = '0'; $pro['hd_id'] = 0;
+							}
+						}else if ($pro['hd_type'] == '3'){
+							$cpInfo = CutPriceSprites::getCp('cpid', $pro['hd_id']);
+							if ($cpInfo->status != 'S2'){
+								$pro['hd_type'] = '0'; $pro['hd_id'] = 0;
+							}
 						}
 					}
 
-					if (in_array($pro['id'], $scpids)) $is_sc= 1;
 					//图片轮播数组
 					$img = explode(',', trim($pro['photo_string'], ','));$b=array();
 					$pro['img_arr']=$img;//图片轮播数组
@@ -105,10 +110,10 @@ class ApiproductController extends ApiBase{
                         }
                     }
 
-					echo json_encode(array('status'=>1, 'pro'=>$pro, 'is_sc'=>$is_sc, 'porAttr'=>$proAttr, 'prosn'=>$sns, 'parm'=>$new_array));
-				}else echo json_encode(array('status'=>0,'err'=>'商品不存在或已下架！'));
-			}else echo json_encode(array('status'=>0,'err'=>'参数错误！'));
-		}else echo json_encode(array('status'=>0,'err'=>'请求方式错误！'));
+                    echo json_encode(array('status'=>1, 'pro'=>$pro, 'is_sc'=>$isSc, 'porAttr'=>$proAttr, 'prosn'=>$sns, 'parm'=>$new_array));
+				}else $this->err('商品不存在或已下架！');
+			}else $this->err('参数错误！');
+		}else $this->err('请求方式错误！');
     }
     /**
      * 产品促销

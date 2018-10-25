@@ -3,7 +3,7 @@
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Query\Status;
 
-class Product extends \Phalcon\Mvc\Model
+class Product extends ModelBase
 {
 
     /**
@@ -365,6 +365,25 @@ class Product extends \Phalcon\Mvc\Model
     // 自定义
     //----------
     /**
+     * 获取单个商品
+     * @param string $type
+     * @param unknown $params
+     * @return string|Product|\Phalcon\Mvc\Model\ResultInterface
+     */
+    public static function getPro($type='pid', $params=null){
+    	if ($type == 'pid'){//根据商品id获取
+    		if (!$params) return 'DATAERR';//数据错误
+    		
+    		$pro = self::findFirst("id=$params and del=0 and is_down=0");
+    		if ($pro && $pro->count()) {
+    			self::hdVerify($pro);//产品活动验证
+    			return $pro;
+    		}
+    		else return 'DATAEXCEPTION';
+    	}
+    }
+    
+    /**
      * 获取商品列表
      */
     public static function proList($params=array()){
@@ -380,6 +399,18 @@ class Product extends \Phalcon\Mvc\Model
 
     	return $proArr;
     }
+    
+    /**
+     * 获取活动商品
+     */
+    public static function hdPros($hdType=1, $hdId){
+    	if (!$hdType || !$hdId) return 'DATAERR';
+    	
+    	$pros = self::find("hd_id=$hdId and hd_type='{$hdType}'");//商品活动
+    	if ($pros) return $pros;
+    	else return 'DATAEXCEPTION';
+    }
+    
     /**
      * 设置商品上下架
      */
@@ -414,4 +445,24 @@ class Product extends \Phalcon\Mvc\Model
     	}else return 'DATAEXCEPTION';
     }
 
+    /**
+     * 产品活动验证
+     * @param Product $pro
+     */
+    public static function hdVerify($pro){
+    	if (intval($pro->hd_id)==0 && $pro->hd_type!='0') {//活动id等于0 活动类型部位0
+    		$pro->hd_id='0'; $pro->save();
+    	}
+    	
+    	if ($pro->hd_type!='0'){//活动类型不为0
+    		if (intval($pro->hd_type) == 1){//秒杀
+    			Promotion::getSk('id', $pro->hd_id);
+    		}else if (intval($pro->hd_type) == 2){//团购
+    			GroupBooking::getGb('id', $pro->hd_id);
+    		}else if (intval($pro->hd_type) == 3){//砍价
+    			CutPriceSprites::getCp('id', $pro->hd_id);
+    		}
+    	}
+    }
+    
 }

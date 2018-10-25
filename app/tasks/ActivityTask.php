@@ -28,8 +28,9 @@ class ActivityTask extends TaskBase{
 		$cp = CutPriceSprites::find("status!='S0' and status!='S3'");
 		if ($cp) {
 			foreach ($cp as $k=>$v){
-				if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
-				else if ($v->stime<$time && $v->etime>$time && $v->status!='S2') { $v->status='S2'; $v->save(); }
+				CutPriceSprites::cpVerify($v);
+				/* if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
+				else if ($v->stime<$time && $v->etime>$time && $v->status=='S1') { $v->status='S2'; $v->save(); }
 				else if ($v->etime<$time && $v->status!='S3') {
 					$v->status='S3'; $v->save();
 					
@@ -50,7 +51,7 @@ class ActivityTask extends TaskBase{
 							$k->hd_id = 0; $k->hd_type = '0'; $k->save();
 						}
 					}
-				}
+				} */
 			}
 		}
 	}
@@ -63,8 +64,9 @@ class ActivityTask extends TaskBase{
 		$gb = GroupBooking::find("status!='S0' and status!='S3'"); $time = time();
 		if ($gb) {
 			foreach ($gb as $k=>$v){
-				if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
-				else if ($v->stime<$time && $v->etime>$time && $v->status!='S2') { $v->status='S2'; $v->save(); }
+				GroupBooking::gbVerify($v);
+				/* if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
+				else if ($v->stime<$time && $v->etime>$time && $v->status=='S1') { $v->status='S2'; $v->save(); }
 				else if ($v->etime<$time && $v->status!='S3') {
 					$v->status='S3'; $v->save();
 					
@@ -83,11 +85,11 @@ class ActivityTask extends TaskBase{
 						$gbb = new GroupBookingBase();
 						$gbb->gbRefunc($gblids);
 					}
-				}
+				} */
 			}
 		}
 		//团购超时退款
-		$time = time();
+		/* $time = time();
 		$gbLot = GroupBookingList::find("etime<$time and status in ('S2','S1')");
 		if ($gbLot){
 			$gblids= '';
@@ -102,7 +104,7 @@ class ActivityTask extends TaskBase{
 			$gblids = trim($gblids, ',');
 			$gbb = new GroupBookingBase();
 			$gbb->gbRefunc($gblids);
-		}
+		} */
 	}
 	
 	//----------
@@ -113,8 +115,9 @@ class ActivityTask extends TaskBase{
 		$ps = Promotion::find("status!='S0' and status!='S3'");
 		if ($ps){
 			foreach ($ps as $k=>$v){
-				if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
-				else if ($v->stime<$time && $v->etime>$time && $v->status!='S2' && $v->status!='S4') { $v->status='S2'; $v->save(); }
+				Promotion::skVerify($v);
+				/* if ($v->stime>$time && $v->status!='S1') { $v->status='S1'; $v->save(); }
+				else if ($v->stime<$time && $v->etime>$time && $v->status=='S1' && $v->status!='S4') { $v->status='S2'; $v->save(); }
 				else if ($v->etime<$time && $v->status!='S3' && $v->status!='S4') {
 					$v->status='S3'; $v->save();
 					
@@ -124,7 +127,7 @@ class ActivityTask extends TaskBase{
 							$k->hd_id = 0; $k->hd_type = '0'; $k->save();
 						}
 					}
-				}
+				} */
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class CutPriceSpritesList extends \Phalcon\Mvc\Model
+class CutPriceSpritesList extends ModelBase
 {
 
     /**
@@ -122,4 +122,30 @@ class CutPriceSpritesList extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取砍价列表
+     */
+    public static function getCpl($type='cplid', $params){
+    	if ($type == 'cplid'){
+    		$cpl = self::findFirst("id=$params");
+    		if ($cpl){
+    			
+    		}return false;
+    	}
+    	
+    }
+    public static function getCpls($type='cpid', $params){
+    	if ($type == 'cpid'){
+    		$cpls = self::find("cp_id=$params");//用户砍价
+    		
+    		if ($cpls) return $cpls;
+    		else return 'DATAEXCEPTION';
+    	}
+    	
+    }
 }

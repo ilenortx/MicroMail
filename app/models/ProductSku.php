@@ -1,6 +1,6 @@
 <?php
 
-class ProductSku extends \Phalcon\Mvc\Model
+class ProductSku extends ModelBase
 {
 
     /**
@@ -88,4 +88,41 @@ class ProductSku extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取sku
+     */
+    public static function getSku($type='id', $params){
+    	if ($type == 'id'){
+    		$sku = self::findFirst("id=$params");
+    	}else if ($type == 'spid'){//skuid+pid
+    		if (!isset($params['skuid'])||empty($params['skuid']) || 
+    				!isset($params['pid'])||empty($params['pid'])) return 'DATAERR';
+    		
+    		$sku = self::findFirst(array(
+    				'conditions'=> "skuid=?1 and pid=?2",
+    				'bind'		=> array(1=>trim($params['skuid'], ','), 2=>intval($params['pid']))
+    		));
+    	}
+    	
+    	if ($sku && $sku->count()) return $sku;
+    	else return 'DATAEXCEPTION';
+    }
+    public static function getSkus($conditions){
+    	$sku = self::find($conditions);
+    	
+    	if ($sku && $sku->count()) return $sku;
+    	else return 'DATAEXCEPTION';
+    }
+    
+    /**
+     * 判断库存
+     */
+    public static function skuStock(){
+    	
+    }
+    
 }

@@ -114,10 +114,7 @@ class PromotionController extends AdminBase{
     	$shopId = $this->session->get('sid');
     	$qtype = isset($_GET['qtype']) ? $_GET['qtype'] : 'all';
     	$status = $qtype=='all'?"status!='S0'":($qtype=='S1'?"status='S1'":($qtype=='S2'?"status='S2'":"(status='S3' or status='S4')"));
-    	$ps = Promotion::find("shop_id=$shopId and $status order by addtime desc");
-    	
-    	$pArr = array();
-    	if ($ps) $pArr= $ps->toArray();
+    	$pArr = Promotion::getSksArr("shop_id=$shopId and $status order by addtime desc");
     	
     	$result = array();
     	for($i=0; $i<count($pArr); ++$i){

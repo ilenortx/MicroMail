@@ -13,7 +13,7 @@ class AdminBase extends ControllerBase{
 	 * @return string|array|mixed [{paid:1,aid:[1,2],oids:{1:[1,2],2:[1,2]}}]
 	 */
 	public function shopRights($sid){
-		$shop = Shangchang::shopInfo($sid);
+		$shop = Shangchang::shopInfo('id', $sid);
 		if (gettype($shop) != 'object') return 'SHOP_NO_EXIST';//店铺不存在
 		
 		$rights = array();//所有权限

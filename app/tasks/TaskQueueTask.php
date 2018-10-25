@@ -23,11 +23,21 @@ class TaskQueueTask extends TaskBase{
 					$v->dotime = time();
 					if ($v->save()){//保存执行时间
 						
-						if ($v->ttype = 'T1'){//商品Excel导入
+						if ($v->ttype == 'T1'){//商品Excel导入
 							$result = $this->proExcelImport($v);//执行导入
 							if ($result['status'] == 0){//判断返回状态
 								$v->status = 'S4'; $v->errs = json_encode($result['errs']);
 							}else $v->status = 'S3';
+							$v->etime = time(); $v->save();
+						}else if ($v->ttype == 'T2'){//导出
+							
+						}else if ($v->ttype == 'T3'){//订单退款
+							$result = Order::orderRefund('otq', $v);//执行订单退款
+							
+							if ($result['status'] == 0){//判断返回状态
+								$v->status = 'S4'; $v->errs = json_encode($result['errs']);
+							}else $v->status = 'S3';
+							
 							$v->etime = time(); $v->save();
 						}
 						

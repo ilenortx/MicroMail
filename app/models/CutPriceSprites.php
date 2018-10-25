@@ -1,6 +1,6 @@
 <?php
 
-class CutPriceSprites extends \Phalcon\Mvc\Model
+class CutPriceSprites extends ModelBase
 {
 
     /**
@@ -125,4 +125,83 @@ class CutPriceSprites extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取砍价
+     * @param string $type
+     * @param unknown $params
+     * @param string $verify
+     * @return CutPriceSprites|string
+     */
+    public static function getCp($type='cpid', $params, $verify=true){
+    	if ($type == 'cpid'){
+    		$cp = self::findFirstById($params);
+    		
+    		if ($cp){
+    			if ($verify) $cp = self::cpVerify($cp);
+    			
+    			return $cp;
+    		}else return 'DATAEXCEPTION';
+    	}
+    	
+    }
+    public static function getCps($type='cpid', $params){
+    	
+    }
+    public static function getCpsArr($conditions, $verify=true){
+    	$cps = self::find($conditions);
+    	
+    	if ($cps){
+    		$cpsArr = array();
+    		if ($verify){
+    			foreach ($cps as $k=>$v){
+    				$cpsArr[$k] = self::cpVerify($v)->toArray();
+    			}
+    		}else $cpsArr = $cps->toArray();
+    		
+    		return $cpsArr;
+    	}else return 'DATAEXCEPTION';
+    }
+    
+    
+    /**
+     * 砍价验证
+     * @param CutPriceSprites $cp
+     */
+    public static function cpVerify($cp){
+    	$time = time();
+    	if ($cp->status != 'S0'){
+    		if ($cp->stime>$time && $cp->status!='S1'){//未开始
+    			$cp->status = 'S1'; $cp->save();
+    		}else if ($cp->stime<$time && $cp->etime>$time && $cp->status=='S1'){
+    			$cp->status = 'S2'; $cp->save();
+    		}else if ($cp->etime<$time || $cp->status=='S3'){//结束
+    			if ($cp->status!='S3'){ $cp->status = 'S3'; $cp->save(); }
+    			
+    			$pros = Product::hdPros(2, $gb->id);//商品活动
+    			if (Product::isObject($pros)){
+    				foreach ($pros as $k){
+    					$k->hd_id = 0; $k->hd_type = '0'; $k->save();
+    				}
+    			}
+    			
+    			$cpl = CutPriceSpritesList::getCpls('cpid', $cp->id);//用户砍价
+    			if (self::isObject($cpl)){
+    				foreach ($cpl as $k){
+    					if ($k->cp_result == '1'){
+    						$k->status = 'S2'; $k->cp_result = '2'; $k->save();
+    					}
+    				}
+    			}
+    			
+    		}else {
+    			$cpl = CutPriceSpritesList::getCpls('cpid', $cp->id);//用户砍价
+    		}
+    	}
+    	return $cp;
+    }
+    
 }

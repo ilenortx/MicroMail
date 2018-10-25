@@ -4,7 +4,7 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class User extends \Phalcon\Mvc\Model
+class User extends ModelBase
 {
 
     /**
@@ -179,14 +179,14 @@ class User extends \Phalcon\Mvc\Model
 
 
     //----------
-    // ×Ô¶¨Òå
+    // è‡ªå®šä¹‰
     //----------
     /**
-     * Ìí¼ÓÓÃ»§
+     * æ·»åŠ ç”¨æˆ·
      */
     public static function addUser($datas=array()){
     	$uie = User::findFirstByName($datas['name']);
-    	if ($uie && count($uie)) return 'NAME_EXIST';//ÕËºÅ´æÔÚ
+    	if ($uie && count($uie)) return 'NAME_EXIST';//ï¿½ËºÅ´ï¿½ï¿½ï¿½
 
     	if (!isset($datas['name']) || empty($datas['name']) ||
     			!isset($datas['pwd']) || empty($datas['pwd'])) return 'DATAERR';

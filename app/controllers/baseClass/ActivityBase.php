@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Router\Group;
 
-class ActivityBase extends ControllerBase{
+class ActivityBase extends GroupBookingBase{
 	
 	/**
 	 * 验证活动是否有效(单个验证)
@@ -17,7 +17,7 @@ class ActivityBase extends ControllerBase{
 				}else if ($ps->etime<time() || $ps->status=='S3'){//结束
 					if ($ps->status!='S3'){$ps->status = 'S3'; $ps->save();}
 					
-					$pro = Product::find("hd_id=$hdId and hd_type='3'");//商品活动
+					$pro = Product::find("hd_id=$hdId and hd_type='1'");//商品活动
 					if ($pro){
 						foreach ($pro as $k){
 							$k->hd_id = 0; $k->hd_type = '0'; $k->save();
@@ -46,7 +46,7 @@ class ActivityBase extends ControllerBase{
 					}
 					//退款，修改
 					
-					$pro = Product::find("hd_id=$hdId and hd_type='3'");//商品活动
+					$pro = Product::find("hd_id=$hdId and hd_type='2'");//商品活动
 					if ($pro){
 						foreach ($pro as $k){
 							$k->hd_id = 0; $k->hd_type = '0'; $k->save();
@@ -88,6 +88,10 @@ class ActivityBase extends ControllerBase{
 		return $hdStatus; //S0删除 S1未开始 S2进行中 S3结束
 	}
 	
+	
+	//-----------------------
+	// 团购
+	//-----------------------
 	/**
 	 * 验证团购是否有效
 	 */
@@ -110,8 +114,9 @@ class ActivityBase extends ControllerBase{
 		if ($hdtype=='1'){//抢购
 			
 		}else if ($hdtype=='2'){//团购
-			$ugb = GroupBookingList::findFirst("uid=$uid and gb_id=$hdId and status in('S1','S2')");
-			if (!$ugb|| !count($ugb->toArray())) $result = false;
+			$ugb = GroupBookingList::getGbl('ugid', array('uid'=>$uid, 'gbid'=>$hdId));
+			//$ugb = GroupBookingList::findFirst("uid=$uid and gb_id=$hdId and status in('S1','S2')");
+			if (!GroupBookingList::isObject($ugb) || (!$ugb->status!='S1'&&!$ugb->status!='S2')) $result = false;
 			else $result = $ugb->toArray();
 		}else if ($hdtype=='3'){//砍价
 			$ucp = CutPriceSpritesList::findFirst("uid=$uid and cp_id=$hdId and status='S1' and cp_result='1'");
@@ -155,8 +160,8 @@ class ActivityBase extends ControllerBase{
 	 */
 	public function groupBooking($gbid){
 		$gbiArr = array(); $gblArr = array();
-		$gbi = GroupBooking::findFirstById($gbid);
-		if ($gbi){
+		$gbi = GroupBooking::getGb('id', $gbid);
+		if (GroupBooking::isObject($gbi)){
 			$gbiArr = $gbi->toArray();
 			$gbl = $gbi->GroupBookingList;
 			foreach ($gbl as $k=>$v){
@@ -295,12 +300,10 @@ class ActivityBase extends ControllerBase{
 		
 		if ($gbl){
 			if ($gbl->etime<time()){
-				echo json_encode(array('status'=>0, '团购失败'));
-				exit();
+				$this->err('团购失败'); exit();
 			}
 			if ($gbl->status == 'S5'){
-				echo json_encode(array('status'=>0, '团购成功'));
-				exit();
+				$this->err('团购成功');exit();
 			}
 		}
 	}
@@ -328,6 +331,9 @@ class ActivityBase extends ControllerBase{
 
 
 	
+	//-----------------------
+	// 秒杀
+	//-----------------------
 	/**
 	 * 获取今日秒杀
 	 */
@@ -365,18 +371,20 @@ class ActivityBase extends ControllerBase{
 	 * 获取秒杀详情
 	 */
 	public function promotion($id=0){
-		$pi = Promotion::findFirstById($id);
+		$pi = Promotion::getSk('id', $id);
 		$pArr = array();
 		
-		if ($pi) $pArr = $pi->toArray();
+		if (Promotion::isObject($pi)) $pArr = $pi->toArray();
 		
 		return $pArr;
 	}
 	
 	
-	//----------
-	//砍价
-	//----------
+	
+	
+	//-----------------------
+	// 砍价
+	//-----------------------
 	/**
 	 * 获取砍价详情
 	 */

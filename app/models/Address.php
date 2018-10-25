@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Address extends \Phalcon\Mvc\Model
+class Address extends ModelBase
 {
 
     /**
@@ -141,4 +141,19 @@ class Address extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取地址信息
+     */
+    public static function addrInfo($type='id', $params){
+    	if ($type == 'id'){
+    		$addr = self::findFirst("id=$params");
+    		if ($addr) return $addr;
+    		else return 'DATAEXCEPTION';
+    	}
+    }
+    
 }

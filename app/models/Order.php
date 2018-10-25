@@ -1,6 +1,6 @@
 <?php
 
-class Order extends \Phalcon\Mvc\Model
+class Order extends ModelBase
 {
 
     /**
@@ -344,7 +344,10 @@ class Order extends \Phalcon\Mvc\Model
     public static function orderInfo($type='id', $params){
     	if (!$params) return 'DATAERR';
     	if ($type == 'id'){
-
+			$order = self::findFirst("id=$params");
+			
+			if ($order) return $order;
+			else return 'DATAEXCEPTION';
     	}else if ($type == 'osn'){//order_sn
     		if (!isset($params['orderSn']) || empty($params['orderSn'])) return 'DATAERR';
     		$conditions = array( 'conditions'=> "order_sn='{$params['orderSn']}'" );
@@ -355,7 +358,8 @@ class Order extends \Phalcon\Mvc\Model
 
     		$order = Order::findFirst($conditions);
 
-    		if ($order && count($order)) return $order->toArray();
+    		if ($order && count($order)) return $order;
+    		else return 'DATAEXCEPTION';
     	}
 
     	return 'NULL';
@@ -407,11 +411,11 @@ class Order extends \Phalcon\Mvc\Model
     /**
      * 查询总数
      */
-    public static function getCount($conditions){
+    /* public static function getCount($conditions){
     	$count = $conditions?Order::count($conditions):Order::count();
 
     	return $count;
-    }
+    } */
 
     /**
      * 修改备注
@@ -444,6 +448,80 @@ class Order extends \Phalcon\Mvc\Model
     		}
     		return $result;
     	}else return 'DATAEXCEPTION';
+    }
+    
+    /**生成唯一订单号
+     *@return string 返回唯一订单号
+     */
+    public static function buildOrderno($rand=true){
+    	if ($rand) return date('YmdHis').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8).rand(100,999);
+    	else return date('YmdHis').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    }
+    
+    /**
+     * 查询活动订单
+     */
+    public static function hdOrders($hdType=2, $hdId, $status='all'){
+    	if (!$hdType || !$hdId) return 'DATAERR';
+    	
+    	$status = $status=='all'? 'status!=0' : "status=$status";
+    	$orders = self::find(array(
+    			'conditions'=> "order_type=?1 and hd_id=?2 and $status",
+    			'bind'		=> array(1=>$hdType, 2=>$hdId)
+    	));
+    	
+    	if ($orders) return $orders;
+    	else return 'DATAEXCEPTION';
+    }
+    
+    /**
+     * 添加退款队列
+     */
+    public static function orTaskQueue($order){
+    	if (intval($order->status)>=20 && $order->status!=90 && $order->back=='0' && $order->type!='cash'){
+    		$rparams = array('oid'=>$order->id, 'shopId'=>$order->shop_id, 'ptype'=>$order->type);
+    		$tqarr = array(
+    				'sid'=>$order->shop_id, 'admin'=>'', 'ttype'=>'T3', 'name'=>'团购退款',
+    				'params'=>json_encode($rparams), 'remark'=>'团购活动结束退款', 'level'=>2
+    		);
+    		TaskQueue::addTaskQueue($tqarr);//添加退款任务队列
+    	}
+    }
+    
+    /**
+     * 订单退款
+     */
+    public static function orderRefund($type='order', $params=null){
+    	$wr = new WxRefund(); $rfresult = array();
+    	$orResult = array('status'=>1, 'errs'=>'');//退款结果
+    	
+    	if ($type == 'order'){//订单直接退款
+    		
+    	}else if ($type == 'oid'){//订单id直接退款
+    		
+    	}else if ($type == 'otq'){//订单任务队列
+    		$rparams = json_decode($params->params, true);
+    		$order = self::findFirst("id={$rparams['oid']}");
+    		
+    		//添加退款记录
+    		$rfresult = array(
+    				'order'=>$order->order_sn,'tamount'=>$order->price_h,'ramount'=>$order->price_h,
+    				'reason'=>'团购失败退款', 'vipid'=>$order->uid
+    		);
+    		
+    		//退款 待完善
+    		if ($rparams['ptype'] == 'weixin') $result = $wr->refund(array('totalFee'=>($order->total_fee)*100, 'refundFee'=>($order->total_fee)*100), $order->order_sn);
+    		
+    		//退款结果
+    		if ($result['return_code']=='SUCCESS' && $result['result_code']=='SUCCESS'){
+    			$rfresult['status'] = 'S2';
+    			
+    			$order->back = '2'; $order->save();//修改订单退款状态
+    		}else $orResult = array('status'=>0, 'errs'=>json_encode($result));//退款失败
+    	}
+    	
+    	if ($orResult['status'] == 1) $rrResult = RefundRecord::addRefund($rfresult);
+    	return $orResult;
     }
     
 }

@@ -147,10 +147,7 @@ class CutpricespritesController extends AdminBase{
     	$shopId = $this->session->get('sid');
     	$qtype = isset($_GET['qtype']) ? $_GET['qtype'] : 'all';
     	$status = $qtype=='all'?"status!='S0'":($qtype=='S1'?"status='S1'":($qtype=='S2'?"status='S2'":"status='S3'"));
-    	$cps = CutPriceSprites::find("shop_id=$shopId and $status order by addtime desc");
-    	
-    	$cpArr = array();
-    	if ($cps) $cpArr = $cps->toArray();
+    	$cpArr = CutPriceSprites::getCpsArr("shop_id=$shopId and $status order by addtime desc");
     	
     	$result = array();
     	for($i=0; $i<count($cpArr); ++$i){

@@ -162,13 +162,14 @@ class OrderController extends AdminBase{
 
 		$orderArr = Order::orderList($conditions);
 
-		$count = Order::getCount("shop_id=$sid and del=0");
+		$count = Order::getCount('Order', array('conditions'=>"shop_id=$sid and del=0"));
 
 		$ptype = array('weixin'=>'微信支付', 'cash'=>'货到付款');
 		$status = array('0'=>'<text style="">取消订单</text>',
 				'10'=>'<text style="">待付款</text>', '20'=>'<text style="color:red">待发货</text>',
 				'30'=>'<text style="">待收货</text>', '40'=>'<text style="color:green">完成</text>',
-				'50'=>'<text style="color:green">完成</text>','51'=>'<text style="color:green">完成</text>'
+				'50'=>'<text style="color:green">完成</text>','51'=>'<text style="color:green">完成</text>',
+				'90'=>'<text style="color:red">交易失败</text>','51'=>'<text style="color:green">完成</text>'
 		);
 
 		$noteG = array(

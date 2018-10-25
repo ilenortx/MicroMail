@@ -222,6 +222,7 @@ class ControllerBase extends Controller{
 	 * @param unknown $datas
 	 */
 	protected function result($status=0, $msg='', $datas=null){
+		$this->view->disable();
 		echo json_encode(array('status'=>$status, 'msg'=>$msg, 'datas'=>$datas));
 	}
 
@@ -230,6 +231,7 @@ class ControllerBase extends Controller{
 	 * @param unknown $datas
 	 */
 	protected function success($datas=null){
+		$this->view->disable();
 
 	}
 
@@ -238,6 +240,7 @@ class ControllerBase extends Controller{
 	 * @param string $err
 	 */
 	protected function err($err=''){
+		$this->view->disable();
 		echo json_encode(array('status'=>0, 'err'=>$err));
 	}
 
@@ -246,6 +249,7 @@ class ControllerBase extends Controller{
 	 * @param string $msg
 	 */
 	protected function msg($msg=''){
+		$this->view->disable();
 		echo json_encode(array('status'=>1, 'msg'=>$msg));
 	}
 
@@ -329,6 +333,10 @@ class ControllerBase extends Controller{
 	 */
 	protected static function systype(){
 		return strtoupper(substr(PHP_OS,0,3))==='WIN'?'win':'linux';
+	}
+	
+	protected function strToInt($str){
+		return intval($str);
 	}
 	
 }

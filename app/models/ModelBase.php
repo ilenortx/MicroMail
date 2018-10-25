@@ -46,4 +46,13 @@ class ModelBase extends \Phalcon\Mvc\Model{
 		return $result;
 	}
 	
+	/**
+	 * 查询是否为object
+	 * @param unknown $obj
+	 * @return boolean
+	 */
+	public static function isObject($obj){
+		return gettype($obj)=='object';
+	}
+	
 }

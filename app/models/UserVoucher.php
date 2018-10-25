@@ -1,6 +1,6 @@
 <?php
 
-class UserVoucher extends \Phalcon\Mvc\Model
+class UserVoucher extends ModelBase
 {
 
     /**
@@ -118,4 +118,20 @@ class UserVoucher extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    
+    //----------
+    // 自定义
+    //----------
+    /**
+     * 获取用户优惠券信息
+     */
+    public static function uvInfo($type='id', $params){
+    	if ($type == 'id'){
+    		$uv = self::findFirst("id=$params");
+    		
+    		if ($uv) return $uv;
+    		else return 'DATAEXCEPTION';
+    	}
+    }
+    
 }
