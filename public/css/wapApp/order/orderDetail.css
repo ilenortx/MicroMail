@@ -207,10 +207,11 @@ body{
 
 
 .oi-div{
-    padding: 40rpx 20rpx;
-    font-size: 28rpx;
+    padding: 20px 10px;
+    font-size: 14px;
     color: #999;
+    background: #fff;
 }
 .oi-item-div{
-    line-height: 50rpx;
+    line-height: 25px;
 }
