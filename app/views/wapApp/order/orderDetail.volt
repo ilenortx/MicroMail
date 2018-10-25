@@ -59,6 +59,10 @@
 		</div>
 	</div>
 
+	<div class='oi-div'>
+		<div class='oi-item-div'>订单编码：<text id="orderId">13123123</text></div>
+		<div class='oi-item-div'>结算时间：<text id="orderSn">13123123</text></div>
+	</div>
 </div>
 
 <div class="bottom-div">

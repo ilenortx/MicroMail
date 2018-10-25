@@ -80,6 +80,9 @@ var page = {
 			$('#vouInfo').text('￥'+d.vouInfo.amount);
 		}
 		$('#payTotal').text('￥'+d.orderInfo.price_h);
+		
+		$('#orderSn').text(d.orderInfo.order_sn);
+		$('#octime').text(d.orderInfo.addtime);
 
 		//
 		if (d.orderInfo.status=='10' || d.orderInfo.status=='30') $('.bottom-div').css({'display':'flex'});

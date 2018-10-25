@@ -233,6 +233,10 @@ class ApiorderController extends ApiBase{
     				}
     				$order = $order->toArray();
     				$order['proZj'] = $proZj;
+    				$order['addtime'] = date('Y-m-d H:i:s', $order['addtime']);
+    				$order['paytime'] = date('Y-m-d H:i:s', $order['paytime']);
+    				$order['fhtime'] = date('Y-m-d H:i:s', $order['fhtime']);
+    				$order['finishtime'] = date('Y-m-d H:i:s', $order['finishtime']);
     				
     				//获取优惠券
     				$vouArr = array();

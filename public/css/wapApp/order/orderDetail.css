@@ -203,3 +203,14 @@ body{
 	text-align:center;
 	line-height:22px;
 }
+
+
+
+.oi-div{
+    padding: 40rpx 20rpx;
+    font-size: 28rpx;
+    color: #999;
+}
+.oi-item-div{
+    line-height: 50rpx;
+}
