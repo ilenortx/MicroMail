@@ -9,6 +9,7 @@ $(document).ready(function(){
             defaultToolbar: [],
             title: '用户数据表',
             height:'full-70',
+            limit: 30,
             cols: [[
                 {field:'id', title:'ID', width:80, unresize: true, sort: true},
                 {field:'name', title:'用户昵称', unresize: true,},
@@ -27,7 +28,7 @@ $(document).ready(function(){
                 return {
                     "code": res.code,
                     "msg": res.msg,
-                    "count": res.total,
+                    "count": res.count,
                     "data": res.data,
                 };
             }
