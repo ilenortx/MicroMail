@@ -64,11 +64,12 @@ class TimedTask extends ControllerBase{
 		$status = 0;
 		$tti = self::timedTaskInfo($sections);
 		if ($tti && is_array($tti)){
-			$taskName = ucfirst($sections).'Task';
 			if (parent::systype() == 'win'){//window系统
+				$taskName = ucfirst($sections).'Task';
 				exec("schtasks /run /tn $taskName", $out, $status);
 			}else {//linux系统
-				
+				$taskName = ucfirst($sections);
+				exec("php /home/wwwroot/MicroMail/app/cli.php $taskName main", $out, $status);
 			}
 		}
 		
