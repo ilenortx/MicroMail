@@ -5,7 +5,7 @@
  * @author xiao
  *
  */
-class TaskQueueTask extends TaskBase{
+class TaskqueueTask extends TaskBase{
 	
 	public function mainAction(){
 		$this->sections = 'taskQueue';
