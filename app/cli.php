@@ -1,7 +1,9 @@
 <?php
 use Phalcon\DI\FactoryDefault\CLI as CliDI,
 	Phalcon\CLI\Console as ConsoleApp;
-
+	
+date_default_timezone_set("Asia/Shanghai");
+	
 //使用CLI工厂类作为默认的服务容器
 $di = new CliDI();
 

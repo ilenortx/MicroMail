@@ -454,9 +454,10 @@ class Order extends ModelBase
      * 获取过期订单
      */
     public static function backOrder($days=7){
+    	$time = strval(strtotime("-$days days"));
     	$orders = self::find(array(
-    			'conditions'=> "status=?1 and time addtime<?2 and back=?3",
-    			'bind'		=> array(1=>10, 2=>strtotime("-$days days"), 3=>'0')
+    			'conditions'=> "status=?1 and addtime<?2 and back=?3",
+    			'bind'		=> array(1=>10, 2=>$time, 3=>'0')
     	));
     	
     	if ($orders) return $orders;
