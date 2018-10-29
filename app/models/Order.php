@@ -456,7 +456,7 @@ class Order extends ModelBase
     public static function backOrder($days=7){
     	$orders = self::find(array(
     			'conditions'=> "status=?1 and time addtime<?2 and back=?3",
-    			'bind'		=> array(1=>'10', 2=>strtotime("-$days days"), 3=>0)
+    			'bind'		=> array(1=>10, 2=>strtotime("-$days days"), 3=>'0')
     	));
     	
     	if ($orders) return $orders;
